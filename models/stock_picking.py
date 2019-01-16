@@ -16,7 +16,7 @@ class StockPicking(models.Model):
         product_id = product_obj.search([('barcode', '=', self.barcode)])
         if self.barcode and not product_id:
             self.barcode = None
-            raise Warning('No product is available for this barcode')
+            raise Warning('Ningun producto coincide con el codigo escaneado')
         if self.barcode and self.move_lines:
             for line in self.move_lines:
                 if line.product_id.barcode == self.barcode:
@@ -26,8 +26,8 @@ class StockPicking(models.Model):
         if self.barcode and not match:
             self.barcode = None
             if product_id:
-                raise Warning('This product is not available in the order.'
-                              'You can add this product by clicking the "Add an item" and scan')
+                raise Warning('este producto no esta disponible en la orden'
+                              'Puedes agregar este producto en "add product" y escaneas nuevamente')
 
 
 class StockPickingOperation(models.Model):
