@@ -18,7 +18,7 @@
                 <field name="partner_id" position="before">
                   <field name="picking_checked"/>
                 </field>
-                <xpath expr="//page[@name='note']" position="after">
+                <page name="note" position="after">
                     <page string="Barcode Picking" name="barcode_picking">
                         <h2>
                             <field name="temp_barcode" placeholder="Codigo de barras"/>
@@ -36,12 +36,12 @@
                             Escaneo Incompleto
                         </div>
                     </page>
-                  </xpath>
+                  </page>
             </field>
         </record>
 
 
-        
+
 
         <!-- ............... HERENCIA VISTA EN TREE ...............-->
         <record model="ir.ui.view" id="sii_barcode_tree">
