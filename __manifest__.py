@@ -33,14 +33,12 @@
     'demo': [],
     'data': [
         'views/stock_picking.xml',
-        'views/views.xml',
+        'security/ir.model.access.csv',
     ],
     'installable': True,
     'application': False,
     'auto_install': False,
     'images': ['static/description/banner.jpg'],
-    'qweb': [
-        "static/src/xml/poi.xml",
-    ],
+    'qweb': [],
     'license': 'AGPL-3',
 }
