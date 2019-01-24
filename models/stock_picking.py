@@ -18,16 +18,16 @@ class StockPicking(models.Model):
         product_obj = self.env['product.product']
         product_id = product_obj.search([('barcode', '=', self.barcode)])
         if self.barcode and not product_id:
-            self.barcode = None
+            self.barcode = ""
             raise Warning('Ningun producto coincide con el codigo escaneado')
         if self.barcode and self.move_lines:
             for line in self.move_lines:
                 if line.product_id.barcode == self.barcode:
                     line.quantity_done += 1
-                    self.barcode = None
+                    self.barcode = ""
                     match = True
         if self.barcode and not match:
-            self.barcode = None
+            self.barcode = ""
             if product_id:
                 raise Warning('este producto no esta disponible en la orden'
                               'Puedes agregar este producto en "add product" y escaneas nuevamente')
@@ -48,7 +48,6 @@ class StockPicking(models.Model):
     def onchange_temp_barcode(self):
         res = {}
         barcode = self.temp_barcode
-        Warning('ese es el codigo escaneado %s'%barcode)
         if barcode:
             new_lines = self.env['list.productcode']
             for move in self.move_lines:
