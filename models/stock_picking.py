@@ -47,11 +47,12 @@ class StockPicking(models.Model):
     @api.onchange('temp_barcode')
     def onchange_temp_barcode(self):
         res = {}
-        barcode_aux = self.temp_barcode
-        if barcode_aux:
+        barcode = self.temp_barcode
+        print(barcode)
+        if barcode:
             new_lines = self.env['list.productcode']
             for move in self.move_lines:
-                if move.product_id.barcode == barcode_aux:
+                if move.product_id.barcode == barcode:
                     pcode = self.productcodes_ids.filtered(lambda r: r.product_id.id == move.product_id.id)
                     if pcode:
                         pcode.qty += 1.0
