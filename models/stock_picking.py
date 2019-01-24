@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 from odoo import fields, models, api
-from odoo.exceptions import Warning
+from odoo.exceptions import Warning, UserError, AccessError, ValidationError
 
 
 class StockPicking(models.Model):
