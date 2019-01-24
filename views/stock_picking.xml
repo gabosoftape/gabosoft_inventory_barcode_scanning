@@ -56,7 +56,7 @@
             </field>
         </record>
 
-        <!--
+
 
         <record model="ir.ui.view" id="sii_barcode_tree_move">
             <field name="name">sii.barcode.tree.move</field>
@@ -68,8 +68,7 @@
                 </field>
             </field>
         </record>
-        -->
-          
+        
     </data>
 
 </odoo>
