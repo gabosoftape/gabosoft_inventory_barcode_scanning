@@ -52,7 +52,7 @@ class StockPickingBarCode(models.Model):
 class ListProductcode(models.Model):
     _name = 'list.productcode'
 
-    barcode = fields.Char('Barcode', related='product_id.ean')
+    barcode = fields.Char('Barcode', related='product_id.barcode')
     default_code = fields.Char('Reference', related='product_id.default_code')
     product_id = fields.Many2one('product.product', string='Product ')
     qty = fields.Float("Quantity",default=1)
