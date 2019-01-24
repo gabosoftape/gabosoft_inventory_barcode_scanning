@@ -6,7 +6,7 @@ from odoo.exceptions import Warning, UserError, AccessError, ValidationError
 
 class StockPickingBarCode(models.Model):
     _inherit = 'stock.picking'
-    barcode = fields.Char("Real Barcode")
+    #barcode = fields.Char("Real Barcode")
     temp_barcode = fields.Char("Barcode")
     productcodes_ids = fields.One2many('list.productcode', 'picking_id', string='Productos')
     picking_checked = fields.Boolean("Ready Picking", compute="_get_picking_checked")
@@ -52,7 +52,7 @@ class StockPickingBarCode(models.Model):
 class ListProductcode(models.Model):
     _name = 'list.productcode'
 
-    barcode = fields.Char('Barcode', related='product_id.barcode')
+    barcode = fields.Char('Barcode', related='product_id.Ean13')
     default_code = fields.Char('Reference', related='product_id.default_code')
     product_id = fields.Many2one('product.product', string='Product ')
     qty = fields.Float("Quantity",default=1)
