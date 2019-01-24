@@ -18,7 +18,7 @@
                 <field name="partner_id" position="before">
                   <field name="picking_checked"/>
                 </field>
-
+                <xpath expr="//page[@name='note']" position="after">
                     <page string="Barcode Picking" name="barcode_picking">
                         <h2>
                             <field name="temp_barcode" placeholder="Codigo de barras"/>
@@ -36,40 +36,12 @@
                             Escaneo Incompleto
                         </div>
                     </page>
-
+                  </xpath>
             </field>
         </record>
 
 
-        <record id="stock_picking_barcode_form" model="ir.ui.view" >
-            <field name="name">stock.picking.barcode.form</field>
-            <field name="model">stock.picking</field>
-            <field name="inherit_id" ref="stock.view_picking_form"/>
-            <field name="arch" type="xml">
-              <field name="origin" position="after">
-                <field name="picking_checked"/>
-              </field>
-                <notebook>
-                    <page string="Barcode Picking" name="barcode_picking">
-                        <h2>
-                            <field name="temp_barcode" placeholder="Insert EAN-13 Code"/>
-                        </h2>
-                        <field name="productcodes_ids">
-                            <tree string="Picking" editable="bottom" colors="red:bool_barcode==False;">
-                                <field name="product_id" required="1"/>
-                                <field name="qty" required="1" sum="Sum"/>
-                                <field name="default_code" readonly="1"/>
-                                <field name="barcode" readonly="1"/>
-                                <field name="bool_barcode" invisible="1"/>
-                            </tree>
-                        </field>
-                        <div class="alert alert-info" role="alert" style="margin-bottom:0px;" attrs="{'invisible': [('picking_checked', '=', True)]}">
-                            Incomplete Picking
-                        </div>
-                    </page>
-                </notebook>
-            </field>
-        </record>
+        
 
         <!-- ............... HERENCIA VISTA EN TREE ...............-->
         <record model="ir.ui.view" id="sii_barcode_tree">
