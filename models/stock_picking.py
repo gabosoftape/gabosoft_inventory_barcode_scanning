@@ -6,7 +6,7 @@ from odoo.exceptions import Warning, UserError, AccessError, ValidationError
 
 class StockPickingBarCode(models.Model):
     _inherit = 'stock.picking'
-
+    barcode = fields.Char("Real Barcode")
     temp_barcode = fields.Char("Barcode")
     productcodes_ids = fields.One2many('list.productcode', 'picking_id', string='Productos')
     picking_checked = fields.Boolean("Ready Picking", compute="_get_picking_checked")
