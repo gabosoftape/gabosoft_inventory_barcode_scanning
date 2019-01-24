@@ -47,7 +47,7 @@
             </field>
         </record>
 
-        <!-- ............... HERENCIA VISTA EN TREE ...............-->
+        <!-- ............... HERENCIA VISTA EN TREE .............
         <record model="ir.ui.view" id="sii_barcode_tree">
             <field name="name">sii.barcode.tree</field>
             <field name="model">stock.picking</field>
@@ -58,7 +58,7 @@
               </xpath>
             </field>
         </record>
-
+...-->
 
 <!--
         <record model="ir.ui.view" id="sii_barcode_tree_move">
