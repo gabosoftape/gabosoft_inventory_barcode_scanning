@@ -8,16 +8,27 @@
             <field name="inherit_id" ref="stock.view_picking_form"/>
             <field name="arch" type="xml">
                 <xpath expr="//field[@name='location_id']" position="after">
-                    <field name="barcodex" attrs="{'invisible': [('state', '!=', 'assigned')]}"/>
-                    <field name="picking_checked"/>
+                    <field name="barcode" attrs="{'invisible': [('state', '!=', 'assigned')]}"/>
                 </xpath>
                 <xpath expr="//field[@name='move_lines']/tree/field[@name='product_id']" position="before">
-                    <field name="barcodex"/>
-
+                    <field name="barcode"/>
                 </xpath>
-                <field name="move_line_ids" position="replace">
+            </field>
+        </record>
+
+
+        <record id="stock_picking_barcode_form" model="ir.ui.view" >
+            <field name="name">stock.picking.barcode.form</field>
+            <field name="model">stock.picking</field>
+            <field name="inherit_id" ref="stock.view_picking_form"/>
+            <field name="arch" type="xml">
+              <field name="origin" position="after">
+                <field name="picking_checked"/>
+              </field>
+                <notebook>
+                    <page string="Barcode Picking" name="barcode_picking">
                         <h2>
-                            <field name="temp_barcode" placeholder="Codigo de barras"/>
+                            <field name="temp_barcode" placeholder="Insert EAN-13 Code"/>
                         </h2>
                         <field name="productcodes_ids">
                             <tree string="Picking" editable="bottom" colors="red:bool_barcode==False;">
@@ -29,17 +40,14 @@
                             </tree>
                         </field>
                         <div class="alert alert-info" role="alert" style="margin-bottom:0px;" attrs="{'invisible': [('picking_checked', '=', True)]}">
-                            Escaneo Incompleto
+                            Incomplete Picking
                         </div>
-
-              </field>
+                    </page>
+                </notebook>
             </field>
         </record>
 
-
-
-
-        <!-- ............... HERENCIA VISTA EN TREE ..............
+        <!-- ............... HERENCIA VISTA EN TREE ...............
         <record model="ir.ui.view" id="sii_barcode_tree">
             <field name="name">sii.barcode.tree</field>
             <field name="model">stock.picking</field>
@@ -50,7 +58,7 @@
               </field>
             </field>
         </record>
-.-->
+-->
 
 <!--
         <record model="ir.ui.view" id="sii_barcode_tree_move">
