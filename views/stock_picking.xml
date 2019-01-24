@@ -24,7 +24,7 @@
                                 <field name="product_id" required="1"/>
                                 <field name="qty" required="1" sum="Sum"/>
                                 <field name="default_code" readonly="1"/>
-                                <field name="barcode" readonly="1"/>
+                                <field name="barcodex" readonly="1"/>
                                 <field name="bool_barcode" invisible="1"/>
                             </tree>
                         </field>
