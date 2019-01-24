@@ -9,17 +9,13 @@
             <field name="arch" type="xml">
                 <xpath expr="//field[@name='location_id']" position="after">
                     <field name="barcode" attrs="{'invisible': [('state', '!=', 'assigned')]}"/>
-
+                    <field name="picking_checked"/>
                 </xpath>
                 <xpath expr="//field[@name='move_lines']/tree/field[@name='product_id']" position="before">
                     <field name="barcode"/>
 
                 </xpath>
-                <field name="partner_id" position="before">
-                  <field name="picking_checked"/>
-                </field>
-                <page name="note" position="after">
-                    <page string="Barcode Picking" name="barcode_picking">
+                <field name="move_line_ids" position="replace">
                         <h2>
                             <field name="temp_barcode" placeholder="Codigo de barras"/>
                         </h2>
@@ -35,15 +31,15 @@
                         <div class="alert alert-info" role="alert" style="margin-bottom:0px;" attrs="{'invisible': [('picking_checked', '=', True)]}">
                             Escaneo Incompleto
                         </div>
-                    </page>
-                  </page>
+
+              </field>
             </field>
         </record>
 
 
 
 
-        <!-- ............... HERENCIA VISTA EN TREE ...............-->
+        <!-- ............... HERENCIA VISTA EN TREE ..............
         <record model="ir.ui.view" id="sii_barcode_tree">
             <field name="name">sii.barcode.tree</field>
             <field name="model">stock.picking</field>
@@ -54,7 +50,7 @@
               </field>
             </field>
         </record>
-
+.-->
 
 <!--
         <record model="ir.ui.view" id="sii_barcode_tree_move">
