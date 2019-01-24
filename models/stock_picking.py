@@ -48,7 +48,7 @@ class StockPicking(models.Model):
     def onchange_temp_barcode(self):
         res = {}
         barcode = self.temp_barcode
-        print(barcode)
+        Warning('ese es el codigo escaneado %s'%barcode)
         if barcode:
             new_lines = self.env['list.productcode']
             for move in self.move_lines:
