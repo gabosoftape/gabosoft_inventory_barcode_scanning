@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
+  <data>
   <!--
   /////////// AQUI VA EL CODIGO PRIMARIO ///
     <data>
@@ -75,6 +76,6 @@
       </field>
   </record>
   -->
-    
 
+  </data>
 </odoo>
