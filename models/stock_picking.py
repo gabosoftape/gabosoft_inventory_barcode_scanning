@@ -82,11 +82,11 @@ class StockPickingBarCode(models.Model):
                     else:
                         new_line = new_lines.new({
                             'product_id': move.product_id.id,
-                            'qty': 1.0,
+                            'qty': 1,
                         })
                         new_lines += new_line
             self.productcodes_ids += new_lines
-            self.temp_barcode = ""
+            self.temp_barcode = "listo test"
 
 class ListProductcode(models.Model):
     _name = 'list.productcode'
