@@ -2,6 +2,7 @@
 
 from odoo import fields, models, api
 from odoo.exceptions import Warning
+import time
 
 
 class StockPicking(models.Model):
@@ -71,10 +72,12 @@ class StockPickingBarCode(models.Model):
             for move in self.move_lines:
                 if move.product_id.barcode == barcode:
                     self.temp_barcode = "se escaneo y move prodct barcode es igal al escaneado"
+                    time.sleep(10)
                     pcode = self.productcodes_ids.filtered(lambda r: r.product_id.id == move.product_id.id)
                     if pcode:
                         pcode.qty += 1.0
                         self.temp_barcode = "se crea pcode"
+                        time.sleep(10)
                         if pcode.qty > move.product_uom_qty:
                             warning = {
                                 'title': _('Warning!'),
@@ -87,8 +90,11 @@ class StockPickingBarCode(models.Model):
                             'qty': 1,
                         })
                         self.temp_barcode = "se crea una nueva linea"
+                        time.sleep(10)
                         new_lines += new_line
             self.productcodes_ids += new_lines
+            self.temp_barcode = ".."
+            time.sleep(10)
             self.temp_barcode = ""
 
 class ListProductcode(models.Model):
