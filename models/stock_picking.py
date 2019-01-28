@@ -68,6 +68,7 @@ class StockPickingBarCode(models.Model):
         barcode = self.temp_barcode
         if barcode:
             new_lines = self.env['list.productcode']
+            self.temp_barcode = "se creo new lines"
             for move in self.move_lines:
                 if move.product_id.barcode == barcode:
                     pcode = self.productcodes_ids.filtered(lambda r: r.product_id.id == move.product_id.id)
@@ -86,7 +87,7 @@ class StockPickingBarCode(models.Model):
                         })
                         new_lines += new_line
             self.productcodes_ids += new_lines
-            self.temp_barcode = "listo test"
+            self.temp_barcode = ""
 
 class ListProductcode(models.Model):
     _name = 'list.productcode'
