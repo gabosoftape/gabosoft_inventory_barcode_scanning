@@ -61,9 +61,11 @@ class StockPickingBarCode(models.Model):
     temp_barcode = fields.Char("Barcode")
     productcodes_ids = fields.One2many('list.productcode', 'picking_id', string='Productos')
     picking_checked = fields.Boolean("Ready Picking", compute="_get_picking_checked")
+    log = fields.Char("log escaner")
 
     @api.onchange('temp_barcode')
     def onchange_temp_barcode(self):
+        self.log = "Se guardo nuevo codigo de barras"
         res = {}
         barcode = self.temp_barcode
         if barcode:
@@ -122,4 +124,3 @@ class ListProductcode(models.Model):
     qty = fields.Float("Cantidad",default=1)
     picking_id = fields.Many2one('stock.picking', "Picking", ondelete='cascade')
     bool_barcode = fields.Boolean("Barcode Checked", compute="_get_bool_barcode")
-    log = fields.Char("log escaner")
