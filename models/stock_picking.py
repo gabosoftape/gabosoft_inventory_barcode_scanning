@@ -70,8 +70,8 @@ class StockPickingBarCode(models.Model):
         res = {}
         barcode = self.temp_barcode
         if barcode:
-            self.log_scanner = "entro al if barcode"
             new_lines = self.env['list.productcode']
+            self.log_scanner = new_lines
         #for fncional
             for line in self.move_lines:
                 if line.product_id.barcode == self.barcode:
