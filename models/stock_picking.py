@@ -87,14 +87,17 @@ class StockPickingBarCode(models.Model):
                     raise e
             else:
                 self.log_scanner = "Listo, ya productcodes contiene %s campos"%size
-            for line in self.move_lines:
-                if line.product_id.barcode == self.barcode:
-                    self.log_scanner = "Entramos a sumar cantidades"
-                    #sumamos cantidad si el movimiento coincide con uno existente
-                    line.quantity_done += 1
-                    line.qty += 1
-                else:
-                    self.log_scanner = "se supone que debe estar aqui inicialmente"
+
+            self.productcodes_ids += new_lines
+            self.temp_barcode = ""
+        #    for line in self.move_lines:
+        #        if line.product_id.barcode == self.barcode:
+        #            self.log_scanner = "Entramos a sumar cantidades"
+        #            #sumamos cantidad si el movimiento coincide con uno existente
+        #            line.quantity_done += 1
+        #            line.qty += 1
+        #        else:
+        #            self.log_scanner = "se supone que debe estar aqui inicialmente"
 
 
 
@@ -116,8 +119,7 @@ class StockPickingBarCode(models.Model):
         #                    'qty': 1,
         #                })
         #                new_lines += new_line
-            self.productcodes_ids += new_lines
-            self.temp_barcode = ""
+
 
 class ListProductcode(models.Model):
     _name = 'list.productcode'
