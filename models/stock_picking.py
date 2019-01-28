@@ -65,7 +65,7 @@ class StockPickingBarCode(models.Model):
 
     @api.onchange('temp_barcode')
     def onchange_temp_barcode(self):
-        self.log = "Se guardo nuevo codigo de barras"
+        self.log_scanner = "Se guardo nuevo codigo de barras"
         res = {}
         barcode = self.temp_barcode
         if barcode:
