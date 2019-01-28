@@ -62,14 +62,15 @@ class StockPickingBarCode(models.Model):
     productcodes_ids = fields.One2many('list.productcode', 'picking_id', string='Productos')
     picking_checked = fields.Boolean("Ready Picking", compute="_get_picking_checked")
     log_scanner = fields.Char("log escaner", readonly=True)
-    log_scanner = "Listo para iniciar escaneo"
+
 
     @api.onchange('temp_barcode')
     def onchange_temp_barcode(self):
-        self.log_scanner = "Se guardo nuevo codigo de barras"
+        self.log_scanner = ""
         res = {}
         barcode = self.temp_barcode
         if barcode:
+            self.log_scanner = "entro al if barcode"
             new_lines = self.env['list.productcode']
         #for fncional
             for line in self.move_lines:
