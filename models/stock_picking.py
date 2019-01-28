@@ -72,10 +72,9 @@ class StockPickingBarCode(models.Model):
         product_rec = self.env['product.product']
         if barcode:
             new_lines = self.env['list.productcode']
-            size = len(self.productcodes_ids)
         #for fncional
-            if size < 1:
-                self.log_scanner = "creamos el primero"
+            if not new_lines:
+                self.log_scanner = size
                 product = product_rec.search([('barcode', '=', barcode)])
                 try:
                     new_line = new_lines.new({
@@ -86,24 +85,36 @@ class StockPickingBarCode(models.Model):
                 except Exception as e:
                     raise e
             else:
-                self.log_scanner = "ya se creo el primero"
-                    for move in self.productcodes_ids:
-                        self.log_scanner = move.product_id
-
-
-        #        for line in self.productcodes_ids:
-        #            if line.productcodes_ids.productcode == self.barcode:
-        #                self.log_scanner = "Entramos a sumar cantidades"
-        #                #sumamos cantidad si el movimiento coincide con uno existente
-        #                line.quantity_done += 1
-        #                line.qty += 1
-        #            else:
-        #                self.log_scanner = "se supone que debe estar aqui inicialmente"
+                self.log_scanner = "menor o igual a cero"
+            for line in self.move_lines:
+                if line.product_id.barcode == self.barcode:
+                    self.log_scanner = "Entramos a sumar cantidades"
+                    #sumamos cantidad si el movimiento coincide con uno existente
+                    line.quantity_done += 1
+                    line.qty += 1
+                else:
+                    self.log_scanner = "se supone que debe estar aqui inicialmente"
 
 
 
         # for cargado
-
+        #    for move in self.move_lines:
+        #        if move.product_id.barcode == barcode:
+        #            pcode = self.productcodes_ids.filtered(lambda r: r.product_id.id == move.product_id.id)
+        #            if pcode:
+        #                pcode.qty += 1.0
+        #                if pcode.qty > move.product_uom_qty:
+        #                    warning = {
+        #                        'title': _('Warning!'),
+        #                        'message': _('The quantity checked is bigger than quantity in picking move for product %s.'%move.product_id.name),
+        #                    }
+        #                    return {'warning': warning}
+        #            else:
+        #                new_line = new_lines.new({
+        #                    'product_id': move.product_id.id,
+        #                    'qty': 1,
+        #                })
+        #                new_lines += new_line
             self.productcodes_ids += new_lines
             self.temp_barcode = ""
 
