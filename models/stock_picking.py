@@ -75,7 +75,8 @@ class StockPickingBarCode(models.Model):
             new_lines = self.env['list.productcode']
             size = len(self.productcodes_ids)
         #for fncional
-            if size < 1:
+        #    if size < 1:
+            if not new_lines:
                 self.log_scanner = "creamos el primer productcodes"
                 product = product_rec.search([('barcode', '=', barcode)])
                 try:
@@ -84,11 +85,10 @@ class StockPickingBarCode(models.Model):
                         'qty': 1,
                     })
                     new_lines += new_line
-                    tabla.append(new_line)
                 except Exception as e:
                     raise e
             else:
-                self.log_scanner = "Listo, ya productcodes contiene %s campos"%tabla
+                self.log_scanner = "Listo, ya productcodes contiene %s campos"
                 #barcode = self.temp_barcode
                 #product = product_rec.search([('barcode', '=', barcode)])
                 #    for line in self.productcodes_ids:
