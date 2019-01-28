@@ -72,9 +72,9 @@ class StockPickingBarCode(models.Model):
         product_rec = self.env['product.product']
         if barcode:
             new_lines = self.env['list.productcode']
-            self.log_scanner = size
+            size = len(self.productcodes_ids)
         #for fncional
-            if len(self.productcodes_ids) < 1:
+            if size < 1:
                 self.log_scanner = "creamos el primero"
                 product = product_rec.search([('barcode', '=', barcode)])
                 try:
