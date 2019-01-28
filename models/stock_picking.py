@@ -35,7 +35,6 @@ class StockPickingOperation(models.Model):
     _inherit = 'stock.move'
 
     barcode = fields.Char(string='Barcode')
-    aux_barcode = fields.Char(string='Campo auxiliar barcode box')
 
     @api.onchange('barcode')
     def _onchange_barcode_scan(self):
@@ -64,30 +63,41 @@ class StockPickingBarCode(models.Model):
     picking_checked = fields.Boolean("Ready Picking", compute="_get_picking_checked")
 
     @api.onchange('temp_barcode')
-    def onchange_temp_barcode(self):
+    def _onchange_temp_barcode(self):
         res = {}
+        match = False
+        product_obj = self.env['product.product']
+        product_id = product_obj.search([('barcode', '=', self.barcode)])
         barcode = self.temp_barcode
-        if barcode:
+        if barcode and not product_id:
+            raise Warning('Ningun producto coincide con el codigo escaneado')
+        if barcode and self.move_lines:
             new_lines = self.env['list.productcode']
-            for move in self.move_lines:
-                if move.product_id.barcode == barcode:
-                    pcode = self.productcodes_ids.filtered(lambda r: r.product_id.id == move.product_id.id)
+            for line in self.move_lines:
+                if line.product_id.barcode == barcode:
+                    pcode = self.productcodes_ids.filtered(lambda r: r.product_id.id == line.product_id.id)
                     if pcode:
                         pcode.qty += 1.0
-                        if pcode.qty > move.product_uom_qty:
+                        self.temp_barcode = ""
+                        if pcode.qty > line.product_uom_qty:
                             warning = {
                                 'title': _('Warning!'),
                                 'message': _('The quantity checked is bigger than quantity in picking move for product %s.'%move.product_id.name),
                             }
+                            self.temp_barcode = ""
                             return {'warning': warning}
                     else:
                         new_line = new_lines.new({
-                            'product_id': move.product_id.id,
+                            'product_id': line.product_id.id,
                             'qty': 1.0,
                         })
                         new_lines += new_line
-            self.productcodes_ids += new_lines
-            self.temp_barcode = ""
+                        line.quantity_done += 1
+                        match = True
+                        self.productcodes_ids += new_lines
+                        self.temp_barcode = ""
+
+
 
 class ListProductcode(models.Model):
     _name = 'list.productcode'
@@ -99,9 +109,9 @@ class ListProductcode(models.Model):
             move = record.picking_id.move_lines.filtered(lambda r: r.product_id.id == record.product_id.id)
             record.bool_barcode = record.qty == move.product_uom_qty and True or False
 
-    barcode = fields.Char('Barcode', related='product_id.barcode')
-    default_code = fields.Char('Reference', related='product_id.default_code')
-    product_id = fields.Many2one('product.product', string='Product ')
-    qty = fields.Float("Quantity",default=1)
+    barcode = fields.Char('Codigo de Barras', related='product_id.barcode')
+    default_code = fields.Char('Referencia', related='product_id.default_code')
+    product_id = fields.Many2one('product.product', string='Producto')
+    qty = fields.Float("Cantidad",default=1)
     picking_id = fields.Many2one('stock.picking', "Picking", ondelete='cascade')
     bool_barcode = fields.Boolean("Barcode Checked", compute="_get_bool_barcode")
