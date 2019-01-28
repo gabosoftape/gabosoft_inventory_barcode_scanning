@@ -2,7 +2,7 @@
 
 from odoo import fields, models, api
 from odoo.exceptions import Warning
-import time
+from time import sleep
 
 
 class StockPicking(models.Model):
