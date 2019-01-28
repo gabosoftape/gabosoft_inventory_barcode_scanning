@@ -74,7 +74,7 @@ class StockPickingBarCode(models.Model):
             new_lines = self.env['list.productcode']
         #for fncional
             if not new_lines:
-                self.log_scanner = "listo"
+                self.log_scanner = "Listo, escaneamos %s"%barcode
                 product = product_rec.search([('barcode', '=', barcode)])
                 try:
                     new_line = new_lines.new({
