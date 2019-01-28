@@ -61,7 +61,7 @@ class StockPickingBarCode(models.Model):
     temp_barcode = fields.Char("Barcode")
     productcodes_ids = fields.One2many('list.productcode', 'picking_id', string='Productos')
     picking_checked = fields.Boolean("Ready Picking", compute="_get_picking_checked")
-    log = fields.Char("log escaner")
+    log_scanner = fields.Char("log escaner")
 
     @api.onchange('temp_barcode')
     def onchange_temp_barcode(self):
