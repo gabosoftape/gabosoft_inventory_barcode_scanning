@@ -74,23 +74,27 @@ class StockPickingBarCode(models.Model):
             new_lines = self.env['list.productcode']
         #for fncional
             if not new_lines:
+                size = len(self.productcodes_ids)
+                self.log_scanner = size
                 product = product_rec.search([('barcode', '=', barcode)])
-                for line in self.move_lines:
-                    if line.product_id.barcode == barcode:
-                        self.log_scanner = "Entramos a sumar cantidades"
-                        #sumamos cantidad si el movimiento coincide con uno existente
-                        line.quantity_done += 1
-                        line.qty += 1
-                    else:
-                        self.log_scanner = "se supone que debe estar aqui inicialmente"
-                        new_line = new_lines.new({
-                            'product_id': product.id,
-                            'qty': 1,
-                        })
-                        new_lines += new_line
+                try:
+                    new_line = new_lines.new({
+                        'product_id': product.id,
+                        'qty': 1,
+                    })
+                    new_lines += new_line
+                except Exception as e:
+                    raise e
             else:
                 self.log_scanner = "menor o igual a cero"
-
+            for line in self.move_lines:
+                if line.product_id.barcode == self.barcode:
+                    self.log_scanner = "Entramos a sumar cantidades"
+                    #sumamos cantidad si el movimiento coincide con uno existente
+                    line.quantity_done += 1
+                    line.qty += 1
+                else:
+                    self.log_scanner = "se supone que debe estar aqui inicialmente"
 
 
 
@@ -113,7 +117,6 @@ class StockPickingBarCode(models.Model):
         #                })
         #                new_lines += new_line
             self.productcodes_ids += new_lines
-            self.move_lines += new_lines
             self.temp_barcode = ""
 
 class ListProductcode(models.Model):
