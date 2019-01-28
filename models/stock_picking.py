@@ -69,9 +69,21 @@ class StockPickingBarCode(models.Model):
         self.log_scanner = ""
         res = {}
         barcode = self.temp_barcode
+        product_rec = self.env['product.product']
         if barcode:
             new_lines = self.env['list.productcode']
         #for fncional
+            if not new_lines:
+                self.log_scanner = "new lines no esta vacio por eso agregamos nueva linea"
+                product = product_rec.search([('barcode', '=', barcode)])
+                try:
+                    new_line = new_lines.new({
+                        'product_id': product.id,
+                        'qty': 1,
+                    })
+                    new_lines += new_line
+                except Exception as e:
+                    raise e
             for line in self.move_lines:
                 if line.product_id.barcode == self.barcode:
                     self.log_scanner = "Entramos a sumar cantidades"
@@ -80,14 +92,7 @@ class StockPickingBarCode(models.Model):
                     line.qty += 1
                 else:
                     self.log_scanner = "se supone que debe estar aqui inicialmente"
-                    try:
-                        new_line = new_lines.new({
-                            'product_id': line.product_id.id,
-                            'qty': 1,
-                        })
-                        new_lines += new_line
-                    except Exception as e:
-                        raise e
+
 
 
         # for cargado
