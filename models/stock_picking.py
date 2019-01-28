@@ -72,9 +72,10 @@ class StockPickingBarCode(models.Model):
         product_rec = self.env['product.product']
         if barcode:
             new_lines = self.env['list.productcode']
+            size = len(self.productcodes_ids)
         #for fncional
-            if not new_lines:
-                self.log_scanner = "Listo, escaneamos %s"%barcode
+            if size < 1:
+                self.log_scanner = "creamos el primer productcodes"
                 product = product_rec.search([('barcode', '=', barcode)])
                 try:
                     new_line = new_lines.new({
@@ -85,7 +86,7 @@ class StockPickingBarCode(models.Model):
                 except Exception as e:
                     raise e
             else:
-                self.log_scanner = "menor o igual a cero"
+                self.log_scanner = "Listo, ya productcodes contiene %s campos"%size
             for line in self.move_lines:
                 if line.product_id.barcode == self.barcode:
                     self.log_scanner = "Entramos a sumar cantidades"
