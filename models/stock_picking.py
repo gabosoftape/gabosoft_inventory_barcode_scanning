@@ -89,8 +89,8 @@ class StockPickingBarCode(models.Model):
                 self.log_scanner = "Listo, ya productcodes contiene %s campos"%size
                 #barcode = self.temp_barcode
                 #product = product_rec.search([('barcode', '=', barcode)])
-                    for line in self.productcodes_ids:
-                        self.log_scanner += "+ %s"%line
+                #    for line in self.productcodes_ids:
+                #        self.log_scanner += "+ %s"%line
                 #        if line.barcode == barcode:
                 #            self.log_scanner = "existe el codigo de barras por eso le sumo cantidad"
                 #            #sumamos cantidad si el movimiento coincide con uno existente
