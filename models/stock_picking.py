@@ -94,7 +94,7 @@ class StockPickingBarCode(models.Model):
                         new_lines += new_line
             self.productcodes_ids += new_lines
             self.temp_barcode = ".."
-            time.sleep(10)
+            sleep(2)
             self.temp_barcode = ""
 
 class ListProductcode(models.Model):
