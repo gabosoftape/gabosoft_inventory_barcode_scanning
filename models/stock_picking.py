@@ -68,12 +68,13 @@ class StockPickingBarCode(models.Model):
         barcode = self.temp_barcode
         if barcode:
             new_lines = self.env['list.productcode']
-            self.temp_barcode = "se creo new lines"
             for move in self.move_lines:
                 if move.product_id.barcode == barcode:
+                    self.temp_barcode = "se escaneo y move prodct barcode es igal al escaneado"
                     pcode = self.productcodes_ids.filtered(lambda r: r.product_id.id == move.product_id.id)
                     if pcode:
                         pcode.qty += 1.0
+                        self.temp_barcode = "se crea pcode"
                         if pcode.qty > move.product_uom_qty:
                             warning = {
                                 'title': _('Warning!'),
@@ -85,6 +86,7 @@ class StockPickingBarCode(models.Model):
                             'product_id': move.product_id.id,
                             'qty': 1,
                         })
+                        self.temp_barcode = "se crea una nueva linea"
                         new_lines += new_line
             self.productcodes_ids += new_lines
             self.temp_barcode = ""
