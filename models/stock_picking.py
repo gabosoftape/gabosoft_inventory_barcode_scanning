@@ -62,12 +62,13 @@ class StockPickingBarCode(models.Model):
     productcodes_ids = fields.One2many('list.productcode', 'picking_id', string='Productos')
     picking_checked = fields.Boolean("Ready Picking", compute="_get_picking_checked")
     log_scanner = fields.Char("log escaner", readonly=True)
+    tabla = []
 
 
     @api.onchange('temp_barcode')
     def onchange_temp_barcode(self):
         self.log_scanner = ""
-        res = {}
+
         barcode = self.temp_barcode
         product_rec = self.env['product.product']
         if barcode:
@@ -83,10 +84,11 @@ class StockPickingBarCode(models.Model):
                         'qty': 1,
                     })
                     new_lines += new_line
+                    tabla.append(new_line)
                 except Exception as e:
                     raise e
             else:
-                self.log_scanner = "Listo, ya productcodes contiene %s campos"%size
+                self.log_scanner = "Listo, ya productcodes contiene %s campos"%tabla
                 #barcode = self.temp_barcode
                 #product = product_rec.search([('barcode', '=', barcode)])
                 #    for line in self.productcodes_ids:
