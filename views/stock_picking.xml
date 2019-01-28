@@ -40,7 +40,7 @@
                             </tree>
                         </field>
                         <div class="alert alert-info" role="alert" style="margin-bottom:0px;" attrs="{'invisible': [('picking_checked', '=', True)]}">
-                            Incomplete Picking
+                            <field name="log">
                         </div>
                     </page>
                 </notebook>
