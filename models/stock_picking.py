@@ -88,7 +88,7 @@ class StockPickingBarCode(models.Model):
             else:
                 self.log_scanner = "ya se creo el primero"
                     for move in self.productcodes_ids:
-                        self.log_scanner += move.product_id
+                        self.log_scanner = move.product_id
 
 
         #        for line in self.productcodes_ids:
