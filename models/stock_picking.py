@@ -87,25 +87,8 @@ class StockPickingBarCode(models.Model):
                     raise e
             else:
                 self.log_scanner = "ya se creo el primero"
-                    for move in self.move_lines:
-                        if move.product_id.barcode == barcode:
-                            pcode = self.productcodes_ids.filtered(lambda r: r.product_id.id == move.product_id.id)
-                            if pcode:
-                                pcode.qty += 1
-                                if pcode.qty > move.product_uom_qty:
-                                    warning = {
-                                        'title': _('Peligro!'),
-                                        'message': _('The quantity checked is bigger than quantity in picking move for product %s.'%move.product_id.name),
-                                    }
-                                    return {'warning': warning}
-                            else:
-                                self.log_scanner = "creamos otro porque comparamos y no existe aun en los registros"
-                                product = product_rec.search([('barcode', '=', barcode)])
-                                new_line = new_lines.new({
-                                    'product_id': product.id,
-                                    'qty': 1,
-                                })
-                                new_lines += new_line
+                    for move in self.productcodes_ids:
+                        self.log_scanner += move.barcode
 
 
         #        for line in self.productcodes_ids:
