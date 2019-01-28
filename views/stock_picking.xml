@@ -1,7 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
-   <!--
-    <record id="stock_picking_barcode_form" model="ir.ui.view" >
+    <data>
+
+        <record id="barcode_scanning_inventory" model="ir.ui.view">
+            <field name="name">Barcode Scanning Inventory</field>
+            <field name="model">stock.picking</field>
+            <field name="inherit_id" ref="stock.view_picking_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='location_id']" position="after">
+                    <field name="barcode" attrs="{'invisible': [('state', '==', 'assigned')]}"/>
+                </xpath>
+                <xpath expr="//field[@name='move_lines']/tree/field[@name='product_id']" position="before">
+                    <field name="barcode"/>
+                </xpath>
+            </field>
+        </record>
+
+
+        <record id="stock_picking_barcode_form" model="ir.ui.view" >
             <field name="name">Barcode reception</field>
             <field name="model">stock.picking</field>
             <field name="inherit_id" ref="stock.view_picking_form"/>
@@ -31,7 +47,7 @@
             </field>
         </record>
 
-         ............... HERENCIA VISTA EN TREE ...............
+        <!-- ............... HERENCIA VISTA EN TREE ...............-->
         <record model="ir.ui.view" id="sii_barcode_tree">
             <field name="name">sii.barcode.tree</field>
             <field name="model">stock.picking</field>
@@ -42,9 +58,9 @@
               </field>
             </field>
         </record>
+-->
 
-
-
+<!--
         <record model="ir.ui.view" id="sii_barcode_tree_move">
             <field name="name">sii.barcode.tree.move</field>
 
@@ -57,8 +73,8 @@
             </field>
         </record>
 
+      -->
 
-     -->
-
+    </data>
 
 </odoo>
