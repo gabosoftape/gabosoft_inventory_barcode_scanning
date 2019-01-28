@@ -63,41 +63,30 @@ class StockPickingBarCode(models.Model):
     picking_checked = fields.Boolean("Ready Picking", compute="_get_picking_checked")
 
     @api.onchange('temp_barcode')
-    def _onchange_temp_barcode(self):
+    def onchange_temp_barcode(self):
         res = {}
-        match = False
-        product_obj = self.env['product.product']
-        product_id = product_obj.search([('barcode', '=', self.barcode)])
         barcode = self.temp_barcode
-        if barcode and not product_id:
-            raise Warning('Ningun producto coincide con el codigo escaneado')
-        if barcode and self.move_lines:
+        if barcode:
             new_lines = self.env['list.productcode']
-            for line in self.move_lines:
-                if line.product_id.barcode == barcode:
-                    pcode = self.productcodes_ids.filtered(lambda r: r.product_id.id == line.product_id.id)
+            for move in self.move_lines:
+                if move.product_id.barcode == barcode:
+                    pcode = self.productcodes_ids.filtered(lambda r: r.product_id.id == move.product_id.id)
                     if pcode:
                         pcode.qty += 1.0
-                        self.temp_barcode = ""
-                        if pcode.qty > line.product_uom_qty:
+                        if pcode.qty > move.product_uom_qty:
                             warning = {
                                 'title': _('Warning!'),
                                 'message': _('The quantity checked is bigger than quantity in picking move for product %s.'%move.product_id.name),
                             }
-                            self.temp_barcode = ""
                             return {'warning': warning}
                     else:
                         new_line = new_lines.new({
-                            'product_id': line.product_id.id,
+                            'product_id': move.product_id.id,
                             'qty': 1.0,
                         })
                         new_lines += new_line
-                        line.quantity_done += 1
-                        match = True
-                        self.productcodes_ids += new_lines
-                        self.temp_barcode = ""
-
-
+            self.productcodes_ids += new_lines
+            self.temp_barcode = ""
 
 class ListProductcode(models.Model):
     _name = 'list.productcode'
