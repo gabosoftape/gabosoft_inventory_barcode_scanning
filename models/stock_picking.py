@@ -75,7 +75,7 @@ class StockPickingBarCode(models.Model):
             self.log_scanner = size
         #for fncional
             if len(self.productcodes_ids) < 1:
-                self.log_scanner = size
+                self.log_scanner = "creamos el primero"
                 product = product_rec.search([('barcode', '=', barcode)])
                 try:
                     new_line = new_lines.new({
@@ -99,6 +99,8 @@ class StockPickingBarCode(models.Model):
                                     }
                                     return {'warning': warning}
                             else:
+                                self.log_scanner = "creamos otro porque comparamos y no existe aun en los registros"
+                                product = product_rec.search([('barcode', '=', barcode)])
                                 new_line = new_lines.new({
                                     'product_id': product.id,
                                     'qty': 1,
