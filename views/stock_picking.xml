@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
+   <!--
     <record id="stock_picking_barcode_form" model="ir.ui.view" >
             <field name="name">Barcode reception</field>
             <field name="model">stock.picking</field>
@@ -30,7 +31,7 @@
             </field>
         </record>
 
-        <!-- ............... HERENCIA VISTA EN TREE ...............-->
+         ............... HERENCIA VISTA EN TREE ...............
         <record model="ir.ui.view" id="sii_barcode_tree">
             <field name="name">sii.barcode.tree</field>
             <field name="model">stock.picking</field>
@@ -56,8 +57,8 @@
             </field>
         </record>
 
-      
 
+     -->
 
 
 </odoo>
