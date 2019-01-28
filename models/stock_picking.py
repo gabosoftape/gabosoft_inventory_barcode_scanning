@@ -8,6 +8,7 @@ class StockPicking(models.Model):
     _inherit = 'stock.picking'
 
     barcode = fields.Char(string='Barcode')
+    aux_barcode = fields.Char(string='Barcode Automated box value.')
 
     @api.onchange('barcode')
     def barcode_scanning(self):
@@ -34,6 +35,7 @@ class StockPickingOperation(models.Model):
     _inherit = 'stock.move'
 
     barcode = fields.Char(string='Barcode')
+    aux_barcode = fields.Char(string='Campo auxiliar barcode box')
 
     @api.onchange('barcode')
     def _onchange_barcode_scan(self):
