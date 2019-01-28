@@ -71,14 +71,15 @@ class StockPickingBarCode(models.Model):
         barcode = self.temp_barcode
         if barcode:
             new_lines = self.env['list.productcode']
-            self.log_scanner = new_lines
         #for fncional
             for line in self.move_lines:
                 if line.product_id.barcode == self.barcode:
+                    self.log_scanner = "Entramos a sumar cantidades"
                     #sumamos cantidad si el movimiento coincide con uno existente
                     line.quantity_done += 1
                     line.qty += 1
                 else:
+                    self.log_scanner = "se supone que debe estar aqui inicialmente"
                     try:
                         new_line = new_lines.new({
                             'product_id': line.product_id.id,
