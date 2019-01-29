@@ -26,27 +26,27 @@
                 <field name="picking_checked"/>
               </field>
                 <notebook>
-                    <page string="Barcode Picking" name="barcode_picking">
-                        <h2>
-                            <field name="temp_barcode" placeholder="Insert EAN-13 Code"/>
-                        </h2>
-                        <field name="productcodes_ids">
-                            <tree string="Picking" editable="bottom" colors="red:bool_barcode==False;">
-                                <field name="product_id" required="1"/>
-                                <field name="qty" required="1" sum="Sum"/>
-                                <field name="default_code" readonly="1"/>
-                                <field name="barcode" readonly="1"/>
-                                <field name="bool_barcode" invisible="1"/>
-                            </tree>
-                        </field>
-                        <div class="alert alert-info" role="alert" style="margin-bottom:0px;" attrs="{'invisible': [('picking_checked', '=', True)]}">
-                            <field name="log_scanner"/>
-                        </div>
-                    </page>
+                  <page string="Escaneo Automatico" name="barcode_picking">
+                          <h2>
+                              <field name="temp_barcode" placeholder="Codigo de barras"/>
+                          </h2>
+                          <field name="productcodes_ids">
+                              <tree string="Resultados" editable="bottom" colors="red:bool_barcode==False;">
+                                  <field name="product_id" required="1"/>
+                                  <field name="qty" required="1" sum="Sum"/>
+                                  <field name="default_code" readonly="1"/>
+                                  <field name="barcode" readonly="1"/>
+                                  <field name="bool_barcode" invisible="1"/>
+                              </tree>
+                          </field>
+                          <div class="alert alert-info" role="alert" style="margin-bottom:0px;" attrs="{'invisible': [('picking_checked', '=', True)]}">
+                              <field name="log_scanner"/>
+                          </div>
+                      </page>
                 </notebook>
             </field>
         </record>
-        <!-- ............... HERENCIA VISTA EN TREE ...............
+        <!-- ............... HERENCIA VISTA EN TREE ...............-->
         <record model="ir.ui.view" id="sii_barcode_tree">
             <field name="name">sii.barcode.tree</field>
             <field name="model">stock.picking</field>
@@ -57,7 +57,7 @@
               </field>
             </field>
         </record>
--->
+
 
 <!--
         <record model="ir.ui.view" id="sii_barcode_tree_move">
