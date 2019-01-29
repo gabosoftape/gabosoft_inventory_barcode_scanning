@@ -91,6 +91,7 @@ class StockPickingBarCode(models.Model):
                 real_line = real_lines.create({
                     'product_id': product_id.id,
                     'product_uom_qty': 1,
+                    'quantity_done': 1,
                 })
                 real_line._action_confirm()
                 real_line._action_assign()
