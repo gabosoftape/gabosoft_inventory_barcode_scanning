@@ -16,7 +16,7 @@
             </field>
         </record>
 
-<!--
+
         <record id="stock_picking_barcode_form" model="ir.ui.view" >
             <field name="name">Barcode reception</field>
             <field name="model">stock.picking</field>
@@ -46,7 +46,6 @@
                 </notebook>
             </field>
         </record>
--->
         <!-- ............... HERENCIA VISTA EN TREE ...............
         <record model="ir.ui.view" id="sii_barcode_tree">
             <field name="name">sii.barcode.tree</field>
