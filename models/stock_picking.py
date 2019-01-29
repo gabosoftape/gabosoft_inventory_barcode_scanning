@@ -67,14 +67,19 @@ class StockPickingBarCode(models.Model):
     @api.onchange('temp_barcode')
     def onchange_temp_barcode(self):
         self.log_scanner = ""
-
+        flag = False
         barcode = self.temp_barcode
         product_rec = self.env['product.product']
-        if barcode:
+        product_id = product_rec.search([('barcode', '=', barcode)])
+        if barcode and not product_id:
+            self.log_scanner = "Elemento desconocido!!!!!!!!"
+            self.temp_barcode = ""
+        if barcode:               
             new_lines = self.env['list.productcode']
             size = len(self.productcodes_ids)
         #for fncional
         #    if size < 1:
+        #if self.barcode and not product_id:
             if not new_lines:
                 self.log_scanner = "creamos el primer productcodes"
                 product = product_rec.search([('barcode', '=', barcode)])
