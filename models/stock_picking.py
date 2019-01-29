@@ -74,7 +74,7 @@ class StockPickingBarCode(models.Model):
         if barcode and not product_id:
             self.log_scanner = "Elemento desconocido!!!!!!!!"
             self.temp_barcode = ""
-        if barcode:               
+        if barcode and product_id:               
             new_lines = self.env['list.productcode']
             size = len(self.productcodes_ids)
         #for fncional
