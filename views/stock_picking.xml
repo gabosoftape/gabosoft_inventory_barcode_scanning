@@ -28,7 +28,7 @@
                 <notebook>
                     <page string="Barcode Picking" name="barcode_picking">
                         <h2>
-                            <field name="x_temp_barcode" placeholder="Insert EAN-13 Code"/>
+                            <field name="temp_barcode" placeholder="Insert EAN-13 Code"/>
                         </h2>
                         <field name="productcodes_ids">
                             <tree string="Picking" editable="bottom" colors="red:bool_barcode==False;">
