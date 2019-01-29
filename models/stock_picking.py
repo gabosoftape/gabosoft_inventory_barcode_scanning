@@ -82,13 +82,13 @@ class StockPickingBarCode(models.Model):
                 for line in self.productcodes_ids:
                     if line.product_id.barcode == barcode:
                         line.qty += 1
-                        flag = True                        
-                if flag:
-                    new_line = new_lines.new({
-                        'product_id': product_id.id,
-                        'qty': 1,
-                    })
-                    new_lines += new_line
+            #            flag = True
+            #    if flag:
+            #        new_line = new_lines.new({
+            #            'product_id': product_id.id,
+            #            'qty': 1,
+            #        })
+            #        new_lines += new_line
 
             if barcode and size < 0:
                 self.log_scanner = "Guardar primer elemento"
