@@ -96,7 +96,7 @@ class StockPickingBarCode(models.Model):
                 real_line._action_assign()
 
             self.productcodes_ids += new_lines
-            self.move_lines += real_lines
+            #self.move_lines += real_line
             self.temp_barcode = ""
 
 
