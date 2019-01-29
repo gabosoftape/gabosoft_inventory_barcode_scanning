@@ -84,10 +84,12 @@ class StockPickingBarCode(models.Model):
                         'qty': 1,
                     })
                     new_lines += new_line
+                    self.move_lines += new_line
                 except Exception as e:
                     raise e
-            else if size > 1:
+            else:
                 self.log_scanner = "Listo, ya productcodes contiene %s campos"
+
                 #barcode = self.temp_barcode
                 #product = product_rec.search([('barcode', '=', barcode)])
                 #    for line in self.productcodes_ids:
