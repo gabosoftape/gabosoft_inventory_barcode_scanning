@@ -67,7 +67,6 @@ class StockPickingBarCode(models.Model):
     @api.onchange('temp_barcode')
     def onchange_temp_barcode(self):
         self.log_scanner = ""
-        flag = False
         barcode = self.temp_barcode
         product_rec = self.env['product.product']
         product_id = product_rec.search([('barcode', '=', barcode)])
@@ -79,6 +78,7 @@ class StockPickingBarCode(models.Model):
             real_lines = self.env['stock.move']
             size = len(self.productcodes_ids)
             if barcode and size > 0:
+                flag = False
                 for line in self.productcodes_ids:
                     if line.product_id.barcode == barcode:
                         line.qty += 1
