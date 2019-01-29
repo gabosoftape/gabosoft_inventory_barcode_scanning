@@ -62,7 +62,6 @@
 <!-- -->
         <record model="ir.ui.view" id="sii_barcode_tree_move">
             <field name="name">sii.barcode.tree.move</field>
-
             <field name="model">stock.move</field>
             <field name="inherit_id" ref="stock.vpicktree"/>
             <field name="arch" type="xml">
