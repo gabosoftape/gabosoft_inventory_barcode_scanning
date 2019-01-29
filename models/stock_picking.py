@@ -11,7 +11,6 @@ class StockPickingOperation(models.Model):
     _inherit = 'stock.move'
 
     barcode = fields.Char(string='Barcode')
-    temp_barcode = fields.Char("Barcode Tempo move", required=False)
 
     @api.onchange('temp_barcode')
     def _onchange_barcode_scan(self):
@@ -37,7 +36,7 @@ class StockPickingBarCode(models.Model):
                     picking.picking_checked = True
 
     barcode = fields.Char(string='Barcode')
-    temp_barcode = fields.Char("Barcode Tempo", required=False)
+    temp_barcode = fields.Text("Barcode Tempo", required=False)
     productcodes_ids = fields.One2many('list.productcode', 'picking_id', string='Productos')
     picking_checked = fields.Boolean("Ready Picking", compute="_get_picking_checked")
     log_scanner = fields.Char("log escaner", readonly=True)
@@ -101,6 +100,6 @@ class ListProductcode(models.Model):
     barcode = fields.Char('Codigo de Barras', related='product_id.barcode')
     default_code = fields.Char('Referencia', related='product_id.default_code')
     product_id = fields.Many2one('product.product', string='Producto')
-    qty = fields.Float("Cantidad",default=1)
+    qty = fields.Float("Cantidad", default=1)
     picking_id = fields.Many2one('stock.picking', "Picking", ondelete='cascade')
     bool_barcode = fields.Boolean("Barcode Checked", compute="_get_bool_barcode")
