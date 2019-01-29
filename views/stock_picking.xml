@@ -4,11 +4,11 @@
 
         <record id="barcode_scanning_inventory" model="ir.ui.view">
             <field name="name">Barcode Scanning Inventory</field>
-            <field name="model">stock.picking</field>
+            <field name="model">stock.move</field>
             <field name="inherit_id" ref="stock.view_picking_form"/>
             <field name="arch" type="xml">
-              <field name="origin" position="after">
-                <field name="barcode"/>
+              <field name="move_lines" position="before">
+                <field name="x_barcode"/>
               </field>
             </field>
         </record>
