@@ -91,13 +91,13 @@ class StockPickingBarCode(models.Model):
                     'qty': 1,
                 })
                 new_lines += new_line
-            if self.temp_barcode != "":
+            if self.temp_barcode != barcode:
                     new_line = new_lines.new({
                         'product_id': product_id.id,
                         'qty': 1,
                     })
                     new_lines += new_line
-                    
+
             self.productcodes_ids += new_lines
             self.move_lines += real_lines
             self.temp_barcode = ""
