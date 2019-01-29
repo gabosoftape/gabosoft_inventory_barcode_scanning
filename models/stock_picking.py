@@ -84,6 +84,10 @@ class StockPickingBarCode(models.Model):
                         line.qty += 1
                         self.temp_barcode = ""
                 if self.temp_barcode != "":
+                    self.log_scanner = "como no existe un producto igual, se agrega a la lista"
+                    barcode = self.temp_barcode
+                    product_rec = self.env['product.product']
+                    product_id = product_rec.search([('barcode', '=', barcode)])
                     new_line = new_lines.new({
                                'product_id': product_id.id,
                                 'qty': 1,
