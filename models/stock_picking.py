@@ -62,7 +62,6 @@ class StockPickingBarCode(models.Model):
     productcodes_ids = fields.One2many('list.productcode', 'picking_id', string='Productos')
     picking_checked = fields.Boolean("Ready Picking", compute="_get_picking_checked")
     log_scanner = fields.Char("log escaner", readonly=True)
-    tabla = []
 
 
     @api.onchange('temp_barcode')
@@ -75,8 +74,8 @@ class StockPickingBarCode(models.Model):
             new_lines = self.env['list.productcode']
             size = len(self.productcodes_ids)
         #for fncional
-        #    if size < 1:
-            if not new_lines:
+            if size < 1:
+        #    if not new_lines:
                 self.log_scanner = "creamos el primer productcodes"
                 product = product_rec.search([('barcode', '=', barcode)])
                 try:
@@ -87,7 +86,7 @@ class StockPickingBarCode(models.Model):
                     new_lines += new_line
                 except Exception as e:
                     raise e
-            else:
+            else if size > 1:
                 self.log_scanner = "Listo, ya productcodes contiene %s campos"
                 #barcode = self.temp_barcode
                 #product = product_rec.search([('barcode', '=', barcode)])
