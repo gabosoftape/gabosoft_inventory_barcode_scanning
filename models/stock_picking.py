@@ -5,6 +5,8 @@ from odoo.exceptions import Warning
 from time import sleep
 
 
+
+
 class StockPickingOperation(models.Model):
     _inherit = 'stock.move'
 
@@ -38,6 +40,13 @@ class StockPickingBarCode(models.Model):
     picking_checked = fields.Boolean("Ready Picking", compute="_get_picking_checked")
     log_scanner = fields.Char("log escaner", readonly=True)
 
+#        if self.barcode and self.move_lines:
+#            for line in self.move_lines:
+#                if line.product_id.barcode == self.barcode:
+#                    line.quantity_done += 1
+#                    self.barcode = None
+#                    match = True
+
 
     @api.onchange('temp_barcode')
     def onchange_temp_barcode(self):
@@ -51,7 +60,7 @@ class StockPickingBarCode(models.Model):
             self.temp_barcode = ""
         if barcode and product_id:
             new_lines = self.env['list.productcode']
-            real_lines = self.env['stock.move']
+            real_lines = self.env['stock.picking']
             size = len(self.productcodes_ids)
             if barcode and size > 0:
                 for line in self.productcodes_ids:
@@ -59,22 +68,30 @@ class StockPickingBarCode(models.Model):
                         line.qty += 1
                         self.temp_barcode = ""
                 if self.temp_barcode == "":
-                        self.log_scanner = "se agrego cantidad"
+                        self.log_scanner = "Se agregó cantidad"
                 else:
                     new_line = new_lines.new({
                         'product_id': product_id.id,
                         'qty': 1,
                     })
+                    real_line = real_lines.new({
+                        'product_id': product_id.id,
+                        'quantity_done': 1,
+                    })
                     new_lines += new_line
-
+                    real_lines += real_line
             else:
-                self.log_scanner = "Guardar primer elemento"
+                self.log_scanner = "Se guardó el primer elemento"
                 new_line = new_lines.new({
                     'product_id': product_id.id,
                     'qty': 1,
                 })
+                real_line = real_lines.new({
+                    'product_id': product_id.id,
+                    'quantity_done': 1,
+                })
                 new_lines += new_line
-
+                real_lines += real_line
             self.productcodes_ids += new_lines
             self.move_lines += real_lines
             self.temp_barcode = ""
