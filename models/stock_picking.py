@@ -89,7 +89,6 @@ class StockPickingBarCode(models.Model):
             #            'qty': 1,
             #        })
             #        new_lines += new_line
-
             if barcode and size < 0:
                 self.log_scanner = "Guardar primer elemento"
                 new_line = new_lines.new({
