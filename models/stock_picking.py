@@ -12,9 +12,9 @@ class StockPickingOperation(models.Model):
 
     barcode = fields.Char(string='Barcode')
 
-    @api.onchange('temp_barcode')
+    @api.onchange('x_temp_barcode')
     def _onchange_barcode_scan(self):
-        barcode = self.temp_barcode
+        barcode = self.x_temp_barcode
         product_rec = self.env['product.product']
         if barcode:
             product_id = product_rec.search([('barcode', '=', barcode)])
@@ -36,7 +36,7 @@ class StockPickingBarCode(models.Model):
                     picking.picking_checked = True
 
     barcode = fields.Char(string='Barcode')
-    temp_barcode = fields.Char("Barcode Tempo", required=False)
+    x_temp_barcode = fields.Char("Barcode Tempo", required=False)
     productcodes_ids = fields.One2many('list.productcode', 'picking_id', string='Productos')
     picking_checked = fields.Boolean("Ready Picking", compute="_get_picking_checked")
     log_scanner = fields.Char("log escaner", readonly=True)
@@ -49,16 +49,16 @@ class StockPickingBarCode(models.Model):
 #                    match = True
 
 
-    @api.onchange('temp_barcode')
+    @api.onchange('x_temp_barcode')
     def onchange_temp_barcode(self):
         self.log_scanner = ""
         flag = False
-        barcode = self.temp_barcode
+        barcode = self.x_temp_barcode
         product_rec = self.env['product.product']
         product_id = product_rec.search([('barcode', '=', barcode)])
         if barcode and not product_id:
             self.log_scanner = "Elemento desconocido!!!!!!!!"
-            self.temp_barcode = ""
+            self.x_temp_barcode = ""
         if barcode and product_id:
             new_lines = self.env['list.productcode']
             real_lines = self.env['stock.picking']
@@ -67,8 +67,8 @@ class StockPickingBarCode(models.Model):
                 for line in self.productcodes_ids:
                     if line.product_id.barcode == barcode:
                         line.qty += 1
-                        self.temp_barcode = ""
-                if self.temp_barcode == "":
+                        self.x_temp_barcode = ""
+                if self.x_temp_barcode == "":
                         self.log_scanner = "Se agregó cantidad"
                 else:
                     new_line = new_lines.new({
@@ -84,7 +84,7 @@ class StockPickingBarCode(models.Model):
                 })
                 new_lines += new_line
             self.productcodes_ids += new_lines
-            self.temp_barcode = ""
+            self.x_temp_barcode = ""
 
 
 class ListProductcode(models.Model):
