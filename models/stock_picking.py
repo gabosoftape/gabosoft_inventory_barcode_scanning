@@ -80,9 +80,9 @@ class StockPickingBarCode(models.Model):
         #for fncional
         #    if size < 1:
         #if self.barcode and not product_id:
-            if flag:
+            if flag == True:
                 self.log_scanner = "Listo, ya productcodes_ids contiene lineas"
-            if not flag:
+            if flag == False:
                 self.log_scanner = "creamos el primer productcodes"
                 product = product_rec.search([('barcode', '=', barcode)])
                 try:
