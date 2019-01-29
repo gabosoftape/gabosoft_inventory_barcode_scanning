@@ -10,7 +10,7 @@ from time import sleep
 class StockPickingOperation(models.Model):
     _inherit = 'stock.move'
 
-    barcode = fields.Char(string='Barcode')
+    temp_barcode = fields.Char(string='Barcode')
 
     @api.onchange('temp_barcode')
     def _onchange_barcode_scan(self):
