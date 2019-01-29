@@ -78,7 +78,7 @@ class StockPickingBarCode(models.Model):
             new_lines = self.env['list.productcode']
             real_lines = self.env['stock.move']
             size = len(self.productcodes_ids)
-            if barcode and self.productcodes_ids:
+            if barcode and size > 1:
                 for line in self.productcodes_ids:
                     if line.product_id.barcode == barcode:
                         line.qty += 1
@@ -95,34 +95,12 @@ class StockPickingBarCode(models.Model):
                         new_lines += new_line
                         real_lines += real_line
             else:
-                self.log_scanner = "Guardar primer elemento"            
-
-        #for fncional
-        #    if size < 1:
-        #if self.barcode and not product_id:
-            if flag:
-
-                try:
-                    new_line = new_lines.new({
-                        'product_id': product.id,
-                        'qty': 1,
-                    })
-                    new_lines += new_line
-                    flag = True
-                except Exception as e:
-                    raise e
-
-                #barcode = self.temp_barcode
-                #product = product_rec.search([('barcode', '=', barcode)])
-                #    for line in self.productcodes_ids:
-                #        self.log_scanner += "+ %s"%line
-                #        if line.barcode == barcode:
-                #            self.log_scanner = "existe el codigo de barras por eso le sumo cantidad"
-                #            #sumamos cantidad si el movimiento coincide con uno existente
-                #            #line.quantity_done += 1
-                #            line.qty += 1
-                #        else:
-
+                self.log_scanner = "Guardar primer elemento"
+                new_line = new_lines.new({
+                    'product_id': product.id,
+                    'qty': 1,
+                })
+                new_lines += new_line
 
             self.productcodes_ids += new_lines
             self.move_lines += real_lines
