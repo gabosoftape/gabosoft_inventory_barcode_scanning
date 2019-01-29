@@ -36,7 +36,7 @@ class StockPickingBarCode(models.Model):
                     picking.picking_checked = True
 
     barcode = fields.Char(string='Barcode')
-    temp_barcode = fields.Char("Barcode Tempo")
+    temp_barcode = fields.Char("Barcode Tempo", required=False)
     productcodes_ids = fields.One2many('list.productcode', 'picking_id', string='Productos')
     picking_checked = fields.Boolean("Ready Picking", compute="_get_picking_checked")
     log_scanner = fields.Char("log escaner", readonly=True)
