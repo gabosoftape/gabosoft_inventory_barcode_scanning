@@ -67,6 +67,7 @@ class StockPickingBarCode(models.Model):
     @api.onchange('temp_barcode')
     def onchange_temp_barcode(self):
         self.log_scanner = ""
+        flag = False
         barcode = self.temp_barcode
         product_rec = self.env['product.product']
         product_id = product_rec.search([('barcode', '=', barcode)])
@@ -78,21 +79,16 @@ class StockPickingBarCode(models.Model):
             real_lines = self.env['stock.move']
             size = len(self.productcodes_ids)
             if barcode and size > 0:
-                flag = False
                 for line in self.productcodes_ids:
                     if line.product_id.barcode == barcode:
                         line.qty += 1
                         self.temp_barcode = ""
-                if self.temp_barcode != "":
-                    self.log_scanner = "como no existe un producto igual, se agrega a la lista"
-                    barcode = self.temp_barcode
-                    product_rec = self.env['product.product']
-                    product_id = product_rec.search([('barcode', '=', barcode)])
-                    new_line = new_lines.new({
-                               'product_id': product_id.id,
-                                'qty': 1,
-                            })
-                            new_lines += new_line
+                    else:
+                        new_line = new_lines.new({
+                            'product_id': product_id.id,
+                            'qty': 1,
+                        })
+                        new_lines += new_line
             else:
                 self.log_scanner = "Guardar primer elemento"
                 new_line = new_lines.new({
