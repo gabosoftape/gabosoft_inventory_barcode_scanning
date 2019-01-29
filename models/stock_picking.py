@@ -76,15 +76,32 @@ class StockPickingBarCode(models.Model):
             self.temp_barcode = ""
         if barcode and product_id:
             new_lines = self.env['list.productcode']
+            real_lines = self.env['stock.move']
             size = len(self.productcodes_ids)
+            if barcode and self.productcodes_ids:
+                for line in self.productcodes_ids:
+                    if line.product_id.barcode == barcode:
+                        line.qty += 1
+                    else:
+                        new_line = new_lines.new({
+                            'product_id': product_id.id,
+                            'qty': 1,
+                        })
+                        real_line = real_lines.new({
+                            'product_id': product_id.id,
+                            'quantity_done': 1
+
+                        })
+                        new_lines += new_line
+                        real_lines += real_line
+            else:
+                self.log_scanner = "Guardar primer elemento"            
+
         #for fncional
         #    if size < 1:
         #if self.barcode and not product_id:
-            if flag == True:
-                self.log_scanner = "Listo, ya productcodes_ids contiene lineas"
-            if flag == False:
-                self.log_scanner = "creamos el primer productcodes"
-                product = product_rec.search([('barcode', '=', barcode)])
+            if flag:
+
                 try:
                     new_line = new_lines.new({
                         'product_id': product.id,
@@ -108,6 +125,7 @@ class StockPickingBarCode(models.Model):
 
 
             self.productcodes_ids += new_lines
+            self.move_lines += real_lines
             self.temp_barcode = ""
 
 
