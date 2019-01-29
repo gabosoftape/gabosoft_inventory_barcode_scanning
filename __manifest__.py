@@ -22,7 +22,7 @@
 
 {
     'name': 'Barcode scanning in Inventory',
-    'version': '11.0.1.0.0',
+    'version': '11.0.2.0.0',
     'summary': 'Barcode Support in Stock Picking.',
     'author': 'Gabosoft',
     'maintainer': 'Cybrosys Techno Solutions',
