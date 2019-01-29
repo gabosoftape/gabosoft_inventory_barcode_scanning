@@ -75,7 +75,12 @@ class StockPickingBarCode(models.Model):
                         'product_id': product_id.id,
                         'qty': 1,
                     })
-                    new_lines += new_line
+                #    move = self.env['stock.move'].create({
+                #        'product_id': product_id.id,
+                #        'product_uom': product_id.uom_id.id,
+                #        'product_uom_qty': 1,
+                #    })
+                #    new_lines += new_line
             else:
                 self.log_scanner = "Se guardó el primer elemento"
                 new_line = new_lines.new({
@@ -83,14 +88,20 @@ class StockPickingBarCode(models.Model):
                     'qty': 1,
                 })
                 new_lines += new_line
-                real_line = real_lines.new({
+                real_line = real_lines.create({
                     'product_id': product_id.id,
-                    'quantity_done': 1,
+                    'product_uom_qty': 1,
                 })
-                real_lines += real_line
+                real_line._action_confirm()
+                real_line._action_assign()
+
             self.productcodes_ids += new_lines
             self.move_lines += real_lines
             self.temp_barcode = ""
+
+
+#move.move_line_ids.write({'qty_done': qty}) # This creates a stock.move.line record. You could also do it manually
+#move._action_done()
 
 
 class ListProductcode(models.Model):
