@@ -97,7 +97,7 @@ class StockPickingBarCode(models.Model):
             else:
                 self.log_scanner = "Guardar primer elemento"
                 new_line = new_lines.new({
-                    'product_id': product.id,
+                    'product_id': product_id.id,
                     'qty': 1,
                 })
                 new_lines += new_line
