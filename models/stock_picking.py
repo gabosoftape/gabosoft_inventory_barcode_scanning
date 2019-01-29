@@ -17,7 +17,7 @@ class StockPickingOperation(models.Model):
             product = product_rec.search([('barcode', '=', self.barcode)])
             self.product_id = product.id
 
-# vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
+
 
 class StockPickingBarCode(models.Model):
     _inherit = 'stock.picking'
