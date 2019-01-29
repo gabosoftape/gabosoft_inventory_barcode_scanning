@@ -41,12 +41,6 @@ class StockPickingBarCode(models.Model):
                 if move_products == products:
                     picking.picking_checked = True
 
-    barcode = fields.Char(string='Barcode')
-    x_temp_barcode = fields.Char("Barcode Tempo", required=False)
-    productcodes_ids = fields.One2many('list.productcode', 'picking_id', string='Productos')
-    picking_checked = fields.Boolean("Ready Picking", compute="_get_picking_checked")
-    log_scanner = fields.Char("log escaner", readonly=True)
-
 #        if self.barcode and self.move_lines:
 #            for line in self.move_lines:
 #                if line.product_id.barcode == self.barcode:
