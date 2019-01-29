@@ -12,12 +12,13 @@ class StockPickingOperation(models.Model):
 
     barcode = fields.Char(string='Barcode')
 
-    @api.onchange('barcode')
+    @api.onchange('temp_barcode')
     def _onchange_barcode_scan(self):
+        barcode = self.temp_barcode
         product_rec = self.env['product.product']
-        if self.barcode:
-            product = product_rec.search([('barcode', '=', self.barcode)])
-            self.product_id = product.id
+        if barcode:
+            product_id = product_rec.search([('temp_barcode', '=', barcode)])
+            self.product_id = product_id.id
 
 
 
@@ -60,7 +61,7 @@ class StockPickingBarCode(models.Model):
             self.temp_barcode = ""
         if barcode and product_id:
             new_lines = self.env['list.productcode']
-            real_lines = self.env['stock.move']
+            real_lines = self.env['stock.picking']
             size = len(self.productcodes_ids)
             if barcode and size > 0:
                 for line in self.productcodes_ids:
@@ -82,8 +83,7 @@ class StockPickingBarCode(models.Model):
                     'qty': 1,
                 })
                 new_lines += new_line
-            self.productcodes_ids += new_lines
-            self.move_lines += new_lines
+            self.productcodes_ids += new_line
             self.temp_barcode = ""
 
 
