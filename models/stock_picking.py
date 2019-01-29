@@ -17,7 +17,7 @@ class StockPickingOperation(models.Model):
         barcode = self.temp_barcode
         product_rec = self.env['product.product']
         if barcode:
-            product_id = product_rec.search([('temp_barcode', '=', barcode)])
+            product_id = product_rec.search([('barcode', '=', barcode)])
             self.product_id = product_id.id
 
 
