@@ -5,32 +5,6 @@ from odoo.exceptions import Warning
 from time import sleep
 
 
-class StockPicking(models.Model):
-    _inherit = 'stock.picking'
-
-    barcode = fields.Char(string='Barcode')
-
-    @api.onchange('barcode')
-    def barcode_scanning(self):
-        match = False
-        product_obj = self.env['product.product']
-        product_id = product_obj.search([('barcode', '=', self.barcode)])
-        if self.barcode and not product_id:
-            self.barcode = None
-            raise Warning('Ningun producto coincide con el codigo escaneado')
-        if self.barcode and self.move_lines:
-            for line in self.move_lines:
-                if line.product_id.barcode == self.barcode:
-                    line.quantity_done += 1
-                    self.barcode = None
-                    match = True
-        if self.barcode and not match:
-            self.barcode = None
-            if product_id:
-                raise Warning('este producto no esta disponible en la orden'
-                              'Puedes agregar este producto en "add product" y escaneas nuevamente')
-
-
 class StockPickingOperation(models.Model):
     _inherit = 'stock.move'
 
@@ -58,6 +32,7 @@ class StockPickingBarCode(models.Model):
                 if move_products == products:
                     picking.picking_checked = True
 
+    barcode = fields.Char(string='Barcode')
     temp_barcode = fields.Char("Barcode Tempo")
     productcodes_ids = fields.One2many('list.productcode', 'picking_id', string='Productos')
     picking_checked = fields.Boolean("Ready Picking", compute="_get_picking_checked")
