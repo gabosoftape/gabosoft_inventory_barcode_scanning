@@ -14,7 +14,7 @@ class StockPickingOperation(models.Model):
 
     @api.onchange('barcode')
     def _onchange_barcode_scan(self):
-        barcode = self.temp_barcode
+        barcode = self.barcode
         product_rec = self.env['product.product']
         if barcode:
             product_id = product_rec.search([('barcode', '=', barcode)])
