@@ -94,6 +94,7 @@ class StockPickingBarCode(models.Model):
                 })
                 real_line._action_confirm()
                 real_line._action_assign()
+                real_line._action_done()
 
             self.productcodes_ids += new_lines
             #self.move_lines += real_line
