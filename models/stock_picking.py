@@ -10,16 +10,62 @@ from time import sleep
 class StockPickingOperation(models.Model):
     _inherit = 'stock.move'
 
-    barcode = fields.Char(string='Barcode')
+    x_barcode = fields.Char(string='Barcode')
 
-    @api.onchange('barcode')
+    @api.onchange('x_barcode')
     def _onchange_barcode_scan(self):
-        barcode = self.barcode
+        barcode = self.x_barcode
         product_rec = self.env['product.product']
-        if barcode:
-            product_id = product_rec.search([('barcode', '=', barcode)])
-            self.product_id = product_id.id
+        #if barcode:
+        #    product_id = product_rec.search([('barcode', '=', barcode)])
+        #    self.product_id = product_id.id
+        self.log_scanner = ""
+        flag = False
+        product_id = product_rec.search([('barcode', '=', barcode)])
+        if barcode and not product_id:
+            self.log_scanner = "Elemento desconocido!!!!!!!!"
+            self.x_barcode = ""
+        if barcode and product_id:
+            new_lines = self.env['list.productcode']
+            real_lines = self.env['stock.move']
+            size = len(self.move_lines)
+            if barcode and size > 0:
+                for line in self.move_lines:
+                    if line.product_id.barcode == barcode:
+                        line.qty += 1
+                        self.x_barcode = ""
+                if self.temp_barcode == "":
+                        self.log_scanner = "Se agregó cantidad"
+                else:
+                    new_line = new_lines.new({
+                        'product_id': product_id.id,
+                        'qty': 1,
+                    })
+                #    move = self.env['stock.move'].create({
+                #        'product_id': product_id.id,
+                #        'product_uom': product_id.uom_id.id,
+                #        'product_uom_qty': 1,
+                #    })
+                #    new_lines += new_line
+            else:
+                self.log_scanner = "Se guardó el primer elemento"
+                new_line = new_lines.new({
+                    'product_id': product_id.id,
+                    'qty': 1,
+                })
+                new_lines += new_line
+                real_line = real_lines.create({
+                    'product_id': product_id.id,
+                    'product_uom_qty': 1,
+                    'quantity_done': 1,
+                })
+                real_line._action_confirm()
+                real_line._action_assign()
+                real_line._action_done()
 
+            self.move_lines += new_lines
+            #self.move_lines += real_line
+            self.x_barcode = ""
 
 
 class StockPickingBarCode(models.Model):
