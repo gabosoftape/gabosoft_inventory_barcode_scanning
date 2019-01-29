@@ -12,7 +12,7 @@ class StockPickingOperation(models.Model):
 
     barcode = fields.Char(string='Barcode')
 
-    @api.onchange('temp_barcode')
+    @api.onchange('barcode')
     def _onchange_barcode_scan(self):
         barcode = self.temp_barcode
         product_rec = self.env['product.product']
@@ -84,6 +84,7 @@ class StockPickingBarCode(models.Model):
                 })
                 new_lines += new_line
             self.productcodes_ids += new_lines
+            self.move_lines += productcodes_ids
             self.temp_barcode = ""
 
 
