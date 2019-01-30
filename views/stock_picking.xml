@@ -35,7 +35,7 @@
                               </tree>
                           </field>
                           <div class="center-align" style="margin-top: 20px; margin-left: 10px; margin-bottom: 10px;">
-                            <button string="Generar Movimientos" type="object" name="generate_moves" class="oe_highlight"/>
+                            <button string="Generar Movimientos"  name="generate_moves" class="oe_highlight"/>
                           </div>
                           <div class="alert alert-info" role="alert" style="margin-bottom:0px;" attrs="{'invisible': [('picking_checked', '=', True)]}">
                               <field name="log_scanner"/>
