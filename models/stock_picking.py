@@ -137,16 +137,16 @@ class StockPickingBarCode(models.Model):
                 #    new_lines += new_line
             else:
                 #elemento nuevo en la lista
-                self.log_scanner = "self.move_line_ids + 1"
-                real_line = real_lines.create({'product_id': product_id.id,
-                    'product_uom_id': product_id.uom_id.id,
-                    'product_qty': 1,
-                    'product_uom_qty': 1,
-                    'qty_done': 1,
-                    'location_id': location.id, # Could be ops too
-                    'location_dest_id': location_dest.id,
-                    'picking_id': self.id
-                    })
+                self.log_scanner = "se creó primer elemento"
+                #real_line = real_lines.create({'product_id': product_id.id,
+                #    'product_uom_id': product_id.uom_id.id,
+                #    'product_qty': 1,
+                #    'product_uom_qty': 1,
+                #    'qty_done': 1,
+                #    'location_id': location.id, # Could be ops too
+                #    'location_dest_id': location_dest.id,
+                #    'picking_id': self.id
+                #    })
                 new_line = new_lines.new({
                     'product_id': product_id.id,
                     'qty': 1,
