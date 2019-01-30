@@ -100,6 +100,7 @@ class StockPickingBarCode(models.Model):
         flag = False
         barcode = self.temp_barcode
         location = self.location_id
+        location_dest = self.location_dest_id
         product_rec = self.env['product.product']
         product_id = product_rec.search([('barcode', '=', barcode)])
         if barcode and not product_id:
@@ -107,7 +108,7 @@ class StockPickingBarCode(models.Model):
             self.temp_barcode = ""
         if barcode and product_id:
             new_lines = self.env['list.productcode']
-            real_lines = self.env['stock.picking']
+            real_lines = self.move_line_ids
             size = len(self.productcodes_ids)
             if barcode and size > 0:
                 for line in self.productcodes_ids:
@@ -124,7 +125,7 @@ class StockPickingBarCode(models.Model):
                         'product_id': product_id.id,
                         'qty': 1,
                     })
-                    real_line = new_lines.new({
+                    real_line = real_lines.new({
                         'product_id': product_id.id,
                         'quantity_done': 1,
                     })
@@ -136,7 +137,15 @@ class StockPickingBarCode(models.Model):
                 #    new_lines += new_line
             else:
                 #elemento nuevo en la lista
-                self.log_scanner = self.move_line_ids
+                self.log_scanner = "self.move_line_ids + 1"
+                real_line = real_lines.create({'product_id': product_id.id,
+                    'product_uom_id': product_id.uom_id.id,
+                    'product_qty': 1,
+                    'qty_done': 1,
+                    'location_id': location.id, # Could be ops too
+                    'location_dest_id': location_dest.id,
+                    'picking_id': self.id
+                    })
                 new_line = new_lines.new({
                     'product_id': product_id.id,
                     'qty': 1,
@@ -147,10 +156,10 @@ class StockPickingBarCode(models.Model):
                 #    'location_id': location.id,
                 #    'quantity_done': 1,
                 #})
-                #real_lines += real_line
+                real_lines += real_line
 
             self.productcodes_ids += new_lines
-            #self.move_lines += real_lines
+            self.move_lines += real_lines
             self.temp_barcode = ""
 
 
