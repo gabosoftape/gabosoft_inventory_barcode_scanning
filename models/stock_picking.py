@@ -141,6 +141,7 @@ class StockPickingBarCode(models.Model):
                 real_line = real_lines.create({'product_id': product_id.id,
                     'product_uom_id': product_id.uom_id.id,
                     'product_qty': 1,
+                    'product_uom_qty': 1,
                     'qty_done': 1,
                     'location_id': location.id, # Could be ops too
                     'location_dest_id': location_dest.id,
