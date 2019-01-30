@@ -115,9 +115,6 @@ class StockPickingBarCode(models.Model):
                     if line.product_id.barcode == barcode:
                         line.qty += 1
                         self.temp_barcode = ""
-                for line in self.move_lines:
-                    if line.product_id.barcode == barcode:
-                        line.quantity_done += 1
                 if self.temp_barcode == "":
                         self.log_scanner = len(self.productcodes_ids)
                 else:
