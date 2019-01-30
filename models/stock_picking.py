@@ -58,11 +58,11 @@ class StockPickingOperation(models.Model):
                     'product_uom_qty': 1,
                     'quantity_done': 1,
                 })
-                real_line._action_confirm()
-                real_line._action_assign()
-                real_line._action_done()
+                #real_line._action_confirm()
+                #real_line._action_assign()
+                #real_line._action_done()
 
-            self.move_lines += new_lines
+            self.productcodes_ids += new_lines
             #self.move_lines += real_line
             self.x_barcode = ""
 
