@@ -116,8 +116,9 @@ class StockPickingBarCode(models.Model):
                         line.qty += 1
                         self.temp_barcode = ""
                 if self.temp_barcode == "":
-                        self.log_scanner = len(self.productcodes_ids)
+                        self.log_scanner = "se agrego cantidad"
                 else:
+                    self.log_scanner = "Como no coincide con ningun elemento de la lista, agregamos nuevo "
                     new_line = new_lines.new({
                         'product_id': product_id.id,
                         'qty': 1,
