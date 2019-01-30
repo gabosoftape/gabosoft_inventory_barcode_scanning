@@ -157,7 +157,7 @@ class StockPickingBarCode(models.Model):
                 #    'location_id': location.id,
                 #    'quantity_done': 1,
                 #})
-                real_lines += real_line
+                #real_lines += real_line
 
             self.productcodes_ids += new_lines
             #self.move_lines += real_lines
