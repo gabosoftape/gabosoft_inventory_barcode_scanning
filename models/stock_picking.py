@@ -99,7 +99,7 @@ class StockPickingBarCode(models.Model):
         self.log_scanner = ""
         flag = False
         barcode = self.temp_barcode
-        sisas = self.location_id.name
+        location = self.location_id
         product_rec = self.env['product.product']
         product_id = product_rec.search([('barcode', '=', barcode)])
         if barcode and not product_id:
@@ -135,18 +135,19 @@ class StockPickingBarCode(models.Model):
                 #    })
                 #    new_lines += new_line
             else:
-                self.log_scanner = sisas
+                #elemento nuevo en la lista
+                self.log_scanner = location.name
                 new_line = new_lines.new({
                     'product_id': product_id.id,
                     'qty': 1,
                 })
                 new_lines += new_line
-            #    real_line = real_lines.create({
-            #        'product_id': product_id.id,
-            #        'location_id': self.location_dest_id,
-            #        'quantity_done': 1,
-            #    })
-            #    real_lines += real_line
+                real_line = real_lines.create({
+                    'product_id': product_id.id,
+                    'location_id': location.id,
+                    'quantity_done': 1,
+                })
+                real_lines += real_line
 
             self.productcodes_ids += new_lines
             #self.move_lines += real_line
