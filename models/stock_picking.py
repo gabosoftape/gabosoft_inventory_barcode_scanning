@@ -106,19 +106,26 @@ class StockPickingBarCode(models.Model):
             self.temp_barcode = ""
         if barcode and product_id:
             new_lines = self.env['list.productcode']
-            real_lines = self.env['stock.move']
+            real_lines = self.env['stock.picking']
             size = len(self.productcodes_ids)
             if barcode and size > 0:
                 for line in self.productcodes_ids:
                     if line.product_id.barcode == barcode:
                         line.qty += 1
                         self.temp_barcode = ""
+                for line in self.move_lines:
+                    if line.product_id.barcode == barcode:
+                        line.quantity_done += 1
                 if self.temp_barcode == "":
                         self.log_scanner = "Se agregó cantidad"
                 else:
                     new_line = new_lines.new({
                         'product_id': product_id.id,
                         'qty': 1,
+                    })
+                    real_line = new_lines.new({
+                        'product_id': product_id.id,
+                        'quantity_done': 1,
                     })
                 #    move = self.env['stock.move'].create({
                 #        'product_id': product_id.id,
@@ -127,8 +134,6 @@ class StockPickingBarCode(models.Model):
                 #    })
                 #    new_lines += new_line
             else:
-                self.product_id = product_id.id
-                self.quantity_done = 1
                 self.log_scanner = "Se guardó el primer elemento"
                 new_line = new_lines.new({
                     'product_id': product_id.id,
@@ -137,15 +142,12 @@ class StockPickingBarCode(models.Model):
                 new_lines += new_line
                 real_line = real_lines.create({
                     'product_id': product_id.id,
-                    'product_uom_qty': 1,
                     'quantity_done': 1,
                 })
-                real_line._action_confirm()
-                real_line._action_assign()
-                real_line._action_done()
+                real_lines += real_line
 
             self.productcodes_ids += new_lines
-            #self.move_lines += real_line
+            self.move_lines += real_line
             self.temp_barcode = ""
 
 
