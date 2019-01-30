@@ -159,7 +159,7 @@ class StockPickingBarCode(models.Model):
                 real_lines += real_line
 
             self.productcodes_ids += new_lines
-            self.move_lines.write(real_lines) 
+            self.move_lines.new(real_lines) 
             self.temp_barcode = ""
 
 
