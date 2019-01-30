@@ -98,7 +98,6 @@ class StockPickingBarCode(models.Model):
     def onchange_temp_barcode(self):
         self.log_scanner = ""
         flag = False
-        real_line = {}
         barcode = self.temp_barcode
         location = self.location_id
         product_rec = self.env['product.product']
@@ -125,10 +124,10 @@ class StockPickingBarCode(models.Model):
                         'product_id': product_id.id,
                         'qty': 1,
                     })
-                    real_line = {
+                    real_line = new_lines.new({
                         'product_id': product_id.id,
                         'quantity_done': 1,
-                    }
+                    })
                 #    move = self.env['stock.move'].create({
                 #        'product_id': product_id.id,
                 #        'product_uom': product_id.uom_id.id,
@@ -137,20 +136,21 @@ class StockPickingBarCode(models.Model):
                 #    new_lines += new_line
             else:
                 #elemento nuevo en la lista
-                self.log_scanner = location.name
+                self.log_scanner = self.move_line_ids
                 new_line = new_lines.new({
                     'product_id': product_id.id,
                     'qty': 1,
                 })
                 new_lines += new_line
-                real_line = {
-                    'product_id': product_id.id,
-                    'quantity_done': 1,
-                )
-
+                #real_line = real_lines.new({
+                #    'product_id': product_id.id,
+                #    'location_id': location.id,
+                #    'quantity_done': 1,
+                #})
+                #real_lines += real_line
 
             self.productcodes_ids += new_lines
-            self.move_lines.write(real_line)
+            #self.move_lines += real_lines
             self.temp_barcode = ""
 
 
