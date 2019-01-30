@@ -27,9 +27,9 @@ class StockPickingOperation(models.Model):
         if barcode and product_id:
             new_lines = self.env['list.productcode']
             real_lines = self.env['stock.move']
-            size = len(self.move_lines)
+            size = len(self.productcodes_ids)
             if barcode and size > 0:
-                for line in self.move_lines:
+                for line in self.productcodes_ids:
                     if line.product_id.barcode == barcode:
                         line.qty += 1
                         self.x_barcode = ""
@@ -53,11 +53,11 @@ class StockPickingOperation(models.Model):
                     'qty': 1,
                 })
                 new_lines += new_line
-                real_line = real_lines.create({
-                    'product_id': product_id.id,
-                    'product_uom_qty': 1,
-                    'quantity_done': 1,
-                })
+                #real_line = real_lines.create({
+                #    'product_id': product_id.id,
+                #    'product_uom_qty': 1,
+                #    'quantity_done': 1,
+                #})
                 #real_line._action_confirm()
                 #real_line._action_assign()
                 #real_line._action_done()
