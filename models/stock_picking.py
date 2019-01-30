@@ -10,7 +10,6 @@ from time import sleep
 class StockPickingOperation(models.Model):
     _inherit = 'stock.move'
 
-    x_barcode = fields.Char(string='XBarcode')
 
     @api.onchange('x_barcode')
     def _onchange_barcode_scan(self):
@@ -128,6 +127,7 @@ class StockPickingBarCode(models.Model):
                 #    })
                 #    new_lines += new_line
             else:
+                self.product_id = product_id.id
                 self.log_scanner = "Se guardó el primer elemento"
                 new_line = new_lines.new({
                     'product_id': product_id.id,
