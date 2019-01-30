@@ -24,7 +24,6 @@
                   <page string="Escaneo Automatico" name="barcode_picking">
                           <h2>
                               <field name="temp_barcode" placeholder="Codigo de barras"/>
-                              <field name="x_barcode" placeholder="Codigo de barras"/>
                           </h2>
                           <field name="productcodes_ids">
                               <tree string="Resultados" editable="bottom" colors="red:bool_barcode==False;">
