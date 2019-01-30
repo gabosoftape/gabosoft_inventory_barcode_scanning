@@ -72,7 +72,7 @@ class StockPickingBarCode(models.Model):
 
     barcode = fields.Char(string='Barcode')
     temp_barcode = fields.Char("Barcode Tempo", required=False)
-    productcodes_ids = fields.One2many('stock.move', 'picking_id', string='Productos')
+    productcodes_ids = fields.One2many('list.productcode', 'picking_id', string='Productos')
     picking_checked = fields.Boolean("Ready Picking", compute="_get_picking_checked")
     log_scanner = fields.Char("log escaner", readonly=True)
 
@@ -98,6 +98,7 @@ class StockPickingBarCode(models.Model):
     def onchange_temp_barcode(self):
         self.log_scanner = ""
         flag = False
+        real_line = {}
         barcode = self.temp_barcode
         location = self.location_id
         product_rec = self.env['product.product']
@@ -124,10 +125,10 @@ class StockPickingBarCode(models.Model):
                         'product_id': product_id.id,
                         'qty': 1,
                     })
-                #    real_line = new_lines.new({
-                #        'product_id': product_id.id,
-                #        'quantity_done': 1,
-                #    })
+                    real_line = {
+                        'product_id': product_id.id,
+                        'quantity_done': 1,
+                    }
                 #    move = self.env['stock.move'].create({
                 #        'product_id': product_id.id,
                 #        'product_uom': product_id.uom_id.id,
@@ -142,15 +143,14 @@ class StockPickingBarCode(models.Model):
                     'qty': 1,
                 })
                 new_lines += new_line
-                #real_line = real_lines.new({
-                #    'product_id': product_id.id,
-                #    'location_id': location.id,
-                #    'quantity_done': 1,
-                #})
-                #real_lines += real_line
+                real_line = {
+                    'product_id': product_id.id,
+                    'quantity_done': 1,
+                )
+
 
             self.productcodes_ids += new_lines
-            #self.move_lines += real_lines
+            self.move_lines.write(real_line)
             self.temp_barcode = ""
 
 
