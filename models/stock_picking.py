@@ -99,7 +99,7 @@ class StockPickingBarCode(models.Model):
         self.log_scanner = ""
         flag = False
         barcode = self.temp_barcode
-        sisas = len(self.location_id)
+        sisas = self.location_id.id
         product_rec = self.env['product.product']
         product_id = product_rec.search([('barcode', '=', barcode)])
         if barcode and not product_id:
