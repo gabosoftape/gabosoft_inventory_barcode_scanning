@@ -99,6 +99,7 @@ class StockPickingBarCode(models.Model):
         self.log_scanner = ""
         flag = False
         barcode = self.temp_barcode
+        sisas = len(self.location_id)
         product_rec = self.env['product.product']
         product_id = product_rec.search([('barcode', '=', barcode)])
         if barcode and not product_id:
@@ -134,7 +135,7 @@ class StockPickingBarCode(models.Model):
                 #    })
                 #    new_lines += new_line
             else:
-                self.log_scanner = self.location_id
+                self.log_scanner = sisas
                 new_line = new_lines.new({
                     'product_id': product_id.id,
                     'qty': 1,
