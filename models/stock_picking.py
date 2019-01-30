@@ -164,7 +164,12 @@ class StockPickingBarCode(models.Model):
     @api.multi
     def generate_moves(self):
     #Generates a random name between 9 and 15 characters long and writes it to the record.
-        self.log_scanner = "Se presiono el boton generar moves"
+        #self.ensure_one()
+        #for lines in self.productcodes_ids:
+        #    for move_line in self.move_lines:
+        #        line.
+        self.log_scanner= "se dio click al button"
+        return self 
 
 #move.move_line_ids.write({'qty_done': qty}) # This creates a stock.move.line record. You could also do it manually
 #move._action_done()
