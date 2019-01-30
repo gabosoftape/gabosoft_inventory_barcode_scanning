@@ -140,7 +140,6 @@ class StockPickingBarCode(models.Model):
                 self.log_scanner = "self.move_line_ids + 1"
                 real_line = real_lines.create({'product_id': product_id.id,
                     'product_uom_id': product_id.uom_id.id,
-                    'product_qty': 1,
                     'product_uom_qty': 1,
                     'qty_done': 1,
                     'location_id': location.id, # Could be ops too
