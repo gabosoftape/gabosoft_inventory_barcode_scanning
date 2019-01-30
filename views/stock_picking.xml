@@ -37,6 +37,7 @@
                           <div class="alert alert-info" role="alert" style="margin-bottom:0px;" attrs="{'invisible': [('picking_checked', '=', True)]}">
                               <field name="log_scanner"/>
                           </div>
+                          <button string="Generar Movimientos" type="object" name="generate_moves" class="oe_highlight"/>
                       </page>
                 </notebook>
             </field>
