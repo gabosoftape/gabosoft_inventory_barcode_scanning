@@ -132,7 +132,7 @@ class StockPickingBarCode(models.Model):
                 #        'product_uom': product_id.uom_id.id,
                 #        'product_uom_qty': 1,
                 #    })
-                #    new_lines += new_line
+                    new_lines += new_line
             else:
                 #elemento nuevo en la lista
                 self.log_scanner = "se creó primer elemento"
