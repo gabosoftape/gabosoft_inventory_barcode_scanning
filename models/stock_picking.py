@@ -133,7 +133,7 @@ class StockPickingBarCode(models.Model):
                 #        'product_uom_qty': 1,
                 #    })
                     new_lines += new_line
-                    real_lines += real_line
+                    real_lines.move_lines += real_line
             else:
                 #elemento nuevo en la lista
                 self.log_scanner = "se creó primer elemento"
@@ -155,10 +155,10 @@ class StockPickingBarCode(models.Model):
                     'product_id': product_id.id,
                     'quantity_done': 1,
                 })
-                real_lines += real_line
+                real_lines.move_lines += real_line
 
             self.productcodes_ids += new_lines
-            self.move_lines += real_lines
+            #self.move_lines += real_lines
             self.temp_barcode = ""
 
     @api.multi
