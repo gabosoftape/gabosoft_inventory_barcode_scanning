@@ -129,7 +129,7 @@ class StockPickingBarCode(models.Model):
             else:
                 #elemento nuevo en la lista
                 self.log_scanner = "se creó primer elemento"
-                real_lines.create({'product_id': product_id.id,
+                real_lines.move_lines.create({'product_id': product_id.id,
                     'product_uom_id': product_id.uom_id.id,
                     'product_qty': 1,
                     'product_uom_qty': 1,
