@@ -142,13 +142,7 @@ class StockPickingBarCode(models.Model):
                     'qty': 1,
                 })
                 new_lines += new_line
-                move = self.env['stock.move'].create({
-                    'product_id': product_id.id,
-                    'product_uom': product_id.uom_id.id,
-                    'product_uom_qty': 1,
-                })
-                new_lines += new_line
-                self.move_lines += move
+                
 
             self.productcodes_ids += new_lines
             #self.move_lines += real_lines
