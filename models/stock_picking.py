@@ -147,7 +147,6 @@ class StockPickingBarCode(models.Model):
 
 
             self.productcodes_ids += new_lines
-            self.move_lines += real_lines
             self.temp_barcode = ""
 
     @api.multi
@@ -158,7 +157,7 @@ class StockPickingBarCode(models.Model):
         #    for move_line in self.move_lines:
         #        line.
         self.log_scanner= "se dio click al button"
-        return self.productcodes_ids
+        return {}
 
 
 #move.move_line_ids.write({'qty_done': qty}) # This creates a stock.move.line record. You could also do it manually
