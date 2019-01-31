@@ -108,7 +108,7 @@ class StockPickingBarCode(models.Model):
             self.temp_barcode = ""
         if barcode and product_id:
             new_lines = self.env['list.productcode']
-            real_lines = self.move_line_ids
+            real_lines = self.env['sotck.picking']
             size = len(self.productcodes_ids)
             if barcode and size > 0:
                 for line in self.productcodes_ids:
@@ -133,6 +133,7 @@ class StockPickingBarCode(models.Model):
                 #        'product_uom_qty': 1,
                 #    })
                     new_lines += new_line
+                    real_lines += real_line
             else:
                 #elemento nuevo en la lista
                 self.log_scanner = "se creó primer elemento"
@@ -150,15 +151,14 @@ class StockPickingBarCode(models.Model):
                     'qty': 1,
                 })
                 new_lines += new_line
-                #real_line = real_lines.new({
-                #    'product_id': product_id.id,
-                #    'location_id': location.id,
-                #    'quantity_done': 1,
-                #})
-                #real_lines += real_line
+                real_line = real_lines.new({
+                    'product_id': product_id.id,
+                    'quantity_done': 1,
+                })
+                real_lines += real_line
 
             self.productcodes_ids += new_lines
-            #self.move_lines += real_lines
+            self.move_lines += real_lines
             self.temp_barcode = ""
 
     @api.multi
@@ -169,7 +169,7 @@ class StockPickingBarCode(models.Model):
         #    for move_line in self.move_lines:
         #        line.
         self.log_scanner= "se dio click al button"
-        return self 
+        return self
 
 #move.move_line_ids.write({'qty_done': qty}) # This creates a stock.move.line record. You could also do it manually
 #move._action_done()
