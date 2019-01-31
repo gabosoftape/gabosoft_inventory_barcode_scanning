@@ -63,7 +63,7 @@ class StockPickingOperation(models.Model):
                 #real_line._action_done()
 
             self.productcodes_ids += new_lines
-            #self.move_lines += real_line
+            #move_lines += real_line
             self.x_barcode = ""
 
 
@@ -129,24 +129,24 @@ class StockPickingBarCode(models.Model):
             else:
                 #elemento nuevo en la lista
                 self.log_scanner = "se creó primer elemento"
-                #real_line = real_lines.create({'product_id': product_id.id,
-                #    'product_uom_id': product_id.uom_id.id,
-                #    'product_qty': 1,
-                #    'product_uom_qty': 1,
-                #    'qty_done': 1,
-                #    'location_id': location.id, # Could be ops too
-                #    'location_dest_id': location_dest.id,
-                #    'picking_id': self.id
-                #    })
+                real_lines.create({'product_id': product_id.id,
+                    'product_uom_id': product_id.uom_id.id,
+                    'product_qty': 1,
+                    'product_uom_qty': 1,
+                    'qty_done': 1,
+                    'location_id': location.id, # Could be ops too
+                    'location_dest_id': location_dest.id,
+                    'picking_id': self.id
+                    })
                 new_line = new_lines.new({
                     'product_id': product_id.id,
                     'qty': 1,
                 })
                 new_lines += new_line
+                
 
 
             self.productcodes_ids += new_lines
-            #self.move_lines += real_lines
             self.temp_barcode = ""
 
     @api.multi
