@@ -129,14 +129,6 @@ class StockPickingBarCode(models.Model):
             else:
                 #elemento nuevo en la lista
                 self.log_scanner = "se creó primer elemento"
-                real_lines.move_lines.new({'product_id': product_id.id,
-                    'product_uom_id': product_id.uom_id.id,
-                    'product_qty': 1,
-                    'qty_done': 1,
-                    'location_id': location.id, # Could be ops too
-                    'location_dest_id': location_dest.id,
-                    'picking_id': self.id
-                    })
                 new_line = new_lines.new({
                     'product_id': product_id.id,
                     'qty': 1,
@@ -152,9 +144,8 @@ class StockPickingBarCode(models.Model):
     def generate_moves(self):
     #Generates a random name between 9 and 15 characters long and writes it to the record.
         #self.ensure_one()
-        #for lines in self.productcodes_ids:
-        #    for move_line in self.move_lines:
-        #        line.
+        real_lines.move_lines = self.productcodes_ids
+
         self.log_scanner= "se dio click al button"
         return {}
 
