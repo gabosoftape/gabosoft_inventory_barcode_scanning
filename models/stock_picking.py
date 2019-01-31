@@ -150,7 +150,7 @@ class StockPickingBarCode(models.Model):
             self.temp_barcode = ""
 
     @api.multi
-    def generate_moves(self):
+    def generate_moves():
     #Generates a random name between 9 and 15 characters long and writes it to the record.
         #self.ensure_one()
         #for lines in self.productcodes_ids:
