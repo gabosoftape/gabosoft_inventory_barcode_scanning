@@ -124,6 +124,7 @@ class StockPickingBarCode(models.Model):
                         'product_id': product_id.id,
                         'qty': 1,
                     })
+                    new_lines += new_line
 
             else:
                 #elemento nuevo en la lista
@@ -142,7 +143,7 @@ class StockPickingBarCode(models.Model):
                     'qty': 1,
                 })
                 new_lines += new_line
-                
+
 
             self.productcodes_ids += new_lines
             #self.move_lines += real_lines
