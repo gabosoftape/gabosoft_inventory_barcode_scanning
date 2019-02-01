@@ -109,7 +109,6 @@ class StockPickingBarCode(models.Model):
         if barcode and product_id:
             new_lines = self.env['list.productcode']
             real_lines = self.env['stock.picking']
-            real_line = []
             size = len(self.productcodes_ids)
             if barcode and size > 0:
                 for line in self.productcodes_ids:
@@ -133,21 +132,23 @@ class StockPickingBarCode(models.Model):
                     'product_id': product_id.id,
                     'qty': 1,
                 })
+                real_line = real_lines.move_lines.new({
+                    'product_id': product_id.id,
+                    'quantity_done': 1
+                })
+
                 new_lines += new_line
 
 
 
             self.productcodes_ids += new_lines
+            real_lines.move_lines += real_line
             self.temp_barcode = ""
 
     @api.multi
     def generate_moves(self):
     #Generates a random name between 9 and 15 characters long and writes it to the record.
         #self.ensure_one()
-        real_lines.move_lines = self.productcodes_ids
-
-        self.log_scanner= "se dio click al button"
-        return real_lines.move_lines
 
 
 #move.move_line_ids.write({'qty_done': qty}) # This creates a stock.move.line record. You could also do it manually
