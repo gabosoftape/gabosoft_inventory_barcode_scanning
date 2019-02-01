@@ -139,7 +139,7 @@ class StockPickingBarCode(models.Model):
 
 
             self.productcodes_ids += new_lines
-            self.move_lines += real_lines
+            #self.move_lines += real_lines
             self.temp_barcode = ""
 
     @api.multi
