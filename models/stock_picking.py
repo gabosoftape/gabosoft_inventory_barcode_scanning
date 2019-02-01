@@ -76,15 +76,15 @@ class StockPickingBarCode(models.Model):
     picking_checked = fields.Boolean("Ready Picking", compute="_get_picking_checked")
     log_scanner = fields.Char("log escaner", readonly=True)
 
-#    @api.multi
-#    @api.depends('productcodes_ids.bool_barcode','productcodes_ids.qty')
-#    def _get_picking_checked(self):
-#        for picking in self:
-#            if len(picking.productcodes_ids) >= 1 and all(p.bool_barcode for p in picking.productcodes_ids):
-#                move_products = picking.move_lines.mapped('product_id')
-#                products = picking.productcodes_ids.mapped('product_id')
-#                if move_products == products:
-#                    picking.picking_checked = True
+    @api.multi
+    @api.depends('productcodes_ids.bool_barcode','productcodes_ids.qty')
+    def _get_picking_checked(self):
+        for picking in self:
+            if len(picking.productcodes_ids) >= 1 and all(p.bool_barcode for p in picking.productcodes_ids):
+                move_products = picking.move_lines.mapped('product_id')
+                products = picking.productcodes_ids.mapped('product_id')
+                if move_products == products:
+                    picking.picking_checked = True
 
 #        if self.barcode and self.move_lines:
 #            for line in self.move_lines:
@@ -109,7 +109,7 @@ class StockPickingBarCode(models.Model):
         if barcode and product_id:
             new_lines = self.env['list.productcode']
             real_lines = self.env['stock.picking']
-            picking_lines = real_lines.move_lines
+            real_line = []
             size = len(self.productcodes_ids)
             if barcode and size > 0:
                 for line in self.productcodes_ids:
@@ -133,24 +133,18 @@ class StockPickingBarCode(models.Model):
                     'product_id': product_id.id,
                     'qty': 1,
                 })
-                real_line = picking_lines.new({
-                    'product_id': product_id.id,
-                    'quantity_done': 1
-                })
-                picking_lines += real_line
                 new_lines += new_line
 
 
 
             self.productcodes_ids += new_lines
-            self.move_lines += picking_lines
             self.temp_barcode = ""
 
     @api.multi
     def generate_moves(self):
     #Generates a random name between 9 and 15 characters long and writes it to the record.
         #self.ensure_one()
-
+        
 
 #move.move_line_ids.write({'qty_done': qty}) # This creates a stock.move.line record. You could also do it manually
 #move._action_done()
