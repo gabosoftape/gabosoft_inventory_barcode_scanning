@@ -146,6 +146,7 @@ class StockPickingBarCode(models.Model):
         #self.ensure_one()
         
 
+        return {}
 #move.move_line_ids.write({'qty_done': qty}) # This creates a stock.move.line record. You could also do it manually
 #move._action_done()
 
