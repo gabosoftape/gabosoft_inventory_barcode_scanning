@@ -130,14 +130,6 @@ class StockPickingBarCode(models.Model):
             else:
                 #elemento nuevo en la lista
                 self.log_scanner = "se creó primer elemento"
-                picking_lines.create({'product_id': product_id.id,
-                    'product_uom_id': product_id.uom_id.id,
-                    'product_qty': 1,
-                    'quantity_done': 1,
-                    'location_id': location.id, # Could be ops too
-                    'location_dest_id': location_dest.id,
-                    'picking_id': self.id
-                    })
                 new_line = new_lines.new({
                     'product_id': product_id.id,
                     'qty': 1,
@@ -147,18 +139,27 @@ class StockPickingBarCode(models.Model):
 
 
             self.productcodes_ids += new_lines
-            self.move_lines += picking_lines
+            self.move_lines += real_lines
             self.temp_barcode = ""
 
     @api.multi
     def generate_moves(self):
     #Generates a random name between 9 and 15 characters long and writes it to the record.
-        #self.ensure_one()
-        #for lines in self.productcodes_ids:
+        self.ensure_one()
+        location = self.location_id
+        location_dest = self.location_dest_id
+        for lines in self.productcodes_ids:
+            self.move_lines.new({'product_id': lines.product_id,
+                'product_qty': lines.qty,
+                'qty_done': lines.qty,
+                'location_id': location.id, # Could be ops too
+                'location_dest_id': location_dest.id,
+                'picking_id': self.id
+                })
         #    for move_line in self.move_lines:
         #        line.
-
-        return {}
+        self.log_scanner= "se dio click al button"
+        return self.productcodes_ids
 
 
 #move.move_line_ids.write({'qty_done': qty}) # This creates a stock.move.line record. You could also do it manually
