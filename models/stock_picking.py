@@ -159,7 +159,7 @@ class StockPickingBarCode(models.Model):
         #    for move_line in self.move_lines:
         #        line.
         self.log_scanner= "se dio click al button"
-        return self.productcodes_ids
+        return self.move_lines
 
 
 #move.move_line_ids.write({'qty_done': qty}) # This creates a stock.move.line record. You could also do it manually
