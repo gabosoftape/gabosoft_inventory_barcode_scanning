@@ -146,9 +146,9 @@ class StockPickingBarCode(models.Model):
             self.temp_barcode = ""
         if barcode and product_id:
             new_lines = self.env['list.productcode']
-            real_lines = self.env['stock.move']
-            #picking_lines = real_lines.move_lines
-            real_line = []
+            real_lines = self.env['stock.move.lines']
+            picking_lines = {}
+            real_line = {}
             size = len(self.productcodes_ids)
             if barcode and size > 0:
                 for line in self.productcodes_ids:
@@ -164,8 +164,7 @@ class StockPickingBarCode(models.Model):
                         'qty': 1,
                     })
                     new_lines += new_line
-                    real_lines.product_id = product_id.id
-                    real_lines.product_uom_qty = 1
+
 
             else:
                 #elemento nuevo en la lista
