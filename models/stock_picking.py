@@ -146,7 +146,6 @@ class StockPickingBarCode(models.Model):
             self.temp_barcode = ""
         if barcode and product_id:
             new_lines = self.env['list.productcode']
-            real_lines = self.env['stock.picking']
             picking_lines = {}
             real_line = {}
             size = len(self.productcodes_ids)
@@ -155,6 +154,10 @@ class StockPickingBarCode(models.Model):
                     if line.product_id.barcode == barcode:
                         line.qty += 1
                         self.temp_barcode = ""
+                #for line in self.move_lines:
+                #    if line.product_id.barcode == self.barcode:
+                #        line.quantity_done += 1
+                #        self.barcode = None
                 if self.temp_barcode == "":
                         self.log_scanner = "se agrego cantidad"
                 else:
@@ -174,28 +177,30 @@ class StockPickingBarCode(models.Model):
                     'qty': 1,
                 })
                 new_lines += new_line
+                real_line = {
+                    'product_id': product_id.id,
+                    'quantity_done': 1,
+                }
+                self.move_lines += real_line
 
 
 
             self.productcodes_ids += new_lines
-            #self.move_lines += real_lines
             self.temp_barcode = ""
 
     @api.multi
     def generate_moves(self):
         self.ensure_one()
+        picking_obj = self.env['stock.move']
+        product_rec = self.env['product.product']
         location = self.location_id
         location_dest = self.location_dest_id
         for lines in self.productcodes_ids:
-            self.move_lines.new({'product_id': lines.product_id,
-                'product_qty': lines.qty,
-                'qty_done': lines.qty,
-                'location_id': location.id, # Could be ops too
-                'location_dest_id': location_dest.id,
-                'picking_id': self.id
-                })
+            picking_obj.product_id =
+
         #    for move_line in self.move_lines:
         #        line.
+
         self.log_scanner= "se dio click al button"
         return self.move_lines
 
