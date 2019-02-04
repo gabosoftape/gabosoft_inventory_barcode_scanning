@@ -190,9 +190,12 @@ class StockPickingBarCode(models.Model):
         product_rec = self.env['product.product']
         location = self.location_id
         location_dest = self.location_dest_id
-        for line in self:
-                 line.move_lines.product_id = line.productcodes_ids.product_id
-                 line.move_lines.quantity_done = line.productcodes_ids.qty
+        for line in self.productcodes_ids:
+            new_line = {
+                'product_id': line.product_id,
+                'quantity_done': line.qty,
+            }
+            picking_obj.move_lines += new_line
         for picking in self:
             if len(picking.productcodes_ids) >= 1 and all(p.bool_barcode for p in picking.productcodes_ids):
                 move_products = picking.move_lines.mapped('product_id')
