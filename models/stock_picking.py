@@ -177,11 +177,6 @@ class StockPickingBarCode(models.Model):
                     'qty': 1,
                 })
                 new_lines += new_line
-                real_line = {
-                    'product_id': product_id.id,
-                    'quantity_done': 1,
-                }
-                self.move_lines += real_line
 
 
 
