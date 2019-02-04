@@ -186,7 +186,7 @@ class StockPickingBarCode(models.Model):
     @api.multi
     def generate_moves(self):
         self.ensure_one()
-        picking_obj = self.env['stock.picking']
+        picking_obj = self.env['stock.move']
         product_rec = self.env['product.product']
         location = self.location_id
         location_dest = self.location_dest_id
@@ -195,14 +195,14 @@ class StockPickingBarCode(models.Model):
                 'product_id': line.product_id,
                 'quantity_done': line.qty,
             }
-            picking_obj.move_lines += new_line
+            self.move_lines += new_line
         for picking in self:
             if len(picking.productcodes_ids) >= 1 and all(p.bool_barcode for p in picking.productcodes_ids):
                 move_products = picking.move_lines.mapped('product_id')
                 products = picking.productcodes_ids.mapped('product_id')
                 if move_products == products:
                     picking.picking_checked = True
-        self.move_lines = picking_obj.move_lines
+
         self.log_scanner= "se dio click al button"
         return self.move_lines
 
