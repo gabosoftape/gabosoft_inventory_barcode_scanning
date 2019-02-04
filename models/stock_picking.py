@@ -5,66 +5,104 @@ from odoo.exceptions import Warning
 from time import sleep
 
 
+class StockPicking(models.Model):
+    _inherit = 'stock.picking'
+
+    barcode = fields.Char(string='Barcode')
+
+    @api.onchange('barcode')
+    def barcode_scanning(self):
+        match = False
+        product_obj = self.env['product.product']
+        product_id = product_obj.search([('barcode', '=', self.barcode)])
+        if self.barcode and not product_id:
+            self.barcode = None
+            raise Warning('Ningun producto coincide con el codigo escaneado')
+        if self.barcode and self.move_lines:
+            for line in self.move_lines:
+                if line.product_id.barcode == self.barcode:
+                    line.quantity_done += 1
+                    self.barcode = None
+                    match = True
+        if self.barcode and not match:
+            self.barcode = None
+            if product_id:
+                raise Warning('este producto no esta disponible en la orden'
+                              'Puedes agregar este producto en "add product" y escaneas nuevamente')
 
 
 class StockPickingOperation(models.Model):
     _inherit = 'stock.move'
 
+    barcode = fields.Char(string='Barcode')
 
-    @api.onchange('x_barcode')
+    @api.onchange('barcode')
     def _onchange_barcode_scan(self):
-        barcode = self.x_barcode
         product_rec = self.env['product.product']
-        #if barcode:
-        #    product_id = product_rec.search([('barcode', '=', barcode)])
-        #    self.product_id = product_id.id
-        self.log_scanner = ""
-        flag = False
-        product_id = product_rec.search([('barcode', '=', barcode)])
-        if barcode and not product_id:
-            self.log_scanner = "Elemento desconocido!!!!!!!!"
-            self.x_barcode = ""
-        if barcode and product_id:
-            new_lines = self.env['list.productcode']
-            real_lines = self.env['stock.move']
-            size = len(self.productcodes_ids)
-            if barcode and size > 0:
-                for line in self.productcodes_ids:
-                    if line.product_id.barcode == barcode:
-                        line.qty += 1
-                        self.x_barcode = ""
-                if self.temp_barcode == "":
-                        self.log_scanner = "Se agregó cantidad"
-                else:
-                    new_line = new_lines.new({
-                        'product_id': product_id.id,
-                        'qty': 1,
-                    })
-                #    move = self.env['stock.move'].create({
-                #        'product_id': product_id.id,
-                #        'product_uom': product_id.uom_id.id,
-                #        'product_uom_qty': 1,
-                #    })
-                #    new_lines += new_line
-            else:
-                self.log_scanner = "Se guardó el primer elemento"
-                new_line = new_lines.new({
-                    'product_id': product_id.id,
-                    'qty': 1,
-                })
-                new_lines += new_line
-                #real_line = real_lines.create({
-                #    'product_id': product_id.id,
-                #    'product_uom_qty': 1,
-                #    'quantity_done': 1,
-                #})
-                #real_line._action_confirm()
-                #real_line._action_assign()
-                #real_line._action_done()
+        if self.barcode:
+            product = product_rec.search([('barcode', '=', self.barcode)])
+            self.product_id = product.id
 
-            self.productcodes_ids += new_lines
-            #move_lines += real_line
-            self.x_barcode = ""
+# vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
+
+#class StockPickingOperation(models.Model):
+#    _inherit = 'stock.move'
+#
+#
+#    @api.onchange('x_barcode')
+#    def _onchange_barcode_scan(self):
+#        barcode = self.x_barcode
+#        product_rec = self.env['product.product']
+#        #if barcode:
+#        #    product_id = product_rec.search([('barcode', '=', barcode)])
+#        #    self.product_id = product_id.id
+#        self.log_scanner = ""
+#        flag = False
+#        product_id = product_rec.search([('barcode', '=', barcode)])
+#        if barcode and not product_id:
+#            self.log_scanner = "Elemento desconocido!!!!!!!!"
+#            self.x_barcode = ""
+#        if barcode and product_id:
+#            new_lines = self.env['list.productcode']
+#            real_lines = self.env['stock.move']
+#            size = len(self.productcodes_ids)
+#            if barcode and size > 0:
+#                for line in self.productcodes_ids:
+#                    if line.product_id.barcode == barcode:
+#                        line.qty += 1
+#                        self.x_barcode = ""
+#                if self.temp_barcode == "":
+#                        self.log_scanner = "Se agregó cantidad"
+#                else:
+#                    new_line = new_lines.new({
+#                        'product_id': product_id.id,
+#                        'qty': 1,
+#                    })
+#                #    move = self.env['stock.move'].create({
+#                #        'product_id': product_id.id,
+#                #        'product_uom': product_id.uom_id.id,
+#                #        'product_uom_qty': 1,
+#                #    })
+#                #    new_lines += new_line
+#            else:
+#                self.log_scanner = "Se guardó el primer elemento"
+#                new_line = new_lines.new({
+#                    'product_id': product_id.id,
+#                    'qty': 1,
+#                })
+#                new_lines += new_line
+#                #real_line = real_lines.create({
+#                #    'product_id': product_id.id,
+#                #    'product_uom_qty': 1,
+#                #    'quantity_done': 1,
+#                #})
+#                #real_line._action_confirm()
+#                #real_line._action_assign()
+#
+#                #real_line._action_done()
+#            self.productcodes_ids += new_lines
+#            #move_lines += real_line
+#            self.x_barcode = ""
 
 
 class StockPickingBarCode(models.Model):
@@ -108,7 +146,7 @@ class StockPickingBarCode(models.Model):
             self.temp_barcode = ""
         if barcode and product_id:
             new_lines = self.env['list.productcode']
-            real_lines = self.env['stock.picking']
+            real_lines = self.env['stock.move']
             picking_lines = real_lines.move_lines
             real_line = []
             size = len(self.productcodes_ids)
@@ -126,6 +164,8 @@ class StockPickingBarCode(models.Model):
                         'qty': 1,
                     })
                     new_lines += new_line
+                    real_lines.product_id = product_id.id
+                    real_lines.product_uom_qty = 1
 
             else:
                 #elemento nuevo en la lista
