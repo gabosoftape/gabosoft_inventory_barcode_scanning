@@ -78,7 +78,7 @@ class StockPickingOperation(models.Model):
 #                        'product_id': product_id.id,
 #                        'qty': 1,
 #                    })
-#                #    move = self.env['stock.move'].create({
+#                #    move = self.env['stock.move'].({
 #                #        'product_id': product_id.id,
 #                #        'product_uom': product_id.uom_id.id,
 #                #        'product_uom_qty': 1,
@@ -91,7 +91,7 @@ class StockPickingOperation(models.Model):
 #                    'qty': 1,
 #                })
 #                new_lines += new_line
-#                #real_line = real_lines.create({
+#                #real_line = real_lines.({
 #                #    'product_id': product_id.id,
 #                #    'product_uom_qty': 1,
 #                #    'quantity_done': 1,
@@ -186,7 +186,7 @@ class StockPickingBarCode(models.Model):
     @api.multi
     def generate_moves(self):
         self.ensure_one()
-        picking_obj = self.env['stock.move']
+        picking_obj = self.env['stock.picking']
         product_rec = self.env['product.product']
         location = self.location_id
         location_dest = self.location_dest_id
@@ -202,12 +202,12 @@ class StockPickingBarCode(models.Model):
                 products = picking.productcodes_ids.mapped('product_id')
                 if move_products == products:
                     picking.picking_checked = True
-
+        self.move_lines = picking_obj.move_lines
         self.log_scanner= "se dio click al button"
         return self.move_lines
 
 
-#move.move_line_ids.write({'qty_done': qty}) # This creates a stock.move.line record. You could also do it manually
+#move.move_line_ids.write({'qty_done': qty}) # This s a stock.move.line record. You could also do it manually
 #move._action_done()
 
 
