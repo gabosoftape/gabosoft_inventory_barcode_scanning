@@ -192,7 +192,7 @@ class StockPickingBarCode(models.Model):
         location_dest = self.location_dest_id
         for line in self.productcodes_ids:
             new_line = {
-                'product_id': line.product_id,
+                'product_id': line.product_id.id,
                 'quantity_done': line.qty,
             }
             self.move_lines += new_line
