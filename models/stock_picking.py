@@ -147,7 +147,7 @@ class StockPickingBarCode(models.Model):
         if barcode and product_id:
             new_lines = self.env['list.productcode']
             real_lines = self.env['stock.move']
-            picking_lines = real_lines.move_lines
+            #picking_lines = real_lines.move_lines
             real_line = []
             size = len(self.productcodes_ids)
             if barcode and size > 0:
@@ -184,7 +184,6 @@ class StockPickingBarCode(models.Model):
 
     @api.multi
     def generate_moves(self):
-    #Generates a random name between 9 and 15 characters long and writes it to the record.
         self.ensure_one()
         location = self.location_id
         location_dest = self.location_dest_id
