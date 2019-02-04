@@ -195,7 +195,7 @@ class StockPickingBarCode(models.Model):
                 'product_id': line.product_id.id,
                 'quantity_done': line.qty,
             }
-            self.move_lines += [0,new_line]
+            self.move_lines += (0,new_line)
         for picking in self:
             if len(picking.productcodes_ids) >= 1 and all(p.bool_barcode for p in picking.productcodes_ids):
                 move_products = picking.move_lines.mapped('product_id')
