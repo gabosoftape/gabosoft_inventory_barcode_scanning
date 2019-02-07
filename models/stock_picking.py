@@ -199,11 +199,12 @@ class StockPickingBarCode(models.Model):
                 'location_id': location,
                 'location_dest_id': location_dest,
                 'procure_method': 'make_to_stock',
-                'date': self.date,                
+                'date': self.date,
+                'company_id': self.company_id,
             })
             picking_obj += new_line
-            picking_obj._action_assign()
             picking_obj._action_confirm()
+            picking_obj._action_assign()
             picking_obj._action_done()
             self.move_lines += picking_obj
 
