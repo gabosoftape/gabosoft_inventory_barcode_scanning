@@ -235,4 +235,4 @@ class ListProductcode(models.Model):
     product_id = fields.Many2one('product.product', string='Producto')
     qty = fields.Float("Cantidad", default=1)
     picking_id = fields.Many2one('stock.picking', "Picking", ondelete='cascade')
-    #bool_barcode = fields.Boolean("Barcode Checked", compute="_get_bool_barcode")
+    bool_barcode = fields.Boolean("Barcode Checked" default=True)
