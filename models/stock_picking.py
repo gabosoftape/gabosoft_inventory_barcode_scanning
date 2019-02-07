@@ -16,7 +16,7 @@ class StockPicking(models.Model):
         product_obj = self.env['product.product']
         product_id = product_obj.search([('barcode', '=', self.barcode)])
         if self.barcode and not product_id:
-            self.barcode = None
+        #    self.barcode = None
             raise Warning('Ningun producto coincide con el codigo escaneado')
         if self.barcode and self.move_lines:
             for line in self.move_lines:
