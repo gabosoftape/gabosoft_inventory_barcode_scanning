@@ -188,8 +188,6 @@ class StockPickingBarCode(models.Model):
                     'product_id': product_id.id,
                     'quantity_done': 1,
                     'product_uom': 1,
-
-
                 })
                 real_lines += real_line
 
