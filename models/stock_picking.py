@@ -195,7 +195,6 @@ class StockPickingBarCode(models.Model):
 
     @api.multi
     def generate_moves(self):
-        self.ensure_one()
         RES = {}
         picking_obj = self.env['stock.move']
         product_rec = self.env['product.product']
@@ -241,6 +240,6 @@ class ListProductcode(models.Model):
     @api.multi
     @api.depends('qty')
     def _get_bool_barcode(self):
-        for record in self:
-            move = record.picking_id.move_lines.filtered(lambda r: r.product_id.id == record.product_id.id)
-            record.bool_barcode = record.qty == move.product_uom_qty and True or False
+        #for record in self:
+        #    move = record.picking_id.move_lines.filtered(lambda r: r.product_id.id == record.product_id.id)
+        #    record.bool_barcode = record.qty == move.product_uom_qty and True or False
