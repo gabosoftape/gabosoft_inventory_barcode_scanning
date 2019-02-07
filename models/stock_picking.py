@@ -164,6 +164,9 @@ class StockPickingBarCode(models.Model):
                         'qty': 1,
                     })
                     new_lines += new_line
+
+
+
             else:
                 #elemento nuevo en la lista
                 self.log_scanner = "se creó primer elemento"
