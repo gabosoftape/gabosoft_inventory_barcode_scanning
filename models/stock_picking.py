@@ -186,6 +186,7 @@ class StockPickingBarCode(models.Model):
     @api.multi
     def generate_moves(self):
         self.ensure_one()
+        RES = {}
         picking_obj = self.env['stock.move']
         product_rec = self.env['product.product']
         location = self.location_id
@@ -195,7 +196,8 @@ class StockPickingBarCode(models.Model):
                 'product_id': line.product_id.id,
                 'quantity_done': line.qty,
             }
-            self.move_lines += (0,new_line)
+            picking_obj += new_line
+        self.move_lines = picking_obj
         for picking in self:
             if len(picking.productcodes_ids) >= 1 and all(p.bool_barcode for p in picking.productcodes_ids):
                 move_products = picking.move_lines.mapped('product_id')
@@ -203,8 +205,8 @@ class StockPickingBarCode(models.Model):
                 if move_products == products:
                     picking.picking_checked = True
 
-        self.log_scanner= self.move_lines
-        return {}
+        self.log_scanner = self.move_lines
+        return RES
 
 
 #move.move_line_ids.write({'qty_done': qty}) # This s a stock.move.line record. You could also do it manually
