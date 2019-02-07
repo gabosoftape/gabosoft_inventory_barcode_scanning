@@ -171,7 +171,6 @@ class StockPickingBarCode(models.Model):
                         'quantity_done': 1,
                         'product_uom': 1,
                         'state': 'done',
-                        'is_locked': True,
                     })
                     real_lines += real_line
 
@@ -185,11 +184,11 @@ class StockPickingBarCode(models.Model):
                 })
                 new_lines += new_line
                 real_line = real_lines.new({
+                    'name': self.name,
                     'product_id': product_id.id,
                     'quantity_done': 1,
                     'product_uom': 1,
                     'state': 'done',
-                    'is_locked': True,
                 })
                 real_lines += real_line
 
