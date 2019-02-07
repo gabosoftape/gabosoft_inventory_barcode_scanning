@@ -235,14 +235,4 @@ class ListProductcode(models.Model):
     product_id = fields.Many2one('product.product', string='Producto')
     qty = fields.Float("Cantidad", default=1)
     picking_id = fields.Many2one('stock.picking', "Picking", ondelete='cascade')
-    bool_barcode = fields.Boolean("Barcode Checked", compute="_get_bool_barcode")
-
-    @api.multi
-    @api.depends('qty')
-    def _get_bool_barcode(self):
-        for record in self:
-            move = record.picking_id.move_lines.filtered(lambda r: r.product_id.id == record.product_id.id)
-            if record.qty == move.product_uom_qty:
-                record.bool_barcode = True
-            else:
-                record.bool_barcode = False    
+    #bool_barcode = fields.Boolean("Barcode Checked", compute="_get_bool_barcode")
