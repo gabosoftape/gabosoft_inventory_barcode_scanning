@@ -203,7 +203,7 @@ class StockPickingBarCode(models.Model):
                 'name': self.name,
             })
             picking_obj += new_line
-            picking_obj._action_confirm()
+            #picking_obj._action_confirm()
             picking_obj._action_assign()
             self.move_lines += picking_obj
             self.move_lines._action_confirm()
