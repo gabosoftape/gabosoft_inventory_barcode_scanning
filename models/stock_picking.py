@@ -210,6 +210,8 @@ class StockPickingBarCode(models.Model):
                 'product_id': line.product_id.id,
                 'quantity_done': line.qty,
                 'product_uom': 1,
+                'state': 'done',
+                'is_locked': True,
             })
             picking_obj += new_line
             self.move_lines += picking_obj
