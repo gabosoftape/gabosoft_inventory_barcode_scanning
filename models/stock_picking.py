@@ -205,6 +205,7 @@ class StockPickingBarCode(models.Model):
             new_line = picking_obj.new({
                 'barcode': line.barcode,
                 'quantity_done': line.qty,
+                'name': self.name,
             })
             picking_obj += new_line
             self.move_lines += picking_obj
