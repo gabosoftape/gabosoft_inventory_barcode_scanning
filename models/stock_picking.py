@@ -198,16 +198,10 @@ class StockPickingBarCode(models.Model):
                 'product_uom': 1,
             })
             picking_obj += new_line
-        self.move_lines = picking_obj
-        for picking in self:
-            if len(picking.productcodes_ids) >= 1 and all(p.bool_barcode for p in picking.productcodes_ids):
-                move_products = picking.move_lines.mapped('product_id')
-                products = picking.productcodes_ids.mapped('product_id')
-                if move_products == products:
-                    picking.picking_checked = True
+            self.move_lines += picking_obj
 
-        self.log_scanner = self.move_lines
-        return RES
+        self.log_scanner = "self.move_lines ok"
+        return self.move_lines
 
 
 #move.move_line_ids.write({'qty_done': qty}) # This s a stock.move.line record. You could also do it manually
