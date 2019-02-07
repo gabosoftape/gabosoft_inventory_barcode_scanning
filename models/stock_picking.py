@@ -192,7 +192,6 @@ class StockPickingBarCode(models.Model):
             new_line = picking_obj.new({
                 'barcode': line.barcode,
                 'quantity_done': line.qty,
-                'name': self.name,
                 'product_id': line.product_id.id,
                 'date_expected': self.scheduled_date,
                 'product_uom': 1,
@@ -201,6 +200,7 @@ class StockPickingBarCode(models.Model):
                 'procure_method': 'make_to_stock',
                 'date': self.date,
                 'company_id': self.company_id,
+                'name': self.name,
             })
             picking_obj += new_line
             picking_obj._action_assign()
