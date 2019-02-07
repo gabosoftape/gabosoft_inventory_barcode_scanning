@@ -22,10 +22,10 @@ class StockPicking(models.Model):
             for line in self.move_lines:
                 if line.product_id.barcode == self.barcode:
                     line.quantity_done += 1
-                    self.barcode = None
+        #            self.barcode = None
                     match = True
         if self.barcode and not match:
-            self.barcode = None
+        #    self.barcode = None
             if product_id:
                 raise Warning('este producto no esta disponible en la orden'
                               'Puedes agregar este producto en "add product" y escaneas nuevamente')
