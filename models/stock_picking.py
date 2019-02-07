@@ -201,11 +201,10 @@ class StockPickingBarCode(models.Model):
         product_rec = self.env['product.product']
         location = self.location_id
         location_dest = self.location_dest_id
-        stock_location = self.env.ref('stock.stock_location_stock')
         for line in self.productcodes_ids:
-            new_line = picking_obj.create({
+            new_line = picking_obj.new({
                 'barcode': line.barcode,
-                'product_uom_qty': line.qty,
+                'quantity_done': line.qty,
                 'name': self.name,
                 'product_id': line.product_id.id,
                 'date_expected': self.scheduled_date,
@@ -213,15 +212,12 @@ class StockPickingBarCode(models.Model):
                 'location_id': location,
                 'location_dest_id': location_dest,
             })
-            new_line._action_confirm()
-            new_line._action_assign()
-            new_line._action_done()
             picking_obj += new_line
-
+            picking_obj._action_confirm()
+            picking_obj._action_assign()
             self.move_lines += picking_obj
-            # This creates a stock.move.line record.
-            # You could also do it manually using self.env['stock.move.line'].create({...})
-            #move.move_line_ids.write({'qty_done': qty})
+
+
         self.log_scanner = "self.move_lines ok"
         return self.move_lines
 
