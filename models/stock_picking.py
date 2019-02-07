@@ -242,4 +242,7 @@ class ListProductcode(models.Model):
     def _get_bool_barcode(self):
         for record in self:
             move = record.picking_id.move_lines.filtered(lambda r: r.product_id.id == record.product_id.id)
-            record.bool_barcode = record.qty == move.product_uom_qty and True or False
+            if record.qty == move.product_uom_qty:
+                record.bool_barcode = True
+            else:
+                record.bool_barcode = False    
