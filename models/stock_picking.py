@@ -166,11 +166,7 @@ class StockPickingBarCode(models.Model):
                         'qty': 1,
                     })
                     new_lines += new_line
-                    real_line = real_lines.new({
-                        'barcode': barcode,
-                        'quantity_done': 1,
-                    })
-                    real_lines += real_line
+
 
 
             else:
@@ -207,12 +203,11 @@ class StockPickingBarCode(models.Model):
         location_dest = self.location_dest_id
         for line in self.productcodes_ids:
             new_line = picking_obj.new({
-                'product_id': line.product_id.id,
+                'barcode': line.barcode,
                 'quantity_done': line.qty,
-                'product_uom': 1,
-                'state': 'done',
-                'is_locked': True,
             })
+            })
+            real_lines += real_line
             picking_obj += new_line
             self.move_lines += picking_obj
 
