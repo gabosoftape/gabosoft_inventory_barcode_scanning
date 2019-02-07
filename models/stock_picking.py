@@ -209,6 +209,7 @@ class StockPickingBarCode(models.Model):
                 'product_id': line.product_id.id,
                 'date_expected': self.scheduled_date,
                 'product_uom': 1,
+                'product_uom_qty': line.qty,
                 'location_id': location,
                 'location_dest_id': location_dest,
                 'procure_method': 'make_to_stock'
