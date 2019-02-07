@@ -178,7 +178,7 @@ class StockPickingBarCode(models.Model):
                 })
                 real_line = real_lines.new({
                     'product_id': product_id.id,
-                    'qty_done': 1,
+                    'quantity_done': 1,
                 })
                 new_lines += new_line
                 real_lines += real_line
