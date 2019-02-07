@@ -216,10 +216,11 @@ class StockPickingBarCode(models.Model):
             picking_obj += new_line
             picking_obj._action_confirm()
             picking_obj._action_assign()
+            picking_obj._action_done()
             self.move_lines += picking_obj
 
 
-        self.log_scanner = "self.move_lines ok"
+        self.log_scanner = "se guardaron los movimientos ok"
         return self.move_lines
 
 
