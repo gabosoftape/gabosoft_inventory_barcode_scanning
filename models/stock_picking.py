@@ -111,7 +111,7 @@ class StockPickingBarCode(models.Model):
     barcode = fields.Char(string='Barcode')
     temp_barcode = fields.Char("Barcode Tempo", required=False)
     productcodes_ids = fields.One2many('list.productcode', 'picking_id', string='Productos')
-    picking_checked = fields.Boolean("Ready Picking", compute="_get_picking_checked")
+    picking_checked = fields.Boolean("Ready Picking", default=True)
     log_scanner = fields.Char("log escaner", readonly=True)
 
 #    @api.multi
