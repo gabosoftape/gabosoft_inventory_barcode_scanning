@@ -147,7 +147,7 @@ class StockPickingBarCode(models.Model):
         if barcode and product_id:
             new_lines = self.env['list.productcode']
             picking_lines = {}
-            real_line = self.env['stock.move']
+            real_lines = self.env['stock.move']
             size = len(self.productcodes_ids)
             if barcode and size > 0:
                 for line in self.productcodes_ids:
