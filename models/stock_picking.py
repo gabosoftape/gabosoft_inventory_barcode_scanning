@@ -176,18 +176,11 @@ class StockPickingBarCode(models.Model):
                     'product_id': product_id.id,
                     'qty': 1,
                 })
-                real_line = real_lines.new({
-                    'product_id': product_id.id,
-                    'quantity_done': 1,
-                    'product_uom': 1,
-                })
                 new_lines += new_line
-                real_lines += real_line
 
 
 
             self.productcodes_ids += new_lines
-            self.move_lines += real_lines
             self.temp_barcode = ""
 
     @api.multi
@@ -199,10 +192,11 @@ class StockPickingBarCode(models.Model):
         location = self.location_id
         location_dest = self.location_dest_id
         for line in self.productcodes_ids:
-            new_line = {
+            new_line = picking_obj.new({
                 'product_id': line.product_id.id,
                 'quantity_done': line.qty,
-            }
+                'product_uom': 1,
+            })
             picking_obj += new_line
         self.move_lines = picking_obj
         for picking in self:
