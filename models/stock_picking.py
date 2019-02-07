@@ -206,8 +206,6 @@ class StockPickingBarCode(models.Model):
                 'barcode': line.barcode,
                 'quantity_done': line.qty,
             })
-            })
-            real_lines += real_line
             picking_obj += new_line
             self.move_lines += picking_obj
 
