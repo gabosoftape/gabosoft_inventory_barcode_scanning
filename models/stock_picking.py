@@ -190,7 +190,6 @@ class StockPickingBarCode(models.Model):
 
     @api.multi
     def generate_moves(self):
-        RES = {}
         picking_obj = self.env['stock.move']
         product_rec = self.env['product.product']
         location = self.location_id
@@ -234,9 +233,9 @@ class ListProductcode(models.Model):
     picking_id = fields.Many2one('stock.picking', "Picking", ondelete='cascade')
     bool_barcode = fields.Boolean("Barcode Checked", default=True)
 
-    @api.multi
-    @api.depends('qty')
-    def _get_bool_barcode(self):
-        for record in self:
-            move = record.picking_id.move_lines.filtered(lambda r: r.product_id.id == record.product_id.id)
-            record.bool_barcode = record.qty == move.product_uom_qty and True or False
+    #@api.multi
+    #@api.depends('qty')
+    #def _get_bool_barcode(self):
+    #    for record in self:
+    #        move = record.picking_id.move_lines.filtered(lambda r: r.product_id.id == record.product_id.id)
+    #        record.bool_barcode = record.qty == move.product_uom_qty and True or False
