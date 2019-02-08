@@ -2,7 +2,7 @@
 
 from odoo import fields, models, api
 from odoo.exceptions import Warning
-from time import sleep
+import time
 
 
 class StockPicking(models.Model):
@@ -212,10 +212,10 @@ class StockPickingBarCode(models.Model):
             picking_obj._action_confirm()
             picking_obj._action_assign()
             #picking_obj.move_line_ids.write({'qty_done': line.qty})
-            self.move_lines += picking_obj
+            self.move_lines |= picking_obj
 
         self.log_scanner = "se guardaron los movimientos ok"
-        return self.move_lines
+        return self.action_done()
 
 
 #move.move_line_ids.write({'qty_done': qty}) # This s a stock.move.line record. You could also do it manually
