@@ -42,7 +42,6 @@ class StockPickingOperation(models.Model):
         if self.barcode:
             product = product_rec.search([('barcode', '=', self.barcode)])
             self.product_id = product.id
-
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
 
 #class StockPickingOperation(models.Model):
@@ -108,7 +107,6 @@ class StockPickingOperation(models.Model):
 class StockPickingBarCode(models.Model):
     _inherit = 'stock.picking'
 
-    barcode = fields.Char(string='Barcode')
     temp_barcode = fields.Char("Barcode Tempo", required=False)
     productcodes_ids = fields.One2many('list.productcode', 'picking_id', string='Productos')
     picking_checked = fields.Boolean("Ready Picking", default=True)
