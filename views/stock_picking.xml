@@ -39,7 +39,7 @@
                           <div class="center-align" style="margin-top: 20px; margin-left: 10px; margin-bottom: 10px;">
                             <button type="object" string="Grabar" name="generate_moves" class="oe_highlight"/>
                           </div>
-                          <div class="alert alert-info" role="alert" style="margin-bottom:0px;" attrs="{'invisible': [('picking_checked', '=', True)]}">
+                          <div class="alert alert-info" role="alert" style="margin-bottom:0px;">
                               <field name="log_scanner"/>
                           </div>
 
