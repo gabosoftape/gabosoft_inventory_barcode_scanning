@@ -199,7 +199,6 @@ class StockPickingBarCode(models.Model):
                 'location_dest_id': location_dest,
                 'procure_method': 'make_to_stock',
                 'date': self.date,
-                'state':'asigned'
                 'company_id': self.company_id,
                 'name': self.name,
             })
@@ -207,7 +206,7 @@ class StockPickingBarCode(models.Model):
             picking_obj._action_confirm()
             picking_obj._action_assign()
             self.move_lines += picking_obj
-
+            self.move_lines._action_confirm()
 
 
         self.log_scanner = "se guardaron los movimientos ok"
