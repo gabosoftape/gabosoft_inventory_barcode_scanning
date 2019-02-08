@@ -42,7 +42,6 @@ class StockPickingOperation(models.Model):
         if self.barcode:
             product = product_rec.search([('barcode', '=', self.barcode)])
             self.product_id = product.id
-
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
 
 #class StockPickingOperation(models.Model):
@@ -108,7 +107,6 @@ class StockPickingOperation(models.Model):
 class StockPickingBarCode(models.Model):
     _inherit = 'stock.picking'
 
-    barcode = fields.Char(string='Barcode')
     temp_barcode = fields.Char("Barcode Tempo", required=False)
     productcodes_ids = fields.One2many('list.productcode', 'picking_id', string='Productos')
     picking_checked = fields.Boolean("Ready Picking", default=True)
@@ -166,9 +164,6 @@ class StockPickingBarCode(models.Model):
                         'qty': 1,
                     })
                     new_lines += new_line
-
-
-
             else:
                 #elemento nuevo en la lista
                 self.log_scanner = "se creó primer elemento"
@@ -177,6 +172,18 @@ class StockPickingBarCode(models.Model):
                     'qty': 1,
                 })
                 new_lines += new_line
+                real_line = real_lines.new({
+                    'name': self.name,
+                    'product_id': product_id.id,
+                    'quantity_done': 1,
+                    'product_uom': 1,
+                    'state':'done',
+                    'date_expected': self.scheduled_date,
+                })
+                real_lines += real_line
+
+
+
             self.productcodes_ids += new_lines
             self.move_lines += real_lines
             self.temp_barcode = ""
@@ -205,6 +212,7 @@ class StockPickingBarCode(models.Model):
             picking_obj += new_line
             picking_obj._action_confirm()
             picking_obj._action_assign()
+            #picking_obj.move_line_ids.write({'qty_done': line.qty})
             self.move_lines += picking_obj
             self.move_lines._action_confirm()
 
@@ -226,3 +234,10 @@ class ListProductcode(models.Model):
     qty = fields.Float("Cantidad", default=1)
     picking_id = fields.Many2one('stock.picking', "Picking", ondelete='cascade')
     bool_barcode = fields.Boolean("Barcode Checked", default=True)
+
+    @api.multi
+    @api.depends('qty')
+    def _get_bool_barcode(self):
+        #for record in self:
+        #    move = record.picking_id.move_lines.filtered(lambda r: r.product_id.id == record.product_id.id)
+        #    record.bool_barcode = record.qty == move.product_uom_qty and True or False
