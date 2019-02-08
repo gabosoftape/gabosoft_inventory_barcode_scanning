@@ -213,7 +213,6 @@ class StockPickingBarCode(models.Model):
             picking_obj._action_assign()
             #picking_obj.move_line_ids.write({'qty_done': line.qty})
             self.move_lines += picking_obj
-            self.move_lines._action_confirm()
 
         self.log_scanner = "se guardaron los movimientos ok"
         return self.move_lines
@@ -239,3 +238,6 @@ class ListProductcode(models.Model):
     #    for record in self:
     #        move = record.picking_id.move_lines.filtered(lambda r: r.product_id.id == record.product_id.id)
     #        record.bool_barcode = record.qty == move.product_uom_qty and True or False
+
+class productProduct(models.Model):
+    _inherit = 'product.product'
