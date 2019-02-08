@@ -114,16 +114,16 @@ class StockPickingBarCode(models.Model):
     picking_checked = fields.Boolean("Ready Picking", default=True)
     log_scanner = fields.Char("log escaner", readonly=True)
 
-    @api.multi
-    @api.depends('productcodes_ids.bool_barcode','productcodes_ids.qty')
-    def _get_picking_checked(self):
-        for picking in self:
-            if len(picking.productcodes_ids) >= 1 and all(p.bool_barcode for p in picking.productcodes_ids):
-                move_products = picking.move_lines.mapped('product_id')
-                products = picking.productcodes_ids.mapped('product_id')
-                if move_products == products:
-                    picking.picking_checked = True
-
+#    @api.multi
+#    @api.depends('productcodes_ids.bool_barcode','productcodes_ids.qty')
+#    def _get_picking_checked(self):
+#        for picking in self:
+#            if len(picking.productcodes_ids) >= 1 and all(p.bool_barcode for p in picking.productcodes_ids):
+#                move_products = picking.move_lines.mapped('product_id')
+#                products = picking.productcodes_ids.mapped('product_id')
+#                if move_products == products:
+#                    picking.picking_checked = True
+#
 #        if self.barcode and self.move_lines:
 #            for line in self.move_lines:
 #                if line.product_id.barcode == self.barcode:
