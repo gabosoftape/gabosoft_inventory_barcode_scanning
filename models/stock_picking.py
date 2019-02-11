@@ -245,5 +245,4 @@ class productProduct(models.Model):
 
 class productTemplate(models.Model):
     _inherit = 'product.template'
-
     talla = fialds.Char('Talla') 
