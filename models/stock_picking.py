@@ -238,11 +238,6 @@ class ListProductcode(models.Model):
     #        record.bool_barcode = record.qty == move.product_uom_qty and True or False
 
 class productProduct(models.Model):
-    _inherit = 'product.product'
-
-    color = fields.Char('Color')
-    talla = fields.Char('Talla')
-
-class productTemplate(models.Model):
     _inherit = 'product.template'
-    talla = fialds.Char('Talla') 
+
+    talla = fields.Char('Talla')
