@@ -239,3 +239,6 @@ class ListProductcode(models.Model):
 
 class productProduct(models.Model):
     _inherit = 'product.product'
+
+    color = fields.Char('Color')
+    talla = fields.Char('Talla')
