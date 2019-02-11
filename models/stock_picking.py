@@ -242,3 +242,8 @@ class productProduct(models.Model):
 
     color = fields.Char('Color')
     talla = fields.Char('Talla')
+
+class productTemplate(models.Model):
+    _inherit = 'product.template'
+
+    talla = fialds.Char('Talla') 
