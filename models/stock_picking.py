@@ -240,4 +240,5 @@ class ListProductcode(models.Model):
 class productProduct(models.Model):
     _inherit = 'product.template'
 
-    talla = fields.Char('Talla')
+    default_talla = fields.Char('Talla')
+    default_color = fields.Char('Color')
