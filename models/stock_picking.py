@@ -226,6 +226,8 @@ class ListProductcode(models.Model):
     barcode = fields.Char('Codigo de Barras', related='product_id.barcode')
     default_code = fields.Char('Referencia', related='product_id.default_code')
     product_id = fields.Many2one('product.product', string='Producto')
+    talla = fields.Char('Talla', related='product_id.default_talla')
+    color = fields.Char('Color', related='product_id.default_color')
     qty = fields.Float("Cantidad", default=1)
     picking_id = fields.Many2one('stock.picking', "Picking", ondelete='cascade')
     bool_barcode = fields.Boolean("Barcode Checked", default=True)
