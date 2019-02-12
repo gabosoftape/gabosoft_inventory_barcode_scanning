@@ -199,6 +199,8 @@ class StockPickingBarCode(models.Model):
                 'quantity_done': line.qty,
                 'product_id': line.product_id.id,
                 'product_uom': 1,
+                'location_id': location,
+                'location_dest_id': location_dest,
                 })
             picking_obj |= new_line
             picking_obj._action_confirm()
