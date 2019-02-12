@@ -214,6 +214,7 @@ class StockPickingBarCode(models.Model):
             new_line._action_assign()
             new_line.move_line_ids.write({'qty_done': line.qty})
             new_line._action_done()
+            stock_q |= line_stock
             picking_obj |= new_line
             #picking_obj.move_line_ids.write({'qty_done': line.qty})
             self.move_lines |= picking_obj
