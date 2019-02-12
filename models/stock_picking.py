@@ -205,13 +205,6 @@ class StockPickingBarCode(models.Model):
                 'is_locked': True,
 
                 })
-
-            stock_q.create({
-                'product_id': line.product_id.id,
-                'location_id': location_dest.id,
-                'quantity': line.qty,
-                'in_date': fields.Datetime.now(),
-            })
             new_line._action_confirm()
             new_line._action_assign()
             new_line.move_line_ids.write({'qty_done': line.qty})
