@@ -190,6 +190,7 @@ class StockPickingBarCode(models.Model):
     def generate_moves(self):
         picking_obj = self.env['stock.move']
         product_rec = self.env['product.product']
+        stock_location = self.env.ref('stock.stock_location_stock')
         location = self.location_id
         location_dest = self.location_dest_id
         for line in self.productcodes_ids:
@@ -199,8 +200,8 @@ class StockPickingBarCode(models.Model):
                 'quantity_done': line.qty,
                 'product_id': line.product_id.id,
                 'product_uom': 1,
-                'location_id': location,
-                'location_dest_id': location_dest,
+                'location_id': stock_location.id,
+                'location_dest_id': location_dest.id,
                 })
             picking_obj |= new_line
             picking_obj._action_confirm()
