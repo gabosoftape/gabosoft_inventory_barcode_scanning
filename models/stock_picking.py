@@ -200,9 +200,10 @@ class StockPickingBarCode(models.Model):
                 'quantity_done': line.qty,
                 'product_id': line.product_id.id,
                 'product_uom': 1,
-                'product_uom_qty': 0,
                 'location_id': location.id,
                 'location_dest_id': location_dest.id,
+                'is_locked': True,
+
                 })
             new_line._action_confirm()
             new_line._action_assign()
