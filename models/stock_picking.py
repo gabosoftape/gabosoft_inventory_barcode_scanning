@@ -190,27 +190,27 @@ class StockPickingBarCode(models.Model):
     def generate_moves(self):
         picking_obj = self.env['stock.move']
         product_rec = self.env['product.product']
-        stock_location = self.env.ref('stock.stock_location_stock')
+        #stock_location = self.env.ref('stock.stock_location_stock')
         location = self.location_id
         location_dest = self.location_dest_id
         for line in self.productcodes_ids:
             new_line = picking_obj.create({
-                'name': 'Escaneo automatizado',
+                'name': _('Nuevo Moove:') + line.product_id.display_name,
                 'barcode': line.barcode,
                 'quantity_done': line.qty,
                 'product_id': line.product_id.id,
                 'product_uom': 1,
-                'location_id': stock_location.id,
+                'location_id': location.id,
                 'location_dest_id': location_dest.id,
                 })
+            new_line._action_confirm()
             picking_obj |= new_line
-            picking_obj._action_confirm()
             picking_obj._action_assign()
-            picking_obj.move_line_ids.write({'qty_done': line.qty})
+            #picking_obj.move_line_ids.write({'qty_done': line.qty})
             self.move_lines += picking_obj
 
         self.log_scanner = "se guardaron los movimientos ok"
-        return self.action_done()
+        return self.move_lines
 
 
 #move.move_line_ids.write({'qty_done': qty}) # This s a stock.move.line record. You could also do it manually
