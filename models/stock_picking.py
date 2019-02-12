@@ -195,7 +195,7 @@ class StockPickingBarCode(models.Model):
         location_dest = self.location_dest_id
         for line in self.productcodes_ids:
             new_line = picking_obj.create({
-                'name': _('Nuevo Moove:') + line.product_id.display_name,
+                'name': 'Nuevo Moove : ' + line.product_id.display_name,
                 'barcode': line.barcode,
                 'quantity_done': line.qty,
                 'product_id': line.product_id.id,
