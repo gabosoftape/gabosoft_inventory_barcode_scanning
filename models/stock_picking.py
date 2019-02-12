@@ -189,6 +189,7 @@ class StockPickingBarCode(models.Model):
     @api.multi
     def generate_moves(self):
         picking_obj = self.env['stock.move']
+        picking_obj_line = self.env['stock.move.line']
         product_rec = self.env['product.product']
         #stock_location = self.env.ref('stock.stock_location_stock')
         location = self.location_id
@@ -210,9 +211,8 @@ class StockPickingBarCode(models.Model):
             picking_obj |= new_line
             #picking_obj.move_line_ids.write({'qty_done': line.qty})
             self.move_lines |= picking_obj
-
         self.log_scanner = "se guardaron los movimientos ok"
-        return self.move_lines
+        return self.move_lines._action_done()
 
 
 #move.move_line_ids.write({'qty_done': qty}) # This s a stock.move.line record. You could also do it manually
