@@ -287,7 +287,7 @@ class automatedInventory(models.Model):
                     self.log_scanner = "Como no coincide con ningun elemento de la lista, agregamos nuevo "
                     new_line = new_lines.create({
                         'product_id': product_id.id,
-                        'location_id': location,
+                        'location_id': location.id,
                         'product_qty': 1,
                     })
                     new_lines += new_line
@@ -296,7 +296,7 @@ class automatedInventory(models.Model):
                 self.log_scanner = "se creó primer elemento"
                 new_line = new_lines.create({
                     'product_id': product_id.id,
-                    'location_id': location,
+                    'location_id': location.id,
                     'product_qty': 1,
                 })
                 new_lines += new_line
