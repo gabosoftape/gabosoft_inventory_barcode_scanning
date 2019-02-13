@@ -285,7 +285,7 @@ class automatedInventory(models.Model):
                         self.log_scanner = "se agrego cantidad"
                 else:
                     self.log_scanner = "Como no coincide con ningun elemento de la lista, agregamos nuevo "
-                    new_line = new_lines.create({
+                    new_line = new_lines.new({
                         'product_id': product_id.id,
                         'location_id': location.id,
                         'product_qty': 1,
