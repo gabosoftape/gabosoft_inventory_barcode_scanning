@@ -56,6 +56,15 @@
                    <field name="inventory_barcode" placeholder="Codigo de barras"/>
                </h2>
              </field>
+             <field name="line_ids" position="after">
+               <div class="center-align" style="margin-top: 20px; margin-left: 10px; margin-bottom: 10px;">
+                 <button type="object" string="Grabar" name="generate_inventory_lines" class="oe_highlight"/>
+               </div>
+               <div class="alert alert-info" role="alert" style="margin-bottom:0px;" >
+                   <field name="log_scanner"/>
+               </div>
+             </field>
+
            </field>
        </record>
         <!-- ............... HERENCIA VISTA EN TREE ...............
