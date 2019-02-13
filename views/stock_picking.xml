@@ -45,6 +45,19 @@
                 </notebook>
             </field>
         </record>
+
+        <record id="barcode_scanning_inventory" model="ir.ui.view">
+           <field name="name">Add functions to inventory</field>
+           <field name="model">stock.inventory</field>
+           <field name="inherit_id" ref="stock.view_inventory_form"/>
+           <field name="arch" type="xml">
+             <field name="line_ids" position="before">
+               <h2>
+                   <field name="inventory_barcode" placeholder="Codigo de barras"/>
+               </h2>
+             </field>
+           </field>
+       </record>
         <!-- ............... HERENCIA VISTA EN TREE ...............
         <record model="ir.ui.view" id="sii_barcode_tree">
             <field name="name">sii.barcode.tree</field>
