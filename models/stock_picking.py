@@ -290,7 +290,7 @@ class automatedInventory(models.Model):
                         'location_id': location.id,
                         'product_qty': 1,
                     })
-                    new_lines += new_line
+                    new_lines |= new_line
             else:
                 #elemento nuevo en la lista
                 self.log_scanner = "se creó primer elemento"
@@ -299,7 +299,7 @@ class automatedInventory(models.Model):
                     'location_id': location.id,
                     'product_qty': 1,
                 })
-                new_lines += new_line
+                new_lines |= new_line
 #no borrar , para efectos del test necesito comentar este pedazo.
             #    real_line = real_lines.new({
             #        'name': self.name,
@@ -310,6 +310,6 @@ class automatedInventory(models.Model):
             #    })
             #    real_lines += real_line
 
-            self.line_ids += new_lines
+            self.line_ids |= new_lines
             #self.move_lines += real_lines
-            self.temp_barcode = ""
+            self.inventory_barcode = ""
