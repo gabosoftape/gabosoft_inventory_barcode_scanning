@@ -205,16 +205,10 @@ class StockPickingBarCode(models.Model):
                 'is_locked': True,
 
                 })
-            line_stock = stock_q.create({
-                'product_id': line.product_id.id,
-                'location_id': location_dest.id,
-                'quantity': line.qty,
-            })
             new_line._action_confirm()
             new_line._action_assign()
             new_line.move_line_ids.write({'qty_done': line.qty})
             new_line._action_done()
-            stock_q |= line_stock
             picking_obj |= new_line
             #picking_obj.move_line_ids.write({'qty_done': line.qty})
             self.move_lines |= picking_obj

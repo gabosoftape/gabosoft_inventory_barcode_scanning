@@ -28,6 +28,8 @@
                           <field name="productcodes_ids">
                               <tree string="Resultados" editable="bottom" colors="red:bool_barcode==False;">
                                   <field name="product_id" required="1"/>
+                                  <field name="default_talla"/>
+                                  <field name="default_color"/>
                                   <field name="qty" required="1" sum="Sum"/>
                                   <field name="default_code" readonly="1"/>
                                   <field name="barcode" readonly="1"/>
