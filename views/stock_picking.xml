@@ -22,12 +22,13 @@
               </field>
                 <notebook>
                   <page string="Escaneo Automatico" name="barcode_picking">
-                          <h2>
-                              <field name="temp_barcode" placeholder="Codigo de barras"/>
-                          </h2>
                           <div class="alert alert-info" role="alert" style="margin-bottom:0px;" >
                               <field name="log_scanner"/>
                           </div>
+                          <h2>
+                              <field name="temp_barcode" placeholder="Codigo de barras"/>
+                          </h2>
+
                           <field name="productcodes_ids">
                               <tree string="Resultados" editable="bottom" colors="red:bool_barcode==False;">
                                   <field name="product_id" required="1"/>
