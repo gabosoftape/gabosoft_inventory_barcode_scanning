@@ -108,6 +108,8 @@ class StockPickingBarCode(models.Model):
     _inherit = 'stock.picking'
 
     temp_barcode = fields.Char("Barcode Tempo", required=False)
+    default_talla = fields.Char('Talla', related='product_id.default_talla')
+    default_color = fields.Char('Color', related='product_id.default_color')
     productcodes_ids = fields.One2many('list.productcode', 'picking_id', string='Productos')
     picking_checked = fields.Boolean("Ready Picking", default=True)
     log_scanner = fields.Char("log escaner", readonly=True)
