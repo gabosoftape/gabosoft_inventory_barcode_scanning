@@ -35,6 +35,8 @@ class StockPickingOperation(models.Model):
     _inherit = 'stock.move'
 
     barcode = fields.Char(string='Barcode')
+    talla = fields.Char('Talla', related='product_id.default_talla')
+    color = fields.Char('Color', related='product_id.default_color')
 
     @api.onchange('barcode')
     def _onchange_barcode_scan(self):
@@ -42,6 +44,8 @@ class StockPickingOperation(models.Model):
         if self.barcode:
             product = product_rec.search([('barcode', '=', self.barcode)])
             self.product_id = product.id
+            self.talla = product.default_talla
+            self.color = product.default_color
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
 
 #class StockPickingOperation(models.Model):
