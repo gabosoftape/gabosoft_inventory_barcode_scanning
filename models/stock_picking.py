@@ -249,6 +249,12 @@ class productProduct(models.Model):
     default_talla = fields.Char('Talla')
     default_color = fields.Char('Color')
 
+class updateQuant(models.Model):
+    _inherit = 'stock.quant'
+
+    talla = fields.Char('Talla', related='product_id.default_talla')
+    color = fields.Char('Color', related='product_id.default_color')
+
 class automatedInventory(models.Model):
     _inherit = 'stock.inventory'
 
