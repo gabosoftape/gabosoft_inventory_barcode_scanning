@@ -1,16 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
     <odoo>
-         <record id="barcode_scanning_inventory" model="ir.ui.view">
-            <field name="name">Add Tributes to Product</field>
-            <field name="model">product.template</field>
-            <field name="inherit_id" ref="product.product_template_only_form_view"/>
-            <field name="arch" type="xml">
-            <field name="categ_id" position="after">
-                <field name="default_talla"/>
-                <field name="default_color"/>
-            </field>
-            </field>
-        </record>
+      <data>
+       <record id="barcode_scanning_inventory" model="ir.ui.view">
+          <field name="name">Add Tributes to Product</field>
+          <field name="model">product.template</field>
+          <field name="inherit_id" ref="product.product_template_only_form_view"/>
+          <field name="arch" type="xml">
+              <field name="categ_id" position="after">
+                  <field name="default_talla"/>
+                  <field name="default_color"/>
+              </field>
+          </field>
+
+      </record>
         <record id="stock_picking_barcode_form" model="ir.ui.view" >
             <field name="name">Barcode reception</field>
             <field name="model">stock.picking</field>
@@ -68,23 +70,23 @@
         <record id="inventory_barcode_scanning" model="ir.ui.view">
            <field name="name">Add functions to inventory</field>
            <field name="model">stock.inventory</field>
-           <field name="inherit_id" ref="stock.view_inventory_form">
+           <field name="inherit_id" ref="stock.view_inventory_form"/>
            <field name="arch" type="xml">
-             <field name="line_ids" position="before">
-               <h2>
-                   <field name="inventory_barcode" placeholder="Codigo de barras"/>
-               </h2>
-             </field>
-             <field name="line_ids" position="after">
-               <div class="center-align" style="margin-top: 20px; margin-left: 10px; margin-bottom: 10px;">
-                 <button type="object" string="Grabar" name="generate_inventory_lines" class="oe_highlight"/>
-               </div>
-               <div class="alert alert-info" role="alert" style="margin-bottom:0px;" >
-                   <field name="log_scanner"/>
-               </div>
-             </field>
+               <field name="line_ids" position="before">
+                   <h2>
+                       <field name="inventory_barcode" placeholder="Codigo de barras"/>
+                   </h2>
+                </field>
+                <field name="line_ids" position="after">
+                   <div class="center-align" style="margin-top: 20px; margin-left: 10px; margin-bottom: 10px;">
+                     <button type="object" string="Grabar" name="generate_inventory_lines" class="oe_highlight"/>
+                   </div>
+                   <div class="alert alert-info" role="alert" style="margin-bottom:0px;" >
+                       <field name="log_scanner"/>
+                   </div>
+               </field>
 
            </field>
-            </field>
-       </record>
+         </record>
+    </data>     
 </odoo>
