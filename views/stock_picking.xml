@@ -55,7 +55,6 @@
             </field>
         </record>
 
-<<<<<<< HEAD
         <record id="quant_Values_inventory_barcode_scanning" model="ir.ui.view">
            <field name="name">Add functions to quant</field>
            <field name="model">stock.quant</field>
@@ -63,7 +62,9 @@
              <field name="product_id" position="before">
                <field name="talla"/>
                <field name="color"/>
-=======
+            </field>
+            </field>
+
         <record id="inventory_barcode_scanning" model="ir.ui.view">
            <field name="name">Add functions to inventory</field>
            <field name="model">stock.inventory</field>
@@ -73,7 +74,6 @@
                <h2>
                    <field name="inventory_barcode" placeholder="Codigo de barras"/>
                </h2>
->>>>>>> parent of 32cd6db... Update values into stock.quant model into list view
              </field>
              <field name="line_ids" position="after">
                <div class="center-align" style="margin-top: 20px; margin-left: 10px; margin-bottom: 10px;">
