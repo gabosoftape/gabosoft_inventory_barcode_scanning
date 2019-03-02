@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
     <odoo>
+      <!--
        <record id="barcode_scanning_inventory" model="ir.ui.view">
           <field name="name">Add Tributes to Product</field>
           <field name="model">product.template</field>
@@ -87,4 +88,5 @@
 
            </field>
          </record>
+       -->
 </odoo>
