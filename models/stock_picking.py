@@ -313,3 +313,9 @@ class automatedInventory(models.Model):
             self.line_ids |= new_lines
             #self.move_lines += real_lines
             self.inventory_barcode = ""
+
+class StockPickingOperation(models.Model):
+    _inherit = 'stock.quant'
+
+    talla = fields.Char('Talla', related='product_id.default_talla')
+    color = fields.Char('Color', related='product_id.default_color')
