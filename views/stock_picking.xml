@@ -56,7 +56,7 @@
                 </notebook>
             </field>
         </record>
-<!--
+
         <record id="quant_Values_inventory_barcode_scanning" model="ir.ui.view">
            <field name="name">Add functions to quant</field>
            <field name="model">stock.quant</field>
@@ -88,6 +88,6 @@
 
            </field>
          </record>
-       -->
+  
      </data>
 </odoo>
