@@ -1,2 +1,2 @@
 id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
-access_stock_list_productcode,access.list.productcode,list.productcode,stock.group_stock_manager,1,1,1,1
+access_stock_list_productcode,access.stock.list.productcode,inventory_barcode_scanning.list.productcode,stock.group_stock_manager,1,1,1,1
