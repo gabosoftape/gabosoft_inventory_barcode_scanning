@@ -33,6 +33,7 @@
     'demo': [],
     'data': [
         'views/stock_picking.xml',
+        'security/ir.model.access.csv',
     ],
     'installable': True,
     'application': False,
