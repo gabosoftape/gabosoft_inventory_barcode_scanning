@@ -68,12 +68,11 @@
                    <h2>
                        <field name="inventory_barcode" placeholder="Codigo de barras"/>
                    </h2>
+                   <field name="product_id" position="before">
+                      <field name="talla"/>
+                      <field name="color"/>
+                  </field>
                 </field>
-                <field name="product_id" position="after">
-                   <field name="talla"/>
-                   <field name="color"/>
-               </field>
-
            </field>
          </record>
          <record id="values_in_stock_quant" model="ir.ui.view">
