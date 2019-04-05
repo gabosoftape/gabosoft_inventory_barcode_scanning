@@ -319,3 +319,10 @@ class StockPickingOperation(models.Model):
 
     talla = fields.Char('Talla', related='product_id.default_talla')
     color = fields.Char('Color', related='product_id.default_color')
+
+
+class inventoryLineAPE(models.Model):
+    _inherit = 'stock.inventory.line'
+
+    talla = fields.Char('Talla', related='product_id.default_talla')
+    color = fields.Char('Color', related='product_id.default_color')
