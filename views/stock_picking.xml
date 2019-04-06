@@ -61,6 +61,10 @@
            <field name="model">stock.inventory</field>
            <field name="inherit_id" ref="stock.view_inventory_form"/>
            <field name="arch" type="xml">
+             <field name="product_id" position="before">
+                <field name="talla"/>
+                <field name="color"/>
+            </field>
                <field name="line_ids" position="before">
                  <div class="alert alert-info" role="alert" style="margin-bottom:0px;" >
                      <field name="log_scanner"/>
@@ -70,17 +74,6 @@
                    </h2>
                 </field>
            </field>
-         </record>
-         <record id="attributes_of_product" model="ir.ui.view">
-           <field name="name">Add atrributes to products inventory </field>
-           <field name="model">stock.inventory.line</field>
-           <field name="inherit_id" ref="stock.view_inventory_form"/>
-           <field name="arch" type="xml">
-             <field name="product_id" position="before">
-                <field name="talla"/>
-                <field name="color"/>
-            </field>
-          </field>
          </record>
          <record id="values_in_stock_quant" model="ir.ui.view">
             <field name="name">Add functions to quant</field>
