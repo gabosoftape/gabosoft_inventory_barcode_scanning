@@ -75,16 +75,5 @@
                 </field>
            </field>
          </record>
-         <record id="values_in_stock_quant" model="ir.ui.view">
-            <field name="name">Add functions to quant</field>
-            <field name="model">stock.quant</field>
-            <field name="inherit_id" ref="stock.view_stock_quant_tree"/>
-            <field name="arch" type="xml">
-              <field name="product_id" position="before">
-                <field name="talla" readonly="1"/>
-                <field name="color" readonly="1"/>
-              </field>
-             </field>
-           </record>
      </data>
 </odoo>
