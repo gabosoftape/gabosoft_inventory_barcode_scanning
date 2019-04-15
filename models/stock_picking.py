@@ -248,6 +248,7 @@ class productProduct(models.Model):
 
     default_talla = fields.Char('Talla')
     default_color = fields.Char('Color')
+    old_ref = fields.Char('Referencia Anterior')
 
 class automatedInventory(models.Model):
     _inherit = 'stock.inventory'
@@ -326,3 +327,4 @@ class inventoryLineAPE(models.Model):
 
     talla = fields.Char('Talla', related='product_id.default_talla')
     color = fields.Char('Color', related='product_id.default_color')
+    old_ref = fields.Char('Referencia Anterior', related='product_id.old_ref')
