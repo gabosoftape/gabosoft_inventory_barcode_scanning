@@ -9,6 +9,7 @@
               <field name="categ_id" position="after">
                   <field name="default_talla"/>
                   <field name="default_color"/>
+                  <field name="old_code"
               </field>
           </field>
       </record>

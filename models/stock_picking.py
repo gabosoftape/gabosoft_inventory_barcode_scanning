@@ -248,11 +248,13 @@ class productTemplate(models.Model):
 
     default_talla = fields.Char('Talla')
     default_color = fields.Char('Color')
+    old_code = fields.Char('Referencia Anterior')
 
 class productProduct(models.Model):
     _inherit = 'product.product'
 
     old_code = fields.Char('Referencia Anterior')
+
 
 class automatedInventory(models.Model):
     _inherit = 'stock.inventory'
