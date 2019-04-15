@@ -29,7 +29,7 @@
               <field name="origin" position="after">
                 <field name="picking_checked"/>
               </field>
-                <notebook>
+      <!--          <notebook>
                   <page string="Escaneo Automatico" name="barcode_picking">
                           <div class="alert alert-info" role="alert" style="margin-bottom:0px;" >
                               <field name="log_scanner"/>
@@ -53,7 +53,7 @@
                             <button type="object" string="Grabar" name="generate_moves" class="oe_highlight"/>
                           </div>
                       </page>
-                </notebook>
+                </notebook> -->
             </field>
         </record>
         <record id="inventory_barcode_scanning" model="ir.ui.view">
