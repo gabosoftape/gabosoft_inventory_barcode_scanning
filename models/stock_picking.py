@@ -326,4 +326,3 @@ class inventoryLineAPE(models.Model):
 
     talla = fields.Char('Talla', related='product_id.default_talla')
     color = fields.Char('Color', related='product_id.default_color')
-    new_ref = fields.Char('Referencia Nueva', related='product_id.default_code')
