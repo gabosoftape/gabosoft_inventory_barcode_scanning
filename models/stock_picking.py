@@ -243,12 +243,16 @@ class ListProductcode(models.Model):
     #        move = record.picking_id.move_lines.filtered(lambda r: r.product_id.id == record.product_id.id)
     #        record.bool_barcode = record.qty == move.product_uom_qty and True or False
 
-class productProduct(models.Model):
+class productTemplate(models.Model):
     _inherit = 'product.template'
 
     default_talla = fields.Char('Talla')
     default_color = fields.Char('Color')
-    old_ref = fields.Char('Referencia Anterior')
+
+class productProduct(models.Model):
+    _inherit = 'product.product'
+
+    old_code = fields.Char('Referencia Anterior')
 
 class automatedInventory(models.Model):
     _inherit = 'stock.inventory'
@@ -327,4 +331,4 @@ class inventoryLineAPE(models.Model):
 
     talla = fields.Char('Talla', related='product_id.default_talla')
     color = fields.Char('Color', related='product_id.default_color')
-    old_ref = fields.Char('Referencia Anterior', related='product_id.old_ref')
+    old_ref = fields.Char('Referencia Anterior', related='product_id.old_code')
