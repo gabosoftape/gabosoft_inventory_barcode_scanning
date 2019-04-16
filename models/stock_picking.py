@@ -6,7 +6,7 @@ import time
 
 
 class StockPicking(models.Model):
-    _inherit = 'stock.move.lines'
+    _inherit = 'stock.move.line'
 
     barcode = fields.Char(string='Codigo de barras')
 
