@@ -48,6 +48,7 @@ class StockPickingOperation(models.Model):
     barcode = fields.Char(string='Barcode')
     talla = fields.Char('Talla', related='product_id.default_talla')
     color = fields.Char('Color', related='product_id.default_color')
+    
 
     @api.onchange('barcode')
     def _onchange_barcode_scan(self):
