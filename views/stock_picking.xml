@@ -87,9 +87,9 @@
              </field>
          </record>
           <record id="add_defaultcode_moves" model="ir.ui.view">
-           <field name="name">Add field defaultcode into stock_moves</field>
+           <field name="name">Add field defaultcode to stock_moves</field>
            <field name="model">stock.move.line</field>
-           <field name="inherit_id" ref="stock.view_move_tree"/>
+           <field name="inherit_id" ref="stock.view_move_line_tree"/>
            <field name="arch" type="xml">
                <field name="product_id" position="before">
                  <field name="default_code" />
