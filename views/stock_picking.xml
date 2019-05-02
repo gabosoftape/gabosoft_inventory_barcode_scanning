@@ -9,6 +9,7 @@
               <field name="categ_id" position="after">
                   <field name="default_talla"/>
                   <field name="default_color"/>
+                  <field name="old_code"/>
               </field>
           </field>
       </record>
@@ -18,9 +19,6 @@
             <field name="model">stock.picking</field>
             <field name="inherit_id" ref="stock.view_picking_form"/>
             <field name="arch" type="xml">
-              <xpath expr="//field[@name='move_lines']/tree/field[@name='product_id']" position="before">
-                  <field name="barcode"/>
-              </xpath>
               <xpath expr="//field[@name='move_lines']/tree/field[@name='product_id']" position="after">
                 <field name="talla" readonly="1"/>
                 <field name="color" readonly="1"/>
@@ -29,7 +27,7 @@
               <field name="origin" position="after">
                 <field name="picking_checked"/>
               </field>
-                <notebook>
+      <!--          <notebook>
                   <page string="Escaneo Automatico" name="barcode_picking">
                           <div class="alert alert-info" role="alert" style="margin-bottom:0px;" >
                               <field name="log_scanner"/>
@@ -53,7 +51,7 @@
                             <button type="object" string="Grabar" name="generate_moves" class="oe_highlight"/>
                           </div>
                       </page>
-                </notebook>
+                </notebook> -->
             </field>
         </record>
         <record id="inventory_barcode_scanning" model="ir.ui.view">
@@ -61,32 +59,42 @@
            <field name="model">stock.inventory</field>
            <field name="inherit_id" ref="stock.view_inventory_form"/>
            <field name="arch" type="xml">
+             <xpath expr="//field[@name='line_ids']/tree/field[@name='product_id']" position="after">
+               <field name="product_code" readonly="1"/>
+               <field name="old_ref" readonly="1"/>
+               <field name="talla" readonly="1"/>
+               <field name="color" readonly="1"/>
+             </xpath>
                <field name="line_ids" position="before">
+                 <div class="alert alert-info" role="alert" style="margin-bottom:0px;" >
+                     <field name="log_scanner"/>
+                 </div>
                    <h2>
                        <field name="inventory_barcode" placeholder="Codigo de barras"/>
                    </h2>
                 </field>
-                <field name="line_ids" position="after">
-                   <div class="center-align" style="margin-top: 20px; margin-left: 10px; margin-bottom: 10px;">
-                     <button type="object" string="Grabar" name="generate_inventory_lines" class="oe_highlight"/>
-                   </div>
-                   <div class="alert alert-info" role="alert" style="margin-bottom:0px;" >
-                       <field name="log_scanner"/>
-                   </div>
-               </field>
-
            </field>
          </record>
-         <record id="values_in_stock_quant" model="ir.ui.view">
-            <field name="name">Add functions to quant</field>
-            <field name="model">stock.quant</field>
-            <field name="inherit_id" ref="stock.view_stock_quant_tree"/>
-            <field name="arch" type="xml">
-              <field name="product_id" position="before">
-                <field name="talla"/>
-                <field name="color"/>
+         <record id="gabosoft_product_tree_view" model="ir.ui.view">
+             <field name="name">gabosoft.product.product.tree</field>
+             <field name="model">product.product</field>
+             <field name="inherit_id" ref="product.product_product_tree_view"/>
+             <field name="arch" type="xml">
+               <field name="name" position="after">
+                 <field name="default_talla"/>
+                 <field name="default_color"/>
               </field>
              </field>
-           </record>
+         </record>
+          <record id="add_defaultcode_moves" model="ir.ui.view">
+           <field name="name">Add field defaultcode into stock_moves</field>
+           <field name="model">stock.move</field>
+           <field name="inherit_id" ref="stock.view_move_tree"/>
+           <field name="arch" type="xml">
+               <field name="product_id" position="before">
+                 <field name="default_code" />
+                </field>
+           </field>
+         </record>
      </data>
 </odoo>

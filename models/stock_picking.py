@@ -6,29 +6,40 @@ import time
 
 
 class StockPicking(models.Model):
-    _inherit = 'stock.picking'
+    _inherit = 'stock.move.line'
 
-    barcode = fields.Char(string='Barcode')
+    barcode = fields.Char(string='Codigo de barras')
 
     @api.onchange('barcode')
     def barcode_scanning(self):
         match = False
         product_obj = self.env['product.product']
         product_id = product_obj.search([('barcode', '=', self.barcode)])
-        if self.barcode and not product_id:
+        if self.barcode:
+            self.lots_visible = self.product_id.tracking != 'none'
+            if not self.product_uom_id or self.product_uom_id.category_id != self.product_id.uom_id.category_id:
+                if self.move_id.product_uom:
+                    self.product_uom_id = self.move_id.product_uom.id
+                else:
+                    self.product_uom_id = self.product_id.uom_id.id
+            res = {'domain': {'product_uom_id': [('category_id', '=', self.product_uom_id.category_id.id)]}}
+        else:
+            res = {'domain': {'product_uom_id': []}}
+        return res
+#        if self.barcode and not product_id:
         #    self.barcode = None
-            raise Warning('Ningun producto coincide con el codigo escaneado')
-        if self.barcode and self.move_lines:
-            for line in self.move_lines:
-                if line.product_id.barcode == self.barcode:
-                    line.quantity_done += 1
-        #            self.barcode = None
-                    match = True
-        if self.barcode and not match:
-        #    self.barcode = None
-            if product_id:
-                raise Warning('este producto no esta disponible en la orden'
-                              'Puedes agregar este producto en "add product" y escaneas nuevamente')
+#            raise Warning('Ningun producto coincide con el codigo escaneado')
+#        if self.barcode and self.move_lines:
+#            for line in self.move_lines:
+#                if line.product_id.barcode == self.barcode:
+#                    line.quantity_done += 1
+#        #            self.barcode = None
+#                    match = True
+#        if self.barcode and not match:
+#        #    self.barcode = None
+#            if product_id:
+#                raise Warning('este producto no esta disponible en la orden'
+#                              'Puedes agregar este producto en "add product" y escaneas nuevamente')
 
 
 class StockPickingOperation(models.Model):
@@ -37,6 +48,8 @@ class StockPickingOperation(models.Model):
     barcode = fields.Char(string='Barcode')
     talla = fields.Char('Talla', related='product_id.default_talla')
     color = fields.Char('Color', related='product_id.default_color')
+    default_code = fields.Char('Cod Ref.', related='product_id.default_code')
+    
 
     @api.onchange('barcode')
     def _onchange_barcode_scan(self):
@@ -243,11 +256,18 @@ class ListProductcode(models.Model):
     #        move = record.picking_id.move_lines.filtered(lambda r: r.product_id.id == record.product_id.id)
     #        record.bool_barcode = record.qty == move.product_uom_qty and True or False
 
-class productProduct(models.Model):
+class productTemplate(models.Model):
     _inherit = 'product.template'
 
     default_talla = fields.Char('Talla')
     default_color = fields.Char('Color')
+    old_code = fields.Char('Referencia Anterior')
+
+class productProduct(models.Model):
+    _inherit = 'product.product'
+
+    old_code = fields.Char('Referencia Anterior')
+
 
 class automatedInventory(models.Model):
     _inherit = 'stock.inventory'
@@ -319,3 +339,11 @@ class StockPickingOperation(models.Model):
 
     talla = fields.Char('Talla', related='product_id.default_talla')
     color = fields.Char('Color', related='product_id.default_color')
+
+
+class inventoryLineAPE(models.Model):
+    _inherit = 'stock.inventory.line'
+
+    talla = fields.Char('Talla', related='product_id.default_talla')
+    color = fields.Char('Color', related='product_id.default_color')
+    old_ref = fields.Char('Referencia Anterior', related='product_id.old_code')
