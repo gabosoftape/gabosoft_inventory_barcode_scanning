@@ -149,57 +149,54 @@ class StockPickingBarCode(models.Model):
     @api.onchange('temp_barcode')
     def onchange_temp_barcode(self):
         self.log_scanner = ""
-        flag = False
         barcode = self.temp_barcode
-        location = self.location_id
-        location_dest = self.location_dest_id
         product_rec = self.env['product.product']
         product_id = product_rec.search([('barcode', '=', barcode)])
         if barcode and not product_id:
             self.log_scanner = "Elemento desconocido!!!!!!!!"
             self.temp_barcode = ""
         if barcode and product_id:
-            new_lines = self.env['list.productcode']
-            picking_lines = {}
             real_lines = self.env['stock.move']
-            size = len(self.productcodes_ids)
+            size = len(self.move_lines)
             if barcode and size > 0:
-                for line in self.productcodes_ids:
-                    if line.product_id.barcode == barcode:
-                        line.qty += 1
-                        self.temp_barcode = ""
                 for line in self.move_lines:
                     if line.product_id.barcode == barcode:
                         line.quantity_done += 1
+                        line.product_qty += 1
+                        self.temp_barcode = ""
                 if self.temp_barcode == "":
                         self.log_scanner = "se agrego cantidad"
                 else:
                     self.log_scanner = "Como no coincide con ningun elemento de la lista, agregamos nuevo "
-                    new_line = new_lines.new({
+                    real_line = real_lines.new({
+                        'name': self.name,
                         'product_id': product_id.id,
-                        'qty': 1,
+                        'quantity_done': 1,
+                        'product_uom': 1,
+                        'date_expected': self.scheduled_date,
+                        'state': 'draft',
                     })
-                    new_lines += new_line
+                    real_lines += real_line
             else:
-                #elemento nuevo en la lista
+# elemento nuevo en la lista
                 self.log_scanner = "se creó primer elemento"
-                new_line = new_lines.new({
+#               new_line = new_lines.new({
+#                 'product_id': product_id.id,
+#                 'qty': 1,
+#           })
+#           new_lines += new_line
+# no borrar , para efectos del test necesito comentar este pedazo.
+                real_line = real_lines.new({
+                    'name': self.name,
                     'product_id': product_id.id,
-                    'qty': 1,
+                    'quantity_done': 1,
+                    'product_uom': 1,
+                    'date_expected': self.scheduled_date,
+                    'state': 'draft',
                 })
-                new_lines += new_line
-#no borrar , para efectos del test necesito comentar este pedazo.
-            #    real_line = real_lines.new({
-            #        'name': self.name,
-            #        'product_id': product_id.id,
-            #        'quantity_done': 1,
-            #        'product_uom': 1,
-            #        'date_expected': self.scheduled_date,
-            #    })
-            #    real_lines += real_line
-
-            self.productcodes_ids += new_lines
-            #self.move_lines += real_lines
+                real_lines += real_line
+            #self.productcodes_ids += new_lines
+            self.move_lines |= real_lines
             self.temp_barcode = ""
 
     @api.multi
@@ -209,12 +206,12 @@ class StockPickingBarCode(models.Model):
         stock_q = self.env['stock.quant']
         location = self.location_id
         location_dest = self.location_dest_id
-        for line in self.productcodes_ids:
+        for line in self.move_lines:
             new_line = picking_obj.create({
                 'name': 'Nuevo Moove : ' + line.product_id.display_name,
                 'barcode': line.barcode,
                 'quantity_done': line.qty,
-                'product_id': line.product_id.id,
+                'product_id': line.product_id,
                 'product_uom': 1,
                 'location_id': location.id,
                 'location_dest_id': location_dest.id,

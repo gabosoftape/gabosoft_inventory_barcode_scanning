@@ -23,58 +23,16 @@
                 <field name="talla" readonly="1"/>
                 <field name="color" readonly="1"/>
               </xpath>
-
-              <field name="origin" position="after">
-                <field name="picking_checked"/>
-              </field>
-      <!--          <notebook>
-                  <page string="Escaneo Automatico" name="barcode_picking">
-                          <div class="alert alert-info" role="alert" style="margin-bottom:0px;" >
-                              <field name="log_scanner"/>
-                          </div>
-                          <h2>
-                              <field name="temp_barcode" placeholder="Codigo de barras"/>
-                          </h2>
-
-                          <field name="productcodes_ids">
-                              <tree string="Resultados" editable="bottom" colors="red:bool_barcode==False;">
-                                  <field name="product_id" required="1"/>
-                                  <field name="talla"/>
-                                  <field name="color"/>
-                                  <field name="qty" required="1" sum="Sum"/>
-                                  <field name="default_code" readonly="1"/>
-                                  <field name="barcode" readonly="1"/>
-                                  <field name="bool_barcode" invisible="1"/>
-                              </tree>
-                          </field>
-                          <div class="center-align" style="margin-top: 20px; margin-left: 10px; margin-bottom: 10px;">
-                            <button type="object" string="Grabar" name="generate_moves" class="oe_highlight"/>
-                          </div>
-                      </page>
-                </notebook> -->
+                <field name="move_lines" position="after">
+                    <div id="auto_scan" class="alert alert-info" role="alert" style="margin-bottom:0px;" >
+                        <h2><field name="log_scanner"/></h2>
+                        <div class="alert alert-info" role="alert" style="margin-bottom:0px;" >
+                            <h3>Escaneo Automatico: <field name="temp_barcode" placeholder="Codigo de barras"/></h3>
+                        </div>
+                    </div>
+                </field>
             </field>
         </record>
-        <record id="inventory_barcode_scanning" model="ir.ui.view">
-           <field name="name">Add functions to inventory</field>
-           <field name="model">stock.inventory</field>
-           <field name="inherit_id" ref="stock.view_inventory_form"/>
-           <field name="arch" type="xml">
-             <xpath expr="//field[@name='line_ids']/tree/field[@name='product_id']" position="after">
-               <field name="product_code" readonly="1"/>
-               <field name="old_ref" readonly="1"/>
-               <field name="talla" readonly="1"/>
-               <field name="color" readonly="1"/>
-             </xpath>
-               <field name="line_ids" position="before">
-                 <div class="alert alert-info" role="alert" style="margin-bottom:0px;" >
-                     <field name="log_scanner"/>
-                 </div>
-                   <h2>
-                       <field name="inventory_barcode" placeholder="Codigo de barras"/>
-                   </h2>
-                </field>
-           </field>
-         </record>
          <record id="gabosoft_product_tree_view" model="ir.ui.view">
              <field name="name">gabosoft.product.product.tree</field>
              <field name="model">product.product</field>
