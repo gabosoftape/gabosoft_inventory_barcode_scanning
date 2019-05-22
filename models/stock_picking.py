@@ -48,6 +48,7 @@ class StockPickingOperation(models.Model):
     barcode = fields.Char(string='Barcode')
     talla = fields.Char('Talla', related='product_id.default_talla')
     color = fields.Char('Color', related='product_id.default_color')
+    default_code = fields.Char('Cod Ref', related='product_id.default_code')
     
 
     @api.onchange('barcode')
@@ -344,8 +345,3 @@ class inventoryLineAPE(models.Model):
     color = fields.Char('Color', related='product_id.default_color')
     old_ref = fields.Char('Referencia Anterior', related='product_id.old_code')
 
-class addingfieldtomovelines(models.Model):
-    _inherit = 'stock.move.line'
-
-    default_code = fields.Char('Cod Ref', related='product_id.default_code')
-    
