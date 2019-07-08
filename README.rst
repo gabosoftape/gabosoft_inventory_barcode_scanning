@@ -1,4 +1,4 @@
-Barcode scanning in inventory v11
+Barcode scanning in inventory v12
 =================================
 
 This module will used for barcode scanning in inventory.
@@ -13,7 +13,7 @@ Tech
 
 Installation
 ============
-- www.odoo.com/documentation/11.0/setup/install.html
+- www.odoo.com/documentation/12.0/setup/install.html
 - Install our custom addon
 
 
@@ -29,6 +29,7 @@ Author
 ------
 
 Developer: Sreejith P, sreejith@cybrosys.in
+Developer: Niyas Raphy, niyas@cybrosys.in
 
 Maintainer
 ----------

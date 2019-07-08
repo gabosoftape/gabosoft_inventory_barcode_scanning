@@ -1,49 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
-    <odoo>
-      <data>
-       <record id="barcode_scanning_inventory" model="ir.ui.view">
-          <field name="name">Add Tributes to Product</field>
-          <field name="model">product.template</field>
-          <field name="inherit_id" ref="product.product_template_only_form_view"/>
-          <field name="arch" type="xml">
-              <field name="categ_id" position="after">
-                  <field name="default_talla"/>
-                  <field name="default_color"/>
-                  <field name="old_code"/>
-              </field>
-          </field>
-      </record>
+<odoo>
 
-        <record id="stock_picking_barcode_form" model="ir.ui.view" >
-            <field name="name">Barcode reception</field>
+    <data>
+        <record id="barcode_scanning_inventory" model="ir.ui.view">
+            <field name="name">Barcode Scanning Inventory</field>
             <field name="model">stock.picking</field>
             <field name="inherit_id" ref="stock.view_picking_form"/>
             <field name="arch" type="xml">
-              <xpath expr="//field[@name='move_lines']/tree/field[@name='product_id']" position="after">
-                <field name="talla" readonly="1"/>
-                <field name="color" readonly="1"/>
-                <field name="default_code" readonly="1"/>
-              </xpath>
-                <field name="move_lines" position="after">
-                    <div id="auto_scan" class="alert alert-info" role="alert" style="margin-bottom:0px;" >
-                        <h2><field name="log_scanner"/></h2>
-                        <div class="alert alert-info" role="alert" style="margin-bottom:0px;" >
-                            <h3>Escaneo Automatico: <field name="temp_barcode" placeholder="Codigo de barras"/></h3>
-                        </div>
-                    </div>
-                </field>
+                <xpath expr="//field[@name='location_id']" position="after">
+                    <field name="barcode"/>
+                </xpath>
+                <xpath expr="//field[@name='move_ids_without_package']/tree/field[@name='product_id']" position="before">
+                    <field name="barcode"/>
+                </xpath>
             </field>
         </record>
-         <record id="gabosoft_product_tree_view" model="ir.ui.view">
-             <field name="name">gabosoft.product.product.tree</field>
-             <field name="model">product.product</field>
-             <field name="inherit_id" ref="product.product_product_tree_view"/>
-             <field name="arch" type="xml">
-               <field name="name" position="after">
-                 <field name="default_talla"/>
-                 <field name="default_color"/>
-              </field>
-             </field>
-         </record>
-     </data>
+    </data>
+
 </odoo>

@@ -1,1 +1,0 @@
-gabosoft_inventory_barcode_scanning

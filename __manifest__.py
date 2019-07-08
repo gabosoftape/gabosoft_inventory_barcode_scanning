@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+
 ###################################################################################
 #
 #    Cybrosys Technologies Pvt. Ltd.
@@ -22,19 +23,16 @@
 
 {
     'name': 'Barcode scanning in Inventory',
-    'version': '11.0.3.0.0',
+    'version': '12.0.1.0.0',
     'summary': 'Barcode Support in Stock Picking.',
-    'author': 'Gabosoft',
+    'author': 'Cybrosys Techno solutions',
     'maintainer': 'Cybrosys Techno Solutions',
     'company': 'Cybrosys Techno Solutions',
     'website': 'https://www.cybrosys.com',
     'depends': ['stock'],
     'category': 'Inventory',
     'demo': [],
-    'data': [
-        'views/stock_picking.xml',
-        'security/ir.model.access.csv',
-    ],
+    'data': ['views/stock_picking.xml'],
     'installable': True,
     'application': False,
     'auto_install': False,
