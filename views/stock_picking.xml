@@ -2,7 +2,7 @@
 <odoo>
 
     <data>
-        <record id="barcode_scanning_inventory_1" model="ir.ui.view">
+        <!--<record id="barcode_scanning_inventory_1" model="ir.ui.view">
             <field name="name">Barcode Scanning Inventory</field>
             <field name="model">stock.inventory</field>
             <field name="inherit_id" ref="stock.view_picking_form"/>
@@ -16,7 +16,7 @@
                     </div>
                 </xpath>
             </field>
-        </record>
+        </record> -->
         <record id="barcode_scanning_inventory" model="ir.ui.view">
           <field name="name">Add Tributes to Product</field>
           <field name="model">product.template</field>
@@ -28,7 +28,7 @@
                   <field name="old_code"/>
               </field>
           </field>
-      </record>
+        </record>
     </data>
 
 </odoo>
