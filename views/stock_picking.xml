@@ -7,14 +7,14 @@
             <field name="model">stock.inventory</field>
             <field name="inherit_id" ref="stock.view_picking_form"/>
             <field name="arch" type="xml">
-                <xpath expr="//field[@name='line_ids']" position="before">
+                <field name="line_ids" position="before">
                     <div id="auto_scan" class="alert alert-info" role="alert" style="margin-bottom:0px;" >
                         <h2><field name="log_scanner"/></h2>
                         <div class="alert alert-info" role="alert" style="margin-bottom:0px;" >
                             <h3>Escaneo Automatico: <field name="inventory_barcode" placeholder="Codigo de barras"/></h3>
                         </div>
                     </div>
-                </xpath>
+                </field>
                 <xpath expr="//field[@name='line_ids']/tree/field[@name='product_id']" position="after">
                     <field name="talla"/>
                     <field name="color"/> 
@@ -32,7 +32,7 @@
                   <field name="old_code"/>
               </field>
           </field>
-      </record>
+        </record>
     </data>
 
 </odoo>
