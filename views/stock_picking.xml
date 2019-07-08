@@ -14,7 +14,7 @@
                             <h3>Escaneo Automatico: <field name="inventory_barcode" placeholder="Codigo de barras"/></h3>
                         </div>
                     </div>
-                </field>
+                </xpath>
                 <xpath expr="//field[@name='line_ids']/tree/field[@name='product_id']" position="after">
                     <field name="talla"/>
                     <field name="color"/> 
