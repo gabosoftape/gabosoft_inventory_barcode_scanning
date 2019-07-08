@@ -2,21 +2,6 @@
 <odoo>
 
     <data>
-        <record id="barcode_scanning_inventory_1" model="ir.ui.view">
-            <field name="name">Barcode Scanning Inventory</field>
-            <field name="model">stock.inventory</field>
-            <field name="inherit_id" ref="stock.view_picking_form"/>
-            <field name="arch" type="xml">
-                <xpath expr="//field[@name='product_id']" position="before">
-                    <div id="auto_scan" class="alert alert-info" role="alert" style="margin-bottom:0px;" >
-                        <h2><field name="log_scanner"/></h2>
-                        <div class="alert alert-info" role="alert" style="margin-bottom:0px;" >
-                            <h3>Escaneo Automatico: <field name="inventory_barcode" placeholder="Codigo de barras"/></h3>
-                        </div>
-                    </div>
-                </xpath>
-            </field>
-        </record> 
         <record id="barcode_scanning_inventory" model="ir.ui.view">
           <field name="name">Add Tributes to Product</field>
           <field name="model">product.template</field>
@@ -26,6 +11,9 @@
                   <field name="default_talla"/>
                   <field name="default_color"/>
                   <field name="old_code"/>
+              </field>
+              <field name="type" position="before">
+                <field name="external_id"/> 
               </field>
           </field>
         </record>
