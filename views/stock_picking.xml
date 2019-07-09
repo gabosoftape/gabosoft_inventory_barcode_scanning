@@ -13,7 +13,7 @@
                   <field name="old_code"/>
               </field>
               <field name="type" position="before">
-                <field name="external_id"/> 
+                <field name="id"/> 
               </field>
           </field>
         </record>
