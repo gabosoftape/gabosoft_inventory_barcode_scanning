@@ -262,9 +262,6 @@ class automatedInventory(models.Model):
     _inherit = 'stock.inventory'
 
     inventory_barcode = fields.Char("Barcode Inventario", required=False)
-    talla = fields.Char('Talla', related='product_id.default_talla')
-    color = fields.Char('Color', related='product_id.default_color')
-    default_code = fields.Char('Cod Ref', related='product_id.default_code')
     log_scanner = fields.Char("log escaner", readonly=True)
 
     @api.onchange('inventory_barcode')
@@ -336,6 +333,7 @@ class inventoryLineAPE(models.Model):
 
     talla = fields.Char('Talla', related='product_id.default_talla')
     color = fields.Char('Color', related='product_id.default_color')
+    default_code = fields.Char('Cod Ref', related='product_id.default_code')
     old_ref = fields.Char('Referencia Anterior', related='product_id.old_code')
 
 # -*- coding: utf-8 -*-

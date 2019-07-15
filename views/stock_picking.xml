@@ -19,15 +19,15 @@
         </record>
         <record id="stock_picking_barcode_form" model="ir.ui.view" >
             <field name="name">Barcode reception</field>
-            <field name="model">stock.picking</field>
-            <field name="inherit_id" ref="stock.view_picking_form"/>
+            <field name="model">stock.inventory</field>
+            <field name="inherit_id" ref="stock.view_inventory_form"/>
             <field name="arch" type="xml">
-              <xpath expr="//field[@name='move_line_ids_without_package']/tree/field[@name='product_id']" position="after">
+              <xpath expr="//field[@name='line_ids']/tree/field[@name='product_id']" position="after">
                 <field name="talla" readonly="1"/>
                 <field name="color" readonly="1"/>
                 <field name="default_code" readonly="1"/>
               </xpath>
-                <field name="move_line_ids_without_package" position="after">
+                <field name="line_ids" position="before">
                     <div id="auto_scan" class="alert alert-info" role="alert" style="margin-bottom:0px;" >
                         <h2><field name="log_scanner"/></h2>
                         <div class="alert alert-info" role="alert" style="margin-bottom:0px;" >
