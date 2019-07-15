@@ -15,25 +15,7 @@ class StockPickingBarCode(models.Model):
     talla = fields.Char('Talla', related='product_id.default_talla')
     color = fields.Char('Color', related='product_id.default_color')
     default_code = fields.Char('Cod Ref', related='product_id.default_code')
-
-#    @api.multi
-#    @api.depends('productcodes_ids.bool_barcode','productcodes_ids.qty')
-#    def _get_picking_checked(self):
-#        for picking in self:
-#            if len(picking.productcodes_ids) >= 1 and all(p.bool_barcode for p in picking.productcodes_ids):
-#                move_products = picking.move_lines.mapped('product_id')
-#                products = picking.productcodes_ids.mapped('product_id')
-#                if move_products == products:
-#                    picking.picking_checked = True
-#
-#        if self.barcode and self.move_lines:
-#            for line in self.move_lines:
-#                if line.product_id.barcode == self.barcode:
-#                    line.quantity_done += 1
-#                    self.barcode = None
-#                    match = True
-
-
+    
     @api.onchange('temp_barcode')
     def onchange_temp_barcode(self):
         self.log_scanner = ""
@@ -116,8 +98,6 @@ class StockPickingBarCode(models.Model):
         self.log_scanner = "se guardaron los movimientos ok"
         return self.move_lines
 
-
-
 class StockPickingOperation(models.Model):
     _inherit = 'stock.move'
 
@@ -161,90 +141,7 @@ class StockPicking(models.Model):
         else:
             res = {'domain': {'product_uom_id': []}}
         return res
-#        if self.barcode and not product_id:
-        #    self.barcode = None
-#            raise Warning('Ningun producto coincide con el codigo escaneado')
-#        if self.barcode and self.move_lines:
-#            for line in self.move_lines:
-#                if line.product_id.barcode == self.barcode:
-#                    line.quantity_done += 1
-#        #            self.barcode = None
-#                    match = True
-#        if self.barcode and not match:
-#        #    self.barcode = None
-#            if product_id:
-#                raise Warning('este producto no esta disponible en la orden'
-#                              'Puedes agregar este producto en "add product" y escaneas nuevamente')
 
-
-
-# vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
-
-#class StockPickingOperation(models.Model):
-#    _inherit = 'stock.move'
-#
-#
-#    @api.onchange('x_barcode')
-#    def _onchange_barcode_scan(self):
-#        barcode = self.x_barcode
-#        product_rec = self.env['product.product']
-#        #if barcode:
-#        #    product_id = product_rec.search([('barcode', '=', barcode)])
-#        #    self.product_id = product_id.id
-#        self.log_scanner = ""
-#        flag = False
-#        product_id = product_rec.search([('barcode', '=', barcode)])
-#        if barcode and not product_id:
-#            self.log_scanner = "Elemento desconocido!!!!!!!!"
-#            self.x_barcode = ""
-#        if barcode and product_id:
-#            new_lines = self.env['list.productcode']
-#            real_lines = self.env['stock.move']
-#            size = len(self.productcodes_ids)
-#            if barcode and size > 0:
-#                for line in self.productcodes_ids:
-#                    if line.product_id.barcode == barcode:
-#                        line.qty += 1
-#                        self.x_barcode = ""
-#                if self.temp_barcode == "":
-#                        self.log_scanner = "Se agregó cantidad"
-#                else:
-#                    new_line = new_lines.new({
-#                        'product_id': product_id.id,
-#                        'qty': 1,
-#                    })
-#                #    move = self.env['stock.move'].({
-#                #        'product_id': product_id.id,
-#                #        'product_uom': product_id.uom_id.id,
-#                #        'product_uom_qty': 1,
-#                #    })
-#                #    new_lines += new_line
-#            else:
-#                self.log_scanner = "Se guardó el primer elemento"
-#                new_line = new_lines.new({
-#                    'product_id': product_id.id,
-#                    'qty': 1,
-#                })
-#                new_lines += new_line
-#                #real_line = real_lines.({
-#                #    'product_id': product_id.id,
-#                #    'product_uom_qty': 1,
-#                #    'quantity_done': 1,
-#                #})
-#                #real_line._action_confirm()
-#                #real_line._action_assign()
-#
-#                #real_line._action_done()
-#            self.productcodes_ids += new_lines
-#            #move_lines += real_line
-#            self.x_barcode = ""
-
-
-
-
-#move.move_line_ids.write({'qty_done': qty}) # This s a stock.move.line record. You could also do it manually
-#move._action_done()
-# vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
 class productTemplate(models.Model):
     _inherit = 'product.template'
 
@@ -263,6 +160,7 @@ class automatedInventory(models.Model):
 
     inventory_barcode = fields.Char("Barcode Inventario", required=False)
     log_scanner = fields.Char("log escaner", readonly=True)
+    default_code = fields.Char('Cod Ref', related='product_id.default_code')
 
     @api.onchange('inventory_barcode')
     def onchange_inventory_barcode(self):
@@ -335,28 +233,4 @@ class inventoryLineAPE(models.Model):
     color = fields.Char('Color', related='product_id.default_color')
     default_code = fields.Char('Cod Ref', related='product_id.default_code')
     old_ref = fields.Char('Referencia Anterior', related='product_id.old_code')
-
-# -*- coding: utf-8 -*-
-
-
-
-
-class ListProductcode(models.Model):
-    _name = 'list.productcode'
-
-    barcode = fields.Char('Codigo de Barras', related='product_id.barcode')
-    default_code = fields.Char('Referencia', related='product_id.default_code')
-    product_id = fields.Many2one('product.product', string='Producto')
-    talla = fields.Char('Talla', related='product_id.default_talla')
-    color = fields.Char('Color', related='product_id.default_color')
-    qty = fields.Float("Cantidad", default=1)
-    picking_id = fields.Many2one('stock.picking', "Picking", ondelete='cascade')
-    bool_barcode = fields.Boolean("Barcode Checked", default=True)
-
-    #@api.multi
-    #@api.depends('qty')
-    #def _get_bool_barcode(self):
-    #    for record in self:
-    #        move = record.picking_id.move_lines.filtered(lambda r: r.product_id.id == record.product_id.id)
-    #        record.bool_barcode = record.qty == move.product_uom_qty and True or False
 
