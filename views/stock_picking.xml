@@ -17,6 +17,37 @@
               </field>
           </field>
         </record>
+        <record id="stock_picking_barcode_form" model="ir.ui.view" >
+            <field name="name">Barcode reception</field>
+            <field name="model">stock.picking</field>
+            <field name="inherit_id" ref="stock.view_picking_form"/>
+            <field name="arch" type="xml">
+              <xpath expr="//field[@name='move_lines']/tree/field[@name='product_id']" position="after">
+                <field name="talla" readonly="1"/>
+                <field name="color" readonly="1"/>
+                <field name="default_code" readonly="1"/>
+              </xpath>
+                <field name="move_lines" position="after">
+                    <div id="auto_scan" class="alert alert-info" role="alert" style="margin-bottom:0px;" >
+                        <h2><field name="log_scanner"/></h2>
+                        <div class="alert alert-info" role="alert" style="margin-bottom:0px;" >
+                            <h3>Escaneo Automatico: <field name="temp_barcode" placeholder="Codigo de barras"/></h3>
+                        </div>
+                    </div>
+                </field>
+            </field>
+        </record>
+         <record id="gabosoft_product_tree_view" model="ir.ui.view">
+             <field name="name">gabosoft.product.product.tree</field>
+             <field name="model">product.product</field>
+             <field name="inherit_id" ref="product.product_product_tree_view"/>
+             <field name="arch" type="xml">
+               <field name="name" position="after">
+                 <field name="default_talla"/>
+                 <field name="default_color"/>
+              </field>
+             </field>
+         </record>
     </data>
 
 </odoo>
