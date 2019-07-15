@@ -12,6 +12,9 @@ class StockPickingBarCode(models.Model):
     productcodes_ids = fields.One2many('list.productcode', 'picking_id', string='Productos')
     picking_checked = fields.Boolean("Ready Picking", default=True)
     log_scanner = fields.Char("log escaner", readonly=True)
+    talla = fields.Char('Talla', related='product_id.default_talla')
+    color = fields.Char('Color', related='product_id.default_color')
+    default_code = fields.Char('Cod Ref', related='product_id.default_code')
 
 #    @api.multi
 #    @api.depends('productcodes_ids.bool_barcode','productcodes_ids.qty')
@@ -138,6 +141,9 @@ class StockPicking(models.Model):
     _inherit = 'stock.move.line'
 
     barcode = fields.Char(string='Codigo de barras')
+    talla = fields.Char('Talla', related='product_id.default_talla')
+    color = fields.Char('Color', related='product_id.default_color')
+    default_code = fields.Char('Cod Ref', related='product_id.default_code')
 
     @api.onchange('barcode')
     def barcode_scanning(self):
