@@ -264,6 +264,7 @@ class automatedInventory(models.Model):
     inventory_barcode = fields.Char("Barcode Inventario", required=False)
     talla = fields.Char('Talla', related='product_id.default_talla')
     color = fields.Char('Color', related='product_id.default_color')
+    default_code = fields.Char('Cod Ref', related='product_id.default_code')
     log_scanner = fields.Char("log escaner", readonly=True)
 
     @api.onchange('inventory_barcode')
