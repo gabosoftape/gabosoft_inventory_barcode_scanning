@@ -9,13 +9,12 @@ class StockPickingBarCode(models.Model):
     _inherit = 'stock.picking'
 
     temp_barcode = fields.Char("Barcode Tempo", required=False)
-    productcodes_ids = fields.One2many('list.productcode', 'picking_id', string='Productos')
     picking_checked = fields.Boolean("Ready Picking", default=True)
     log_scanner = fields.Char("log escaner", readonly=True)
     talla = fields.Char('Talla', related='product_id.default_talla')
     color = fields.Char('Color', related='product_id.default_color')
     default_code = fields.Char('Cod Ref', related='product_id.default_code')
-    
+
     @api.onchange('temp_barcode')
     def onchange_temp_barcode(self):
         self.log_scanner = ""
